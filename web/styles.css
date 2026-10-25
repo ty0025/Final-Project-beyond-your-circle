@@ -1,19 +1,19 @@
 /* Beyond Your Circle: blue visual style (DESIGN.md section 6). No external assets. */
 
 :root {
-  --primary: #1d4ed8;
-  --primary-dark: #1e3a8a;
-  --accent: #3b82f6;
-  --light: #eff6ff;
-  --light-2: #dbeafe;
+  --primary: #00356b;
+  --primary-dark: #00244a;
+  --accent: #286dc0;
+  --light: #eef3f9;
+  --light-2: #dbe6f3;
   --text: #0f172a;
   --muted: #475569;
-  --border: #bfdbfe;
+  --border: #c2d3e8;
 
   --surface: #ffffff;
-  --page: #f4f8ff;
-  --hairline: #e3edfd;
-  --focus: #1d4ed8;
+  --page: #f5f7fb;
+  --hairline: #e4ebf4;
+  --focus: #286dc0;
 
   --ok: #0f766e;
   --ok-bg: #f0fdfa;
@@ -28,8 +28,9 @@
 
   --radius: 12px;
   --radius-sm: 8px;
-  --shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 6px 20px rgba(30, 58, 138, 0.07);
+  --shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 6px 20px rgba(0, 36, 74, 0.07);
   --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
   --mono: ui-monospace, SFMono-Regular, "Cascadia Mono", Consolas, "Liberation Mono", Menlo, monospace;
 }
 
@@ -106,7 +107,7 @@ kbd {
 .app-header {
   color: #fff;
   background: linear-gradient(120deg, var(--primary-dark) 0%, var(--primary) 100%);
-  box-shadow: 0 2px 12px rgba(30, 58, 138, 0.25);
+  box-shadow: 0 2px 12px rgba(0, 36, 74, 0.25);
 }
 .app-header-inner {
   max-width: 1320px;
@@ -199,7 +200,7 @@ kbd {
   transition: background 0.15s, color 0.15s, box-shadow 0.15s;
 }
 .tab:hover { background: rgba(255, 255, 255, 0.6); }
-.tab[aria-selected="true"] { background: #fff; color: var(--primary); box-shadow: 0 1px 3px rgba(30, 58, 138, 0.18); }
+.tab[aria-selected="true"] { background: #fff; color: var(--primary); box-shadow: 0 1px 3px rgba(0, 36, 74, 0.18); }
 
 /* ---------- Layout + cards ---------- */
 
@@ -286,10 +287,10 @@ textarea:focus { outline: 2px solid var(--focus); outline-offset: 1px; border-co
   min-width: 120px;
   background: var(--primary);
   color: #fff;
-  box-shadow: 0 1px 2px rgba(30, 58, 138, 0.35), 0 4px 12px rgba(29, 78, 216, 0.22);
+  box-shadow: 0 1px 2px rgba(0, 36, 74, 0.35), 0 4px 12px rgba(0, 53, 107, 0.22);
 }
 .btn-primary:hover:not(:disabled) { background: var(--primary-dark); }
-.btn-primary:disabled { background: #6b8fe6; cursor: progress; box-shadow: none; }
+.btn-primary:disabled { background: #6b87a8; cursor: progress; box-shadow: none; }
 .btn-secondary { background: #fff; color: var(--primary); border-color: var(--border); }
 .btn-secondary:hover:not(:disabled) { background: var(--light); border-color: var(--accent); }
 .btn-ghost { background: transparent; color: var(--muted); }
@@ -356,9 +357,9 @@ textarea:focus { outline: 2px solid var(--focus); outline-offset: 1px; border-co
 
 @keyframes spin { to { transform: rotate(360deg); } }
 @keyframes pulse {
-  0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.55); }
-  70% { box-shadow: 0 0 0 7px rgba(59, 130, 246, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+  0% { box-shadow: 0 0 0 0 rgba(40, 109, 192, 0.55); }
+  70% { box-shadow: 0 0 0 7px rgba(40, 109, 192, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(40, 109, 192, 0); }
 }
 @keyframes shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
 @keyframes fade-in { from { opacity: 0; transform: translateY(3px); } to { opacity: 1; transform: none; } }
@@ -411,12 +412,12 @@ textarea:focus { outline: 2px solid var(--focus); outline-offset: 1px; border-co
 .chip-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
 
 /* Agent identity colours: shades of blue, indigo and teal. */
-.agent-c0 { --agent: #1d4ed8; --agent-bg: #dbeafe; }
+.agent-c0 { --agent: #00356b; --agent-bg: #dbe6f3; }
 .agent-c1 { --agent: #4338ca; --agent-bg: #e0e7ff; }
 .agent-c2 { --agent: #0f766e; --agent-bg: #ccfbf1; }
 .agent-c3 { --agent: #0369a1; --agent-bg: #e0f2fe; }
 .agent-c4 { --agent: #0e7490; --agent-bg: #cffafe; }
-.agent-c5 { --agent: #1e3a8a; --agent-bg: #e0e7ff; }
+.agent-c5 { --agent: #00244a; --agent-bg: #e0e7ff; }
 
 .agent-chip {
   display: inline-flex;
@@ -675,7 +676,7 @@ pre.code:last-child { margin-bottom: 0; }
 .g-stopped { color: var(--warn); }
 .g-error { color: var(--danger); }
 .g-interrupted { color: var(--muted); }
-.tl-group.is-active { box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.16); }
+.tl-group.is-active { box-shadow: 0 0 0 3px rgba(40, 109, 192, 0.16); }
 .tl-group.is-active > .tl-group-head .agent-chip::before { animation: pulse 1.4s infinite; }
 
 .tl-pending .tl-title { color: var(--primary); font-weight: 500; }
@@ -1028,3 +1029,28 @@ pre.code:last-child { margin-bottom: 0; }
 }
 .run-details[open] > summary::before { transform: rotate(45deg); }
 .pick .dc-title { font-size: 1.1rem; }
+
+/* ------------------------------------------------------------------ Yale-blue look (G-13) */
+.app-header { border-bottom: 3px solid var(--accent); }
+.app-header h1, .page-title, .ask-card h2, .dc-section-head h2, .pick-group .dc-section-head h3, .headline-main, .card h2 {
+  font-family: var(--serif); letter-spacing: 0;
+}
+.app-header h1 { font-size: 1.6rem; font-weight: 700; }
+.affiliation {
+  margin: 0 0 1px; color: #c9d7ea; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+}
+.brand-mark {
+  width: 58px; height: 58px; border-radius: 50%; background: #fff;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.35), 0 4px 12px rgba(0, 0, 0, 0.18);
+}
+.empty-mascot { display: grid; justify-items: center; gap: 6px; margin: 0 auto 10px; }
+.mascot-bubble {
+  position: relative; margin: 0; padding: 8px 14px; max-width: 34ch; border: 1px solid var(--border); border-radius: 14px;
+  background: #fff; color: var(--primary-dark); font-size: 0.9rem; font-weight: 600; box-shadow: var(--shadow);
+}
+.mascot-bubble::before {
+  content: ""; position: absolute; top: -7px; left: 50%; width: 12px; height: 12px; margin-left: -6px;
+  background: #fff; border-left: 1px solid var(--border); border-top: 1px solid var(--border); transform: rotate(45deg);
+}
+.app-footer p + p { margin-top: 4px; }
+@media (max-width: 520px) { .brand-mark { width: 48px; height: 48px; } .app-header h1 { font-size: 1.3rem; } }

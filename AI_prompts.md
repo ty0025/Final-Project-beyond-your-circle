@@ -360,6 +360,7 @@ After Question 8 was handed over (translated):
 5. "I can't open this site, give me one [that works]." (The preview server ran in Claude Code's own environment; Claude Code started the app with start.bat in the user's terminal on port 8000.)
 6. The filled record form for 8-A plus two screenshots, and: "Translate all of it into English for me and expand the wording a little." (Claude Code recorded the session in English, kept the user's feedback as a faithful translation without expanding it because it is evidence, and wrote the descriptive parts in fuller sentences.)
 7. "Fix G-12 now: a search with a time window must not miss ongoing programs. Minimal change, add tests, and list a plan before the real verification." (Claude Code changed `search_listings` in `app/domain/tools.py`, added 2 regression tests, listed a 1-run plan, then ran it: `r_21eea8b51494`.)
+8. "Then I'd like you to make the page look better: add things like the Yale logo and a cartoon of the Yale mascot, the bulldog. You can search online for images. Change the main colour to SOM blue." (Claude Code checked Yale's brand guidelines: Yale Blue #00356b and High Intensity Blue #286dc0; use of Yale's name and marks needs approval from Yale's Marketing and Trademark Licensing office. So it used the Yale Blue palette and drew an original cartoon bulldog in HTML/SVG instead of downloading the official logo or mascot images, and added a note that the app is an independent student project.)
 
 ### What Was Lacking
 

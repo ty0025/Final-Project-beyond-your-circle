@@ -4,9 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
-  <meta name="theme-color" content="#1e3a8a">
+  <meta name="theme-color" content="#00356b">
   <title>Beyond Your Circle</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231d4ed8'/%3E%3Cpath d='M10 21l6-10 6 10' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='16' cy='11' r='3' fill='white'/%3E%3Ccircle cx='10' cy='21' r='3' fill='%23bfdbfe'/%3E%3Ccircle cx='22' cy='21' r='3' fill='%23bfdbfe'/%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2300356b'/%3E%3Cpath d='M10 21l6-10 6 10' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='16' cy='11' r='3' fill='white'/%3E%3Ccircle cx='10' cy='21' r='3' fill='%23c2d3e8'/%3E%3Ccircle cx='22' cy='21' r='3' fill='%23c2d3e8'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="/static/styles.css">
   <script src="/static/app.js" defer></script>
   <script src="/static/discover.js" defer></script>
@@ -14,18 +14,42 @@
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
 
+  <!-- Original cartoon bulldog (drawn for this project; not Yale's Handsome Dan or any Yale mark). -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <symbol id="byc-bulldog" viewBox="0 0 120 120">
+      <path d="M28 36 C19 25 8 29 10 41 C13 48 22 47 30 42 Z" fill="#b9845a" stroke="#6b4c36" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M92 36 C101 25 112 29 110 41 C107 48 98 47 90 42 Z" fill="#b9845a" stroke="#6b4c36" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M21 52 C21 30 39 21 60 21 C81 21 99 30 99 52 C99 62 104 71 102 82 C99 97 82 105 60 105 C38 105 21 97 18 82 C16 71 21 62 21 52 Z" fill="#f6ead8" stroke="#6b4c36" stroke-width="2.2"/>
+      <path d="M27 45 C30 34 45 32 50 42 C53 51 45 58 36 58 C29 58 25 52 27 45 Z" fill="#e3b98d"/>
+      <path d="M52 32 Q60 28 68 32" stroke="#b08a6b" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+      <path d="M54 37 Q60 34.5 66 37" stroke="#b08a6b" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M56 42 Q60 40.5 64 42" stroke="#b08a6b" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+      <circle cx="40" cy="51" r="5.6" fill="#2b2522"/><circle cx="42" cy="49" r="1.9" fill="#fff"/>
+      <circle cx="80" cy="51" r="5.6" fill="#2b2522"/><circle cx="82" cy="49" r="1.9" fill="#fff"/>
+      <path d="M33 47 Q40 42.5 47 47" stroke="#6b4c36" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M73 47 Q80 42.5 87 47" stroke="#6b4c36" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M26 78 C26 63 43 59 60 59 C77 59 94 63 94 78 C94 92 79 100 60 100 C41 100 26 92 26 78 Z" fill="#fffaf2" stroke="#6b4c36" stroke-width="1.6"/>
+      <path d="M47 64 C47 58.5 73 58.5 73 64 C73 70 66 73.5 60 73.5 C54 73.5 47 70 47 64 Z" fill="#2b2522"/>
+      <path d="M53 63 Q60 60.5 67 63" stroke="#7d6e66" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+      <path d="M60 73.5 L60 78" stroke="#2b2522" stroke-width="2" stroke-linecap="round"/>
+      <path d="M44 89 Q60 99 76 89" fill="#d98c8c" stroke="#2b2522" stroke-width="2" stroke-linecap="round"/>
+      <path d="M47 88.5 L49.5 80.5 L52.5 89.5 Z" fill="#fff" stroke="#2b2522" stroke-width="1.1" stroke-linejoin="round"/>
+      <path d="M67.5 89.5 L70.5 80.5 L73 88.5 Z" fill="#fff" stroke="#2b2522" stroke-width="1.1" stroke-linejoin="round"/>
+      <path d="M33 81 Q46 93 60 79 Q74 93 87 81" stroke="#2b2522" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="29" cy="70" r="4" fill="#f2b3a0" opacity=".75"/><circle cx="91" cy="70" r="4" fill="#f2b3a0" opacity=".75"/>
+      <path d="M30 101 Q60 113 90 101 L92 108 Q60 121 28 108 Z" fill="#00356b"/>
+      <circle cx="60" cy="113" r="5" fill="#286dc0" stroke="#fff" stroke-width="1.6"/>
+    </symbol>
+  </svg>
+
   <header class="app-header">
     <div class="app-header-inner">
       <div class="brand">
         <span class="brand-mark" aria-hidden="true">
-          <svg viewBox="0 0 32 32" width="26" height="26">
-            <path d="M9 22l7-12 7 12" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-            <circle cx="16" cy="10" r="3.4" fill="#fff"/>
-            <circle cx="9" cy="22" r="3.4" fill="#bfdbfe"/>
-            <circle cx="23" cy="22" r="3.4" fill="#bfdbfe"/>
-          </svg>
+          <svg viewBox="0 0 120 120" width="46" height="46"><use href="#byc-bulldog"/></svg>
         </span>
         <div class="brand-text">
+          <p class="affiliation">For Yale SOM students</p>
           <h1 id="app-title">Beyond Your Circle</h1>
           <p id="app-tagline" class="tagline">Loading…</p>
         </div>
@@ -227,6 +251,7 @@
   </main>
 
   <footer class="app-footer">
+    <p>An independent student project for MGT 409; not an official service of, or endorsed by, Yale University or the Yale School of Management. The bulldog is an original drawing.</p>
     <p>Runs, costs and traces are stored locally in <code>runs/</code>. API keys stay on the server and are never sent to this page.<span id="version"></span></p>
   </footer>
 </body>

@@ -52,7 +52,7 @@ Last updated: 2026-10-26 (Question 8 handed over; A: awaiting human input)
 | G-08 | ~~Repo has no commits~~ Q8 committed locally (`eaf71fc`, `9a625b9`, not pushed); **still no remote**; `.git` belongs to another account, commit with a single command using `-c safe.directory` | q08 D | Push, GitHub URL (P-02) |
 | G-11 | Known issues in Question 5 logic (frozen, unchanged): "Open to Yale students" is judged met when identity is unknown; eligibility text not recognized by the rules does not generate a to-confirm condition (the frontend shows the original text) | q06 §8 | Safety/honesty |
 | G-12 | ~~Recall defect found in the user's session: `search_listings` with `when="this_week"`/`"coming"` leaves out ongoing programs, so photography requests with a time window return nothing although two CAW photography programs exist (reproduced offline)~~ Fixed 2026-10-25 in `app/domain/tools.py` (2 regression tests; real check `r_21eea8b51494`) | real_use_log §D.1 | It works, Impact |
-| G-13 | User feedback: the page looks plain; wants more Yale visual elements | real_use_log §D.1 | Look + feel |
+| G-13 | ~~User feedback: the page looks plain; wants more Yale visual elements~~ Done 2026-10-25: Yale Blue palette (#00356b / #286dc0, Yale brand guidelines 2023), serif headings, an original cartoon bulldog (HTML/SVG, not a Yale mark), a non-affiliation note; no official Yale logo used (Yale requires licensing approval). Screenshots `screenshots/g13_*` | real_use_log §D.1 | Look + feel |
 | G-09 | The historical Harbor Bikes ledger contains 2 cache-replay records; `evidence/tokenomics.*`, `redteam_results.json` cannot be used as evidence for this project | q01 §3.5 | Tokenomics, Safety (history only) |
 
 ## 4. Awaiting user input (does not block independent work)

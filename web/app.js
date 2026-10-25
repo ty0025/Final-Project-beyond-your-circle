@@ -151,6 +151,22 @@ function icon(name) {
   return svg;
 }
 
+/** The app's original cartoon bulldog (SVG symbol #byc-bulldog in index.html), decorative only. */
+function bulldog(size = 96) {
+  const ns = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(ns, 'svg');
+  svg.setAttribute('viewBox', '0 0 120 120');
+  svg.setAttribute('width', String(size));
+  svg.setAttribute('height', String(size));
+  svg.setAttribute('class', 'mascot');
+  svg.setAttribute('aria-hidden', 'true');
+  svg.setAttribute('focusable', 'false');
+  const use = document.createElementNS(ns, 'use');
+  use.setAttribute('href', '#byc-bulldog');
+  svg.append(use);
+  return svg;
+}
+
 const spinner = () => el('span', { class: 'spinner', 'aria-hidden': 'true' });
 const badge = (text, tone = 'info', iconName = null) =>
   el('span', { class: `badge badge-${tone}` }, iconName ? icon(iconName) : null, text);
@@ -1323,7 +1339,8 @@ function renderResultEmpty() {
     el(
       'div',
       { class: 'empty' },
-      el('div', { class: 'empty-icon' }, icon('spark')),
+      el('div', { class: 'empty-mascot' }, bulldog(108),
+        el('p', { class: 'mascot-bubble', text: 'Woof! Tell me what you’re into, and I’ll sniff through the public listings.' })),
       el('h3', { text: 'Your matches will appear here' }),
       el('p', { text: 'Describe what you want in a sentence, or start from an example, and press Find. Results are grouped into this week, coming weeks and ongoing programs & communities, and each one links to its source page.' }),
       el('div', { class: 'actions recovery center' }, browseButton())
