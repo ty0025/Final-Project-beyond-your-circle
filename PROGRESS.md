@@ -3,7 +3,7 @@
 > 增量更新的进度与状态记录。需求基线见 PROJECT_SPEC.md；逐项评分状态见 evidence/rubric_checklist.md；每题证据见 evidence/qNN.md。
 > 状态词：已验证通过 / 失败 / 未验证 / 等待真人输入。
 
-最后更新：2026-10-26（问题7交接）
+最后更新：2026-10-26（问题8交接；A 等待真人输入）
 
 ## 1. 题目进度
 
@@ -16,7 +16,8 @@
 | Q5 | 有依据的匹配、参与门槛与探索推荐 | 已交接 | evidence/q05.md、q05_cases.md、alternatives.md |
 | Q6 | 最终用户操作流程（Find 页、条件、分组结果、失败恢复、运行详情折叠） | 已交接 | evidence/q06.md |
 | Q7 | 安全与预算边界（采集 SSRF、恶意公告、显示安全、终止与计量、红队） | 已交接 | evidence/q07.md、q07_redteam.json |
-| Q8–Q10 | — | 未开始（Q8 题目已收到） | — |
+| Q8 | 真实计量（B）、费率与规模成本（C）、fresh clone（D）；真人任务（A）已准备 | 已交接（A 等待真人输入） | evidence/q08.md、q08_tokenomics.*、q08_clone/ |
+| Q9–Q10 | — | 未开始 | — |
 
 ## 2. 当前能力快照
 
@@ -33,8 +34,8 @@
 | 参与条件（服务端判定 match / check first / excluded）、事实出处、无来源细节删除 | 已验证通过 | q05 §1、§3；真实运行中未触发排除 |
 | 计量门槛 F-01～F-08 | 已验证通过 | q04 §1，11 个测试；真实运行账本字段完整 |
 | 新领域安全证据（应用自身拦截、红队、采集 SSRF、显示安全、时长上限） | 已验证通过 | q07 §2（真实 3 次 + 网页 1 次 + 47 个测试）；供应商过滤未发生 |
-| 目标领域 tokenomics（多次运行统计、优化对照） | 未验证 | 5 次正常真实运行；规模化与优化对照属 Q8 |
-| fresh clone 10 分钟运行 | 未验证 | 仓库无提交、无远端 |
+| 目标领域 tokenomics（真实 usage、费率核实、单次/每月/100/10,000 用户、优化对照） | 已验证通过 | q08 B/C；n=5，规模为情景估算，优化为同批数据计算对照 |
+| fresh clone 10 分钟运行 | 已验证通过（本机） | q08 D：第 1 次因缺 httpx 失败，修复后第 2 次 clone → 可用约 49 s、首个 AI 结果约 2 min；GitHub clone 未验证（无远端） |
 
 ## 3. 持续传递的缺口（后续题目必须处理或明确保留）
 
@@ -48,7 +49,7 @@
 | G-06 | ~~应用内没有刷新入口与来源状态展示~~ Q3 已解决（Discover 标签页） | q03 | — |
 | G-10 | 真实数据中暂无“日期不明”“社群”“报名截止/已满”记录，这些展示只由合成测试验证 | q03 §6 | It works 的展示面 |
 | G-07 | README/DESIGN 仍写占位领域，且“只有模型调用需要联网”在接入采集后将不成立 | q01 §3.2 | can run it、repo 质量 |
-| G-08 | 仓库无提交、无远端；`.git` 归属另一 Windows 账户 | q01 §8 | 提交、fresh clone |
+| G-08 | ~~仓库无提交~~ Q8 已本地提交（`eaf71fc`、`9a625b9`，未推送）；**仍无远端**；`.git` 归属另一账户，提交用单条命令 `-c safe.directory` | q08 D | 推送、GitHub URL（P-02） |
 | G-11 | 问题5逻辑已知问题（冻结未改）：“Open to Yale students” 在未知身份时判为 met；规则未识别的资格文字不生成待确认条件（前端已展示原文） | q06 §8 | Safety/诚实性 |
 | G-09 | 历史 Harbor Bikes 账本含 2 条缓存重放记录；`evidence/tokenomics.*`、`redteam_results.json` 不能用作本项目证据 | q01 §3.5 | Tokenomics、Safety（只能作历史） |
 
@@ -71,6 +72,7 @@
 | Q2 | 0 | 采集全部为确定性代码提取 |
 | Q3 | 0 | 浏览与分组全部为确定性代码；界面刷新 1 次真实采集（无模型） |
 | Q4 | 4（1 次运行） | `r_b79bfbda45ad`：guard 1 + matcher 3；9,325 tokens；$0.000926；账本 95 → 99 行 |
+| Q8 | 4（fresh clone 中 1 次运行） | `r_af384cbce5e9` $0.001519，记在 clone 自己的账本（副本 `evidence/q08_clone/`）；本项目真实调用合计 32 行 $0.008269（正常 19 行 $0.004625 + 红队 9 行 $0.002125 + clone 4 行 $0.001519） |
 | Q7 | 9（3 次红队运行，独立账本） | `r_0c89b3881d73` $0.001075、`r_6dff5fbf9fb4` $0.0000726、`r_7c9a61b04778` $0.000978；合计 $0.002125；`runs/redteam_q7/usage.jsonl` 9 行；正常账本仍 114 行；网页拦截演示 0 次调用 |
 | Q6 | 4（1 次运行） | `r_ce638df7cf6e` $0.001309（guard 1 + matcher 3）；账本 110 → 114 行；演示服务器 0 行 |
 | Q5 | 11（3 次运行） | `r_8aad4fe5a302` $0.000936、`r_c588d02ea0b5` $0.001075、`r_835194ffb88a` $0.000380；合计 $0.002390；账本 99 → 110 行 |
@@ -96,6 +98,11 @@
 - 重写：`app/domain/__init__.py`、`models.py`、`tools.py`。
 - 修改：`app/llm.py`、`app/pricing.py`、`app/ledger.py`、`app/budget.py`、`app/config.py`、`app/agent.py`、`app/safety.py`、`app/orchestrator.py`、`app/discover.py`（not_available 带 id）、`web/app.js`、`web/discover.js`、`web/index.html`、`web/styles.css`、`.env.example`、`tests/conftest.py`、`tests/test_ledger_budget.py`、`tests/test_server.py`、`tests/test_safety.py`、`tests/test_tools.py`。
 - 删除：`app/domain/prompts/coordinator.md`、`researcher.md`、`verifier.md`；`data/sample/` 移到 `tests/fixtures/safety/`。
+
+### Q8（2026-10-26）
+- 新增：`scripts/tokenomics_q8.py`、`evidence/q08.md`、`evidence/q08_tokenomics.json/.md`、`evidence/q08_clone/`、`evidence/q08_clone_attempt1_start_log.txt`、`evidence/screenshots/q08_clone_*`（2 张）；`evidence/real_use_log.md` §D（真人任务与记录表）。
+- 修改：`requirements.txt`（加 `httpx`，fresh clone 发现）。
+- git：首次本地提交 `eaf71fc`，修复提交 `9a625b9`，未推送；`my-app/fresh-clone-q8`（失败）与 `fresh-clone-q8-2`（成功）为仓库外的测试目录，可删除。
 
 ### Q7（2026-10-26）
 - 新增：`scripts/redteam_q7.py`、`tests/test_q7_safety.py`、`evidence/q07.md`、`evidence/q07_redteam.json`、`evidence/q07_redteam/`、`evidence/screenshots/q07_app_input_screen_block_*.jpg`。

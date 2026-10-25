@@ -1,0 +1,26 @@
+[setup] Creating virtual environment in .venv ...
+[setup] Installing requirements ...
+INFO:     Started server process [31416]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+Model: gpt-6-luna via Portkey
+.env files found: .env (parent)
+PORTKEY_API_KEY configured: yes
+Serving on http://127.0.0.1:8000  (press Ctrl+C to stop)
+INFO:     127.0.0.1:64577 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64579 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64580 - "GET /api/discover HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51513 - "POST /api/run HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65520 - "GET /?tab=browse HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64666 - "GET /static/styles.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61825 - "GET /static/app.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51661 - "GET /static/discover.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61825 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51661 - "GET /api/meta HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64666 - "GET /api/discover?mode=any&when=all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50545 - "GET /?run=r_af384cbce5e9 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50545 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57818 - "GET /api/meta HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50545 - "GET /api/discover?mode=any&when=all HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50545 - "GET /api/runs/r_af384cbce5e9 HTTP/1.1" 200 OK
