@@ -153,6 +153,22 @@ def test_a_real_listing_removed_by_a_check_stays_openable():
     assert out["also_read"] == []  # 'not recommended by the AI' stays true: the AI did pick it
 
 
+@pytest.mark.parametrize("when", ["this_week", "coming"])
+def test_a_time_window_does_not_hide_ongoing_photography_programs(when):
+    # G-12 (found in the user's own session 2026-10-25): with a time window the photography programs vanished.
+    from app.domain.tools import search
+    found = {r["record_id"] for r in search(session(), ["photography", "photo", "darkroom"], "any", when, 8)["results"]
+             if r["matched_terms"]}
+    assert {DARKROOM, COACHING} <= found
+
+
+def test_a_time_window_still_leaves_out_single_events_outside_it():
+    from app.domain.tools import search
+    this_week = {r["record_id"] for r in search(session(), ["ai", "bot", "genai"], "any", "this_week", 12)["results"]}
+    assert BOT not in this_week and PROMPTATHON in this_week  # Build A Bot is Nov 20; the Promptathon is Oct 27
+    assert PROMPTATHON not in {r["record_id"] for r in search(session(), ["ai", "genai"], "any", "coming", 12)["results"]}
+
+
 def test_empty_output_still_says_what_was_searched():
     out = verify_output(None, session())
     assert out["picks"] == [] and out["sources"] and out["windows"]

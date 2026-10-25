@@ -1,60 +1,88 @@
-# 真实交互日志（creator n=1 及其他真人操作）
+# Real-use log (creator n=1 and other human operations)
 
-> 用途：Impact、Look + feel 与 Agent design 的真人使用证据。只记录**实际发生**的真人操作；没有就保持“无记录”。
-> 本日志不记录 Claude Code 的开发操作（见 AI_prompts.md），也不记录离线测试（见各题 evidence/qNN.md）。
-> 规则（PROJECT_SPEC.md U-14、U-15）：creator n=1 不等于独立试点；不编造访谈、反馈、计时或社交成果；回忆估计不得相加，也不得写成应用已节省的时间。
+> Purpose: human-use evidence for Impact, Look + feel and Agent design. Only **actual** human operations are recorded; if there are none, keep "No record".
+> This log does not record Claude Code development operations (see AI_prompts.md) or offline tests (see each question's evidence/qNN.md).
+> Rules (PROJECT_SPEC.md U-14, U-15): creator n=1 is not an independent pilot; do not invent interviews, feedback, timings or social outcomes; recall estimates must not be added together or written as time the app has saved.
 
-## A. 使用应用之前的回忆估计（非测量）
+## A. Recall estimates before using the app (not measured)
 
-来源：用户在背景说明中的自述（2026-10-25）。以下是**个人回忆估计**，频率、是否属于同一次任务、彼此是否重复均**未实测**。
+Source: the user's own account in the background statement (2026-10-25). The following are **personal recall estimates**; frequency, whether they belong to the same task, and whether they overlap with each other were **not measured**.
 
-| 渠道 | 回忆中的单次耗时 | 状态 |
+| Channel | Recalled time per attempt | Status |
 |---|---|---|
-| 问朋友 | 十几到二十分钟 | 回忆估计，未测量 |
-| Google 搜索 | 十几到二十分钟 | 回忆估计，未测量 |
-| CampusGroups、Slack、WhatsApp | 各十几分钟 | 回忆估计，未测量 |
+| Asking friends | Ten-plus to twenty minutes | Recall estimate, not measured |
+| Google search | Ten-plus to twenty minutes | Recall estimate, not measured |
+| CampusGroups, Slack, WhatsApp | Ten-plus minutes each | Recall estimate, not measured |
 
-用户还描述：并非每天愿意查看；查看后常找不到有效内容；久而久之减少主动探索，了解到的信息主要是身边人正在关心的内容。（定性描述，未量化。）
+The user also described: not wanting to check every day; often finding no useful content after checking; over time exploring less actively, so that what they learn about is mainly what the people around them care about. (Qualitative description, not quantified.)
 
-**禁止用法**：不得把上表相加成“每次/每周总耗时”，不得与应用耗时相减后写成“节省时间”。如需前后对比，须另行实测同一任务。
+**Prohibited use**: do not add the table above into a "total time per attempt/week", and do not subtract app time from it and write the result as "time saved". For a before/after comparison, measure the same task separately.
 
-## B. 真人操作记录
+## B. Human operation records
 
-| 日期时间（America/New_York） | 操作者 | 任务（兴趣 + 目的 + 参与方式） | 数据模式（在线刷新/缓存/固定快照） | run_id | 实测耗时 | 结果与原话 | 截图路径 |
+| Date and time (America/New_York) | Operator | Task (interest + purpose + participation mode) | Data mode (live refresh/cache/fixed snapshot) | run_id | Measured time | Result and quotes | Screenshot path |
 |---|---|---|---|---|---|---|---|
-| — | — | — | — | — | — | 无记录（截至问题1，应用尚未切换到目标领域） | — |
+| Sun Oct 25, 2026, 5:13 PM EDT | Tongyu David Chen (creator n=1) | Animation; find someone with the same interest; SOM checked, Online, Next 7 days | Saved from last refresh (collected Sat Oct 24, 9:50 PM EDT) | `r_80b535e6cc97` | Not measured | No verified match (there is no animation listing in the two connected sources) | — |
+| Sun Oct 25, 2026, 5:14 PM EDT | Tongyu David Chen (creator n=1) | Photography (typed "photograph"); same purpose and conditions | Same | `r_b8cd2f215d47` | Not measured | No verified match: the photography programs were filtered out by the search time filter (see §D.1) | — |
+| Sun Oct 25, 2026, 5:15 PM EDT | Tongyu David Chen (creator n=1) | Photography; find someone with the same interest; SOM checked, Either is fine, Next 4 weeks | Same | `r_117624a6bd8a` | Not measured (the AI run itself took 12.0 s) | No verified match; one listing read by the AI but not recommended (YCGS Drone Hobbyist Gathering II). Feedback in §D.1 | `screenshots/q08a_user_results_r_117624a6bd8a.webp`, `screenshots/q08a_user_run_details_r_117624a6bd8a.webp` |
 
-状态：**等待真人输入**。
+Status: **Verified** for "a real person used the app" (creator n=1, 3 searches, 2026-10-25). Task time was not measured. This is the app's creator, not an independent trial.
 
-## C. 对照测量（如进行）
+## C. Comparison measurement (if done)
 
-尚未设计或进行。若后续进行，须写明同一任务的定义、计时方法和起止点，并在此记录原始数据。
+Not yet designed or performed. If done later, state the definition of the same task, the timing method and the start and end points, and record the raw data here.
 
-## D. 问题8-A：预先定义的真人任务与记录表（2026-10-26 准备；尚未执行）
+## D. Question 8-A: predefined human task and record form (prepared 2026-10-26; not yet executed)
 
-**操作者**：Tongyu David Chen 本人（creator n=1，不是独立试用）。不招募他人，不用合成用户。
+**Operator**: Tongyu David Chen (the user) (creator n=1, not an independent trial). No one else is recruited; no synthetic users are used.
 
-**任务（约 10 分钟）**：打开应用（Find 页），用一句自己的话描述一个真实兴趣和想得到什么（例如摄影交流、非技术 AI 入门、运动或观赛），需要时设置 SOM 身份 / 参与方式 / 时间。在“本周（未来 7 天）或未来 4 周”的窗口内，找出**最多 3 项**你愿意进一步了解的活动或社群；对每一项写下：要先确认的条件、下一步（打开原页或报名页）。
+**Task (about 10 minutes)**: Open the app (Find page) and describe in one's own words a real interest and what one wants to get (for example photography exchange, non-technical AI introduction, sports or watching games), setting the SOM identity / participation mode / time if needed. Within the window of "this week (next 7 days) or next 4 weeks", find **at most 3** activities or communities you would like to learn more about; for each one write down the conditions to confirm first and the next step (open the original page or sign-up page).
 
-**成功标准**：在窗口内选出 1–3 项（或明确判断“没有合适的”）；每项能打开原始页面；每项至少写出 1 个待确认条件或下一步。计时从打开页面到写完清单（手机或电脑秒表）。
+**Success criteria**: 1-3 items are selected within the window (or an explicit judgment that "none is suitable"); each item can open its original page; each item has at least 1 condition to confirm or next step written. Timing runs from opening the page to finishing the list (phone or computer stopwatch).
 
-**可选对照（人工查找）**：之后用相同的公开范围（两个已接入来源：Creative Arts Workshop 摄影课程页、Yale Center for Geospatial Solutions 活动页）和相同时间窗口手动查找，同样计时。必须记录顺序（先应用后人工会有熟悉效应），不能把回忆中的耗时（§A）当作实测。
+**Optional comparison (manual search)**: Afterwards, search manually with the same public scope (the two connected sources: the Creative Arts Workshop photography course page and the Yale Center for Geospatial Solutions events page) and the same time window, also timed. The order must be recorded (app first then manual creates a familiarity effect), and recalled times (§A) must not be treated as measured.
 
-| 字段 | 记录（由本人填写；未操作前保持空白） |
+| Field | Record (filled in by the user; leave blank until performed) |
 |---|---|
-| 日期时间（America/New_York） | |
-| 设备 / 浏览器 | |
-| 原话请求（逐字） | |
-| 设置的条件（SOM / 参与方式 / 时间） | |
-| 数据模式（缓存 / 快照，页面显示的收集时间） | |
-| run_id（Run details 中） | |
-| 实测耗时（mm:ss） | |
-| 选中的项目（标题 + 链接，≤3） | |
-| 每项此前是否已知道（是 / 否） | |
-| 每项是否愿意进一步了解（是 / 否） | |
-| 每项要先确认的条件 / 下一步 | |
-| 原话反馈（逐字，好与不好都记） | |
-| 截图路径 | |
-| 人工对照：顺序、耗时、找到的项目 | |
+| Date and time (America/New_York) | |
+| Device / browser | |
+| Verbatim request | |
+| Conditions set (SOM / participation mode / time) | |
+| Data mode (cache / snapshot, collection time shown on the page) | |
+| run_id (in Run details) | |
+| Measured time (mm:ss) | |
+| Selected items (title + link, ≤3) | |
+| Whether each was already known before (yes / no) | |
+| Whether each is worth learning more about (yes / no) | |
+| Conditions to confirm first / next step for each | |
+| Verbatim feedback (exact words, record both good and bad) | |
+| Screenshot path | |
+| Manual comparison: order, time, items found | |
 
-状态：**等待真人输入**（用户已表示之后由 Claude 主动询问截图与原话）。
+Status: carried out on 2026-10-25; the filled record is in §D.1.
+
+### D.1 Completed record (2026-10-25, creator n=1)
+
+| Field | Record |
+|---|---|
+| Date and time (America/New_York) | Sunday, Oct 25, 2026, about 5:13–5:15 PM EDT (from the run timestamps; the user wrote "the evening of 10/25") |
+| Device / browser | Chrome on a Windows PC |
+| Request (as typed, in English) | Search 1: "I need to find someone who is also interested in Animation". Search 2: "I need to find someone who is also interested in photograph". Search 3, the one reported in the form: "I need to find someone who is also interested in photography" |
+| Conditions set | Search 3: "I'm a Yale SOM graduate student" checked, How you want to take part = Either is fine, When = Next 4 weeks (from the trace; the user's form lists only "either is fine"). Searches 1–2: SOM checked, Online, Next 7 days |
+| Data mode | Both sources "Saved from last refresh", collected Sat Oct 24, 9:50 PM EDT, as shown at the top of the results |
+| run_id (number of searches) | 3 searches: `r_80b535e6cc97`, `r_b8cd2f215d47`, `r_117624a6bd8a` (taken from the ledger; the user left this field blank) |
+| Measured time (mm:ss) | Not measured (left blank). The app's own run time for search 3 was 12.0 s; that is the AI run, not the task time |
+| Selected items (up to 3) | None. All three searches returned "No verified match". The user chose no item, so "known before" and "willing to learn more" do not apply |
+| Feedback (the user's words, translated from Chinese, not expanded) | "I think the features are simple and clear, but the page doesn't look great right now. I think it needs more Yale elements to make it look nicer." |
+| Screenshots | `screenshots/q08a_user_results_r_117624a6bd8a.webp` (results) and `screenshots/q08a_user_run_details_r_117624a6bd8a.webp` (run details), taken by the user |
+| Manual comparison | Not performed. The user's estimate (translated): "If I had to find these things myself, it might take half an hour to an hour." This is an estimate, not a measurement, and must not be reported as time saved |
+
+**Outcome against the success criteria: Failed.** The task asked for 1–3 items within the window, or a clear judgement that nothing fits. For photography the app returned no match, although the stored data contains two Creative Arts Workshop photography programs (Open Darkroom Session, with sessions inside the window, and Photography Individual Coaching). "Nothing fits" was therefore not a correct result.
+
+**Cause (Claude Code's reading of the traces):** in all three searches the matcher passed a time filter to `search_listings` (`when="this_week"` in searches 1–2, `when="coming"` in search 3). In that tool these values return only single-date events and leave out ongoing programs and communities, so the photography programs never reached the model, and the AI summary then said that the sources contain no photography listings. For animation there is simply no listing in the two sources. The defect sits where the form's time condition (Question 6) meets the search tool's time filter (Question 4); the automated tests and the developer's own runs had not caught it.
+
+**Fixed on 2026-10-25 (G-12): `search_listings` now keeps ongoing programs and communities when a time window is set; the window is still checked against their sessions by the existing code. Two regression tests fail without the fix and pass with it (437 offline tests passed). Real check `r_21eea8b51494`: the same request and conditions as search 3 now return Open Darkroom Session as "Check first" (time condition met; prerequisite to confirm); 4 calls, $0.001388925 (normal ledger 124 → 128 rows; copy in `evidence/q08a/`).**
+
+**What this session shows:** a real person used the delivered flow (creator n=1, not an independent trial); the function was judged simple and clear; the visual design was judged plain, with a request for more Yale branding; and a recall failure appeared in the main photography scenario.
+
+Cost: 3 runs, 10 model calls, $0.00172422, in the normal ledger (`runs/usage.jsonl` 114 → 124 rows). Copies of the traces and ledger rows: `evidence/q08a/`.

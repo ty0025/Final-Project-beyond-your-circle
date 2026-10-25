@@ -1,132 +1,132 @@
-# PROJECT_SPEC — Beyond Your Circle（MGT 409 Final Project）
+# PROJECT_SPEC — Beyond Your Circle (MGT 409 Final Project)
 
-> 本文件是项目的需求与边界基线，由问题1（2026-10-25）建立。后续各题只在有依据时修改，并在 PROGRESS.md 记录改动原因。
-> 编号规则：`C-` 课程要求（来自课程原文/Word），`U-` 用户已确定的产品决定（来自背景说明），`M-` 模型/密钥/证据规则，`I-` 我们的实现选择（不是课程规定），`P-` 等待用户补充的信息。
-> 状态词只用四种：**已验证通过**（执行过检查且满足）、**失败**（执行过检查且不满足）、**未验证**（尚未实现或尚未检查）、**等待真人输入**（需要用户本人提供或操作）。
+> This file is the baseline for project requirements and boundaries, created in Question 1 (2026-10-25). Later questions change it only with justification and record the reason for the change in PROGRESS.md.
+> Numbering: `C-` course requirements (from the course's original text/Word), `U-` product decisions already made by the user (from the background brief), `M-` model/key/evidence rules, `I-` our implementation choices (not course rules), `P-` information awaiting the user.
+> Only four status terms are used: **Verified** (check run and satisfied), **Failed** (check run and not satisfied), **Not verified** (not yet implemented or not yet checked), **Awaiting human input** (requires the user (Tongyu David Chen) to provide or perform).
 
-## 0. 来源与优先级
+## 0. Sources and priority
 
-| 来源 | 位置 | 版本/时间 | 用途 |
+| Source | Location | Version/time | Use |
 |---|---|---|---|
-| 课程原文（最高优先级） | https://zlisto.github.io/mgt_409_fa26/project_requirements.html | 2026-10-25 01:10Z 下载，HTML sha256 `a861edcd…a6`，页面无“最后更新”信息 | 课程要求 `C-` 的依据 |
-| 中文整理 Word | 用户本地 `MGT409_FinalProject_要求整理(1).docx`（微信文件夹） | sha256 `dad97a8c…94`，文档无批注对象；正文注明“写 report 和 slides 时以课程网站原文为准” | 交叉核对；与原文一致，差异见 evidence/q01.md §2 |
-| Lecture 11 slides | https://zlisto.github.io/mgt_409_fa26/lectures/slides/lec11-slides.html | 2026-10-25 读取 | gpt-6-luna 单价 |
-| 用户背景说明 | 本对话第一条消息（问题1之前） | 2026-10-25 | 产品决定 `U-`、规则 `M-` |
-| 项目 AGENTS.md | `../AGENTS.md`（repo 上一级） | 2026-10-25 | 只用 gpt-6-luna、密钥不外泄、蓝色视觉、生物类用 HTML |
+| The course's original text (highest priority) | https://zlisto.github.io/mgt_409_fa26/project_requirements.html | Downloaded 2026-10-25 01:10Z, HTML sha256 `a861edcd…a6`, page has no "last updated" info | Basis for course requirements `C-` |
+| Chinese-summary Word file | The user's local `MGT409_FinalProject_要求整理(1).docx` (Chinese summary of the requirements) (WeChat folder) | sha256 `dad97a8c…94`, document has no comment objects; body says "when writing the report and slides, the course website's original text prevails" | Cross-check; consistent with the original, differences in evidence/q01.md §2 |
+| Lecture 11 slides | https://zlisto.github.io/mgt_409_fa26/lectures/slides/lec11-slides.html | Read 2026-10-25 | gpt-6-luna unit prices |
+| The user's background brief | First message of this conversation (before Question 1) | 2026-10-25 | Product decisions `U-`, rules `M-` |
+| Project AGENTS.md | `../AGENTS.md` (one level above the repo) | 2026-10-25 | Only gpt-6-luna, no key leakage, blue visual style, creatures in HTML |
 
-冲突处理：课程原文 > Word 整理 > 我们的实现选择。用户背景中的产品决定只在不违反课程原文时生效（目前无冲突）。
+Conflict resolution: the course's original text > Word summary > our implementation choices. Product decisions in the user's brief apply only when they do not violate the course's original text (currently no conflict).
 
-## 1. 课程要求（C-，均来自课程原文，Word 一致处不再重复标注）
+## 1. Course requirements (C-, all from the course's original text; where the Word file agrees, this is not repeated)
 
-| 编号 | 要求 | 备注 |
+| ID | Requirement | Notes |
 |---|---|---|
-| C-01 | 个人项目，Canvas 截止 **Monday, October 26, 2026, 6:00 PM** | 原文未写时区；以 Canvas 显示为准（P-03） |
-| C-02 | Canvas 提交 3 样：GitHub repo 链接、`report.html`、`slides.html`；可选 2–3 分钟 demo 视频（上传 Canvas） | repo 公开，或私有并把 GitHub 用户 `zlisto` 加为 collaborator |
-| C-03 | 两个 HTML 自包含：任意电脑双击打开、所有截图都显示（图片嵌入文件） | |
-| C-04 | Report 10–15 页（letter、常规字体、含截图）；写给没见过 app 的聪明管理者；可用 AI 辅助，但每个字和数字须与 app 实际一致；凑页数扣分 | |
-| C-05 | Report 八节按序：1 Title + links（项目名、姓名、repo 链接=Canvas 所交、在线链接如有、一句话说明）；2 Motivation；3 What is new here；4 The agents（各 agent 职责、工具、组织/交接、架构图、模型及理由、一次真实运行逐步配截图）；5 Tokenomics（典型运行的 input/cached input/output 实测；单次、每用户每月、100 与 10,000 用户成本；省钱措施及是否变差，有证据）；6 Safety（攻击、agent 故障、超支；至少一个防御真实生效的截图或测试）；7 Impact（量化并说明数字来源，最强证据是真实用户试用）；8 Limits + next steps | |
-| C-06 | Slides：单个 HTML，**最多 10 页**，用 reveal.js（方向键翻页、F 全屏）；建议顺序：标题/问题/新在哪/架构图/demo 截图/成本/安全/impact 数字/下一步；完成后双击打开并逐页方向键检查 | 原文示例提示词写 “using reveal.js, loaded from a CDN” |
-| C-07 | Repo：运行所需全部代码；README 写清 app 是什么、逐步运行方法（或在线链接）；`.env.example` 列出所需 key 名、不含真实值；绝不提交真实 `.env` 或 `PORTKEY_API_KEY` | |
-| C-08 | 若使用大数据集，repo 内附小测试集，README 说明如何切换 | |
-| C-09 | 课程 key：`PORTKEY_API_KEY` **只能用 gpt-6-luna**；其他模型须自费个人 key（OpenAI 的名为 `OPENAI_API_KEY`） | |
-| C-10 | 老师运行方式二选一：在线（README 与 report 顶部放链接，保持可用至最终成绩公布；免费托管会休眠，提交当天确认），或本地 fresh clone 按 README 运行；本地配置越简单越好 | |
-| C-11 | 10 分钟规则：按 README 10 分钟仍未运行 → “The teaching staff can run it” 0 分 | |
-| C-12 | `.env` 先找 repo 自身目录，再找上一级；老师的 `.env` 只有 `PORTKEY_API_KEY` 与 `OPENAI_API_KEY`，名字须完全一致；**需要其他 key 的 app 必须上线并咨询教授** | Word 未写最后一点 |
-| C-13 | 提交前 dry run：clone 到新文件夹、`.env` 放上一级、按 README 从头跑并使用 | |
-| C-14 | 视频可保住 “It works” 与 “Look + feel”，**不能**保住 “can run it” 的 5 分 | |
-| C-15 | 评分 100 分（Idea 21；App 30 = It works 15 + can run 5 + Look & feel 10；Report 41 = Motivation & new 8 + Agent design 10 + Tokenomics 8 + Safety 8 + Impact 5 + Design 2；Slides 8 = Content 6 + Design 2） | 逐项见 evidence/rubric_checklist.md |
-| C-16 | 证据规则：Report 各行缺少指定证据最多得该行一半（Motivation：点名对比的现有产品；Agent design：一次真实运行逐步追踪+各 agent 截图；Tokenomics：真实运行 token 数，日志或 app 内显示，纯估算减半；Safety：防御真实拦住攻击或故障的截图/测试，只描述减半；Impact：真实用户试用（引用、截图或前后耗时），纯猜测减半） | |
-| C-17 | Tier 1/2/3 定义；常见选题（简历/求职信、Chat with PDF/文档、旅行规划、邮件/会议总结、菜谱、通用学习伙伴/闪卡、课堂/作业复用无实质新增）若无真 twist，Idea 封顶 Tier 1 | |
-| C-18 | （建议，非强制）先有人再有技术；找真实用户聊；随手截图；先做出能跑的再变聪明 | “Ship something that works first” 仅原文有 |
+| C-01 | Individual project, Canvas deadline **Monday, October 26, 2026, 6:00 PM** | Original text gives no time zone; go by what Canvas shows (P-03) |
+| C-02 | Canvas submission has 3 items: GitHub repo link, `report.html`, `slides.html`; optional 2–3 minute demo video (uploaded to Canvas) | Repo is public, or private with GitHub user `zlisto` added as collaborator |
+| C-03 | Both HTML files are self-contained: double-click to open on any computer, all screenshots display (images embedded in the file) | |
+| C-04 | Report is 10–15 pages (letter, normal font, with screenshots); written for a smart manager who has not seen the app; AI assistance allowed, but every word and number must match the actual app; padding to reach the page count is penalized | |
+| C-05 | Report has eight sections in order: 1 Title + links (project name, name, repo link = the one submitted to Canvas, online link if any, one-sentence description); 2 Motivation; 3 What is new here; 4 The agents (each agent's role, tools, organization/handoffs, architecture diagram, model and rationale, one real run step by step with screenshots); 5 Tokenomics (measured input/cached input/output for a typical run; cost per run, per user per month, for 100 and 10,000 users; cost-saving measures and whether they degrade quality, with evidence); 6 Safety (attacks, agent failure, overspend; at least one screenshot or test where a defense really took effect); 7 Impact (quantified, with the source of the numbers explained; strongest evidence is real user trials); 8 Limits + next steps | |
+| C-06 | Slides: a single HTML file, **at most 10 slides**, using reveal.js (arrow keys to navigate, F for full screen); suggested order: title/problem/what is new/architecture diagram/demo screenshot/cost/safety/impact numbers/next steps; when done, double-click to open and check each slide with arrow keys | The original text's example prompt says "using reveal.js, loaded from a CDN" |
+| C-07 | Repo: all code needed to run; README states what the app is and step-by-step run instructions (or an online link); `.env.example` lists required key names without real values; never commit the real `.env` or `PORTKEY_API_KEY` | |
+| C-08 | If a large dataset is used, include a small test set in the repo and explain in the README how to switch | |
+| C-09 | Course key: `PORTKEY_API_KEY` **may only use gpt-6-luna**; other models require a personal key at own expense (OpenAI's is named `OPENAI_API_KEY`) | |
+| C-10 | The instructor runs the app in one of two ways: online (link at top of README and report, kept available until final grades are posted; free hosting sleeps, so confirm on the submission day), or local fresh clone following the README; the simpler the local setup, the better | |
+| C-11 | 10-minute rule: if it still does not run after 10 minutes following the README, "The teaching staff can run it" gets 0 points | |
+| C-12 | `.env` is looked up first in the repo's own directory, then one level up; the instructor's `.env` has only `PORTKEY_API_KEY` and `OPENAI_API_KEY`, names must match exactly; **an app that needs other keys must be deployed online and the professor consulted** | Word file does not mention the last point |
+| C-13 | Dry run before submission: clone into a fresh folder, put `.env` one level up, run and use the app from scratch following the README | |
+| C-14 | A video can save "It works" and "Look + feel", but **cannot** save the 5 points for "can run it" | |
+| C-15 | Grading is 100 points (Idea 21; App 30 = It works 15 + can run 5 + Look & feel 10; Report 41 = Motivation & new 8 + Agent design 10 + Tokenomics 8 + Safety 8 + Impact 5 + Design 2; Slides 8 = Content 6 + Design 2) | Item by item in evidence/rubric_checklist.md |
+| C-16 | Evidence rule: a Report row missing its specified evidence gets at most half of that row (Motivation: named existing products compared; Agent design: one real run traced step by step + a screenshot of each agent; Tokenomics: real-run token counts, from logs or shown in the app, pure estimates halved; Safety: screenshot/test of a defense actually stopping an attack or fault, description only halved; Impact: real user trial (quotes, screenshots, or before/after times), pure guesses halved) | |
+| C-17 | Tier 1/2/3 definitions; common topics (resume/cover letter, Chat with PDF/documents, trip planning, email/meeting summary, recipes, generic study buddy/flashcards, class/homework reuse without substantive additions) cap Idea at Tier 1 unless there is a real twist | |
+| C-18 | (Advice, not mandatory) people first, then technology; talk to real users; take screenshots as you go; build something that runs first, then make it smarter | "Ship something that works first" appears only in the original text |
 
-## 2. 产品定义（U-，用户已确定）
+## 2. Product definition (U-, decided by the user)
 
-| 编号 | 决定 |
+| ID | Decision |
 |---|---|
-| U-01 | 项目名 **Beyond Your Circle**：校园活动与社群发现助手 |
-| U-02 | 首版主要使用者：耶鲁 SOM 研究生；发现范围：耶鲁其他院系及 New Haven 的**公开**活动、社群和持续项目 |
-| U-03 | 主要目标：找到同兴趣的人或社群，方便持续参与；次要目标：专业/主题交流机会 |
-| U-04 | 测试兴趣（仅测试用例，不得硬编码成只有三个标签）：① 摄影技巧讨论、作品交流与共同拍摄；② 普通爱好者可参与的运动、休闲比赛和观赛；③ 非技术背景的 AI 普及 |
-| U-05 | 用户输入：兴趣 + 具体交流目的 + 参与方式；应用输出：收集到的公开信息、为什么匹配、有哪些参与条件、下一步去哪里了解或报名 |
-| U-06 | 结果分三组：本周 / 未来几周 / 长期社群或持续项目；时间按 America/New_York，窗口明确写出 |
-| U-07 | 推荐以贴近兴趣为主，少量探索项须说明关联；没有合适探索项时可以为零 |
-| U-08 | 差异化重点：跨来源发现、理解具体目的、解释匹配、呈现参与门槛——必须落实为**可检查的功能差异**，不能只靠文案 |
-| U-09 | 诚实对比：Yale-Localist 与 YaleConnect 已提供活动查找与部分个性化，不得声称校园从未有活动聚合 |
-| U-10 | 首版采用有限、已验证的公开来源；用户手动刷新触发自动收集；不要求关闭网页后的推送 |
-| U-11 | 不做：私人 Slack、WhatsApp、邮件、Canvas（不需其账户或授权）；自动报名、付款、发消息、排日历、匹配个人或组队；复杂账户系统 |
-| U-12 | 事实边界：页面公开≠所有学生可参加；有报名链接≠有余位；赛季进行≠仍可报名；社群存在≠正在招新。已知不满足硬条件的不能作为“可参加”匹配；未知条件标“待确认”；缺日期的记录不能冒充本周活动；空结果如实显示 |
-| U-13 | 数据溯源：保留原始 URL、组织方、收集时间、关键字段依据和缺失值；区分在线刷新、缓存、固定快照、真实模型与模拟测试；不把历史或虚构数据当实时结果 |
-| U-14 | 用户痛点数据仅为个人回忆估计（问朋友 10–20 分钟、Google 10–20 分钟、CampusGroups/Slack/WhatsApp 各十几分钟；频率、是否同一任务、是否重复均未实测）。**不得相加成每次/每周总耗时，不得写成应用已节省的时间**；实际效果另测 |
-| U-15 | 用户本人是真实目标使用者，可做 creator n=1 真实操作记录；不等于独立试点；暂不招募他人；没有真人操作就标“等待真人输入”，不编造访谈、反馈、计时或社交成果 |
-| U-16 | 页面清楚易用，功能和证据优先；所有页面采用蓝色视觉风格（AGENTS.md） |
+| U-01 | Project name **Beyond Your Circle**: a campus event and community discovery assistant |
+| U-02 | First-version primary users: Yale SOM graduate students; discovery scope: **public** events, communities, and ongoing programs in other Yale schools and in New Haven |
+| U-03 | Primary goal: find people or communities with the same interests, to make sustained participation easy; secondary goal: professional/topic networking opportunities |
+| U-04 | Test interests (test cases only, must not be hard-coded as just three tags): (1) photography technique discussion, sharing work, and shooting together; (2) sports, casual competitions, and watching games open to ordinary enthusiasts; (3) AI literacy for non-technical people |
+| U-05 | User input: interest + specific networking purpose + way of participating; app output: the public information collected, why it matches, the participation conditions, and where to learn more or sign up next |
+| U-06 | Results in three groups: this week / coming weeks / long-term communities or ongoing programs; times in America/New_York, with the window stated explicitly |
+| U-07 | Recommendations stay mainly close to the interest, with a few exploratory picks that must explain the connection; may be zero when there is no suitable exploratory pick |
+| U-08 | Differentiation focus: cross-source discovery, understanding the specific purpose, explaining the match, presenting participation barriers; these must be implemented as **checkable functional differences**, not just wording |
+| U-09 | Honest comparison: Yale-Localist and YaleConnect already offer event lookup and some personalization; must not claim the campus never had event aggregation |
+| U-10 | First version uses limited, verified public sources; the user's manual refresh triggers automatic collection; no push notifications after the web page is closed |
+| U-11 | Not doing: private Slack, WhatsApp, email, Canvas (no need for their accounts or authorization); automatic sign-up, payment, messaging, calendar scheduling, matching individuals or forming teams; complex account systems |
+| U-12 | Fact boundaries: a public page does not mean open to all students; a sign-up link does not mean spots are left; a season in progress does not mean sign-up is still open; a community existing does not mean it is recruiting. Anything known to fail a hard condition cannot be a "can join" match; unknown conditions are marked "to confirm"; records without a date cannot pose as this week's events; empty results are shown honestly |
+| U-13 | Data provenance: keep the original URL, organizer, collection time, basis for key fields, and missing values; distinguish online refresh, cache, fixed snapshot, real model, and simulated tests; do not present historical or fabricated data as live results |
+| U-14 | The user's pain-point figures are only personal recollection estimates (asking friends 10–20 minutes, Google 10–20 minutes, CampusGroups/Slack/WhatsApp a dozen-odd minutes each; frequency, whether it is the same task, and whether it is repeated were not measured). **Must not be summed into a per-session/weekly total, and must not be written as time the app has saved**; actual effect is measured separately |
+| U-15 | The user (Tongyu David Chen) is a real target user and can make a creator n=1 real-use record; this is not an independent pilot; recruiting others is not planned for now; without human operation, mark "Awaiting human input"; do not fabricate interviews, feedback, timings, or social outcomes |
+| U-16 | Pages are clear and easy to use, with features and evidence first; all pages use a blue visual style (AGENTS.md) |
 
-## 3. 模型、密钥与证据规则（M-）
+## 3. Models, keys, and evidence rules (M-)
 
-| 编号 | 规则 |
+| ID | Rule |
 |---|---|
-| M-01 | 应用运行时所有课程模型调用仅用 **gpt-6-luna**，经 Portkey，使用 `PORTKEY_API_KEY`。Claude Code 只是开发工具，不属于应用的模型调用 |
-| M-02 | 密钥只在后端；`.env` 先查 repo 内再查父目录；不得打印、提交、传给前端或写入证据/日志 |
-| M-03 | 从第一次真实调用起记录**所有**模型调用（提取、守卫、验证、重试都算）：input、cached input、output 等实际 usage，及 run_id、角色、工具、耗时、停止原因；缺失字段不冒充测得零；不重复计费 |
-| M-04 | 保留调用/重试/时长/token/费用上限；公告/网页内容是不可信数据，不能改变系统指令或工具权限 |
-| M-05 | 安全与 usage 基础未就绪时只做离线 mock/stub 检查，不发真实模型请求；mock 指脚本化假模型，不是其他本地或远端模型 |
-| M-06 | 单价（Lecture 11 slides，每 1M tokens，gpt-6-luna）：input $0.10、cached input $0.01、cache write $0.125、output $0.50。成本按实测 token 逐次计算 |
+| M-01 | All course-model calls at app runtime use only **gpt-6-luna**, via Portkey, with `PORTKEY_API_KEY`. Claude Code is only a development tool and is not part of the app's model calls |
+| M-02 | Keys stay in the backend only; `.env` is looked up in the repo first, then the parent directory; must not be printed, committed, passed to the frontend, or written into evidence/logs |
+| M-03 | From the first real call, record **all** model calls (extraction, guard, verification, and retries all count): actual usage such as input, cached input, output, plus run_id, role, tool, duration, stop reason; missing fields are not passed off as measured zero; no double billing |
+| M-04 | Keep caps on calls/retries/duration/tokens/cost; announcement/web content is untrusted data and cannot change system instructions or tool permissions |
+| M-05 | When the safety and usage foundations are not ready, do only offline mock/stub checks and send no real model requests; mock means a scripted fake model, not another local or remote model |
+| M-06 | Unit prices (Lecture 11 slides, per 1M tokens, gpt-6-luna): input $0.10, cached input $0.01, cache write $0.125, output $0.50. Cost is computed per call from measured tokens |
 
-## 4. 实现选择（I-，我们的决定，不是课程规定）
+## 4. Implementation choices (I-, our decisions, not course rules)
 
-| 编号 | 选择 | 理由 / 依据 |
+| ID | Choice | Reason / basis |
 |---|---|---|
-| I-01 | 复用现有 FastAPI 单进程 + 静态 HTML/CSS/JS 基础（无 Node 构建、无数据库），替换领域层，不重建 HW4/HW5 技术栈 | 背景要求；基础模块已有离线测试（见 §6） |
-| I-02 | fresh clone 为主要交付路径；在线部署不强制 | 背景决定；C-10 二选一 |
-| I-03 | 先打通**两个**已验证公开来源的一条真实推荐路径，保留运行、成本、安全证据；第三个及更多来源、额外案例、视觉扩展在核心证据齐备后再做 | 背景时间取舍 |
-| I-04 | 公开来源必须**无需额外 API key** 即可读取（公开页面/公开 feed） | C-12：其他 key 会迫使上线并咨询教授，破坏 fresh clone 路径 |
-| I-05 | slides 用 reveal.js CDN（课程示例允许）；报告与 slides 中须说明此网络依赖，不宣称完全离线；截图以 base64 内嵌（`scripts/inline_images.py`） | C-03、C-06 |
-| I-06 | 实现 America/New_York 日期窗口时，在 `requirements.txt` 加入 `tzdata` | 问题1实测：本机 Windows Python 3.14 无 `tzdata` 时 `ZoneInfo("America/New_York")` 抛 `ZoneInfoNotFoundError`；老师的 Windows 环境同理 |
-| I-07 | 验证优先离线与定向检查；整合节点再做必要回归；不反复执行无关测试或付费调用 | 背景 |
-| I-08 | 既有 Harbor Bikes 运行记录（`runs/`、`evidence/tokenomics.*`、`evidence/redteam_results.json`）保留为“占位领域的基础验证历史”，**不得**作为新领域的 tokenomics/safety 证据 | U-13、C-16 |
-| I-09 | 每题交接用“评分项 → 实现位置 → 验证方法 → 证据路径/版本/run_id → 状态”；维护本文件、PROGRESS.md、AI_prompts.md 与 evidence/qNN.md | 背景协作方式 |
-| I-10 | 自动采集遵守 robots.txt 与 Crawl-delay；robots 禁止的站点（如 events.yale.edu）不自动采集，只可作为现有产品对比 | 问题2实测；负责任的采集姿态 |
-| I-11 | 字段优先用代码确定性提取；页面没写就记为未知（`missing`），不推断免费/不限名额/人人可参加；采集阶段如需模型，必须走同一网关、预算与账本，且须先修复 F-01～F-08 | 问题2任务 5；U-12 |
-| I-13 | “本周”= 从今天 00:00（America/New_York）起 7 个自然日；“后续机会”= 之后的单日期活动；项目与社群单列“长期”，显示下一场开放场次；无日期活动单列“日期不明” | 问题3；避免周末时“本周”几乎为空，窗口日期在页面写明 |
-| I-14 | 界面刷新：同一时间只允许一次，完成后冷却 300 s（`REFRESH_COOLDOWN_S`）；`COLLECT_SIMULATE_OUTAGE=1` 只用于明确标注的断网演示 | 问题3；对来源站点礼貌，失败演示不伪装成真实故障 |
-| I-15 | Agent 组织：规则筛查（代码）→ guard（1 次 gpt-6-luna）→ 单个 matcher agent（工具 `search_listings`/`get_listing`，最多 4 轮）→ verifier（代码，不调用模型）；退役 researcher 与 LLM verifier | 问题4；检索与核验由确定性代码完成更省调用且可复现；见 evidence/architecture.md |
-| I-16 | 所有模型尝试（成功、失败、重试）逐条入账：`mode` live/mock、`served_model`、缺失 usage 记 null；每 run 最多 12 次调用、应用层最多 1 次重试 | 问题4 计量门槛 F-01～F-08 |
-| I-17 | 推荐状态由服务端决定：硬条件（形式、时间窗口、受众、先修、年龄、会员、参与/观看、报名）对照用户原话，`not_met` 排除、`to_confirm` 为“check first”；事实由服务端还原并附页面原文；模型文字中页面没有的价格/时间/日期/链接等被删除；交流形式与探索关联必须有逐字引文 | 问题5；U-12 的“已知不满足不作为可参加匹配、未知待确认” |
-| I-18 | 功能案例可用人工核对的公开记录（逐字抄录、标明读取时间），只作测试夹具、不进入应用数据；对照只说明同一应用内两种处理的差异 | 问题5 任务 5–6 |
-| I-12 | 首批接入来源（问题2）：`caw-photo`（Creative Arts Workshop 摄影课程，社区非营利）与 `ycgs-events`（Yale Center for Geospatial Solutions 活动，耶鲁官方）；已检查未接入的候选及原因见 `app/collect/sources.py` 的 `NOT_CONNECTED` 与 evidence/q02.md §1 | 问题2实测 |
+| I-01 | Reuse the existing FastAPI single-process + static HTML/CSS/JS base (no Node build, no database), replace the domain layer, do not rebuild the HW4/HW5 tech stack | Background requirement; base modules already have offline tests (see §6) |
+| I-02 | Fresh clone is the main delivery path; online deployment is not mandatory | Background decision; C-10 either/or |
+| I-03 | First get **two** verified public sources working on one real recommendation path, keeping run, cost, and safety evidence; a third and further sources, extra cases, and visual extensions come after the core evidence is complete | Background time trade-off |
+| I-04 | Public sources must be readable **without any extra API key** (public pages/public feeds) | C-12: other keys would force going online and consulting the professor, breaking the fresh clone path |
+| I-05 | Slides use the reveal.js CDN (allowed by the course example); the report and slides must state this network dependency and not claim to be fully offline; screenshots embedded as base64 (`scripts/inline_images.py`) | C-03, C-06 |
+| I-06 | When implementing the America/New_York date window, add `tzdata` to `requirements.txt` | Measured in Question 1: on this machine's Windows Python 3.14 without `tzdata`, `ZoneInfo("America/New_York")` raises `ZoneInfoNotFoundError`; the instructor's Windows environment is the same |
+| I-07 | Verification favors offline and targeted checks; regression at integration nodes as needed; do not repeatedly run unrelated tests or paid calls | Background |
+| I-08 | Existing Harbor Bikes run records (`runs/`, `evidence/tokenomics.*`, `evidence/redteam_results.json`) are kept as "foundation verification history of the placeholder domain" and **must not** be used as tokenomics/safety evidence for the new domain | U-13, C-16 |
+| I-09 | Each question's handoff uses "rubric item → implementation location → verification method → evidence path/version/run_id → status"; maintain this file, PROGRESS.md, AI_prompts.md, and evidence/qNN.md | Background collaboration method |
+| I-10 | Automatic collection obeys robots.txt and Crawl-delay; sites that robots.txt forbids (such as events.yale.edu) are not collected automatically, only usable as a comparison with existing products | Measured in Question 2; responsible collection posture |
+| I-11 | Fields are extracted deterministically by code first; if the page does not say, record as unknown (`missing`), do not infer free/unlimited spots/open to everyone; if collection needs a model, it must go through the same gateway, budget, and ledger, and F-01 to F-08 must be fixed first | Question 2 task 5; U-12 |
+| I-13 | "This week" = 7 calendar days starting from today 00:00 (America/New_York); "later opportunities" = single-date events after that; programs and communities are listed separately as "long-term", showing the next open session; undated events are listed separately as "date unknown" | Question 3; avoids "this week" being nearly empty on weekends, the window dates are stated on the page |
+| I-14 | UI refresh: only one at a time, 300 s cooldown after completion (`REFRESH_COOLDOWN_S`); `COLLECT_SIMULATE_OUTAGE=1` is used only for clearly labeled offline demos | Question 3; polite to source sites, failure demos are not disguised as real outages |
+| I-15 | Agent organization: rule screening (code) → guard (1 gpt-6-luna call) → a single matcher agent (tools `search_listings`/`get_listing`, at most 4 rounds) → verifier (code, no model call); the researcher and LLM verifier are retired | Question 4; retrieval and verification done by deterministic code use fewer calls and are reproducible; see evidence/architecture.md |
+| I-16 | Every model attempt (success, failure, retry) is entered in the ledger one by one: `mode` live/mock, `served_model`, missing usage recorded as null; at most 12 calls per run and at most 1 application-level retry | Question 4 metering gates F-01 to F-08 |
+| I-17 | Recommendation status is decided by the server: hard conditions (format, time window, audience, prerequisites, age, membership, participating/watching, sign-up) are checked against the user's own words, `not_met` is excluded, `to_confirm` is "check first"; facts are restored by the server with the page's original text attached; prices/times/dates/links etc. in model text that the page does not contain are deleted; networking format and exploratory connection must have verbatim quotes | Question 5; U-12's "known-unmet is not a can-join match, unknown is to confirm" |
+| I-18 | Functional cases may use manually checked public records (copied verbatim, with read time noted), used only as test fixtures and not entering app data; comparisons only show the difference between two treatments within the same app | Question 5 tasks 5–6 |
+| I-12 | First sources connected (Question 2): `caw-photo` (Creative Arts Workshop photography courses, community nonprofit) and `ycgs-events` (Yale Center for Geospatial Solutions events, official Yale); candidates checked but not connected and the reasons are in `NOT_CONNECTED` in `app/collect/sources.py` and evidence/q02.md §1 | Measured in Question 2 |
 
-## 5. 交付清单（课程要求 → 我们的检查方法）
+## 5. Deliverables checklist (course requirement → our check method)
 
-| 交付物 | 课程要求 | 我们的检查方法（实现选择） |
+| Deliverable | Course requirement | Our check method (implementation choice) |
 |---|---|---|
-| GitHub repo | 全部代码、README、`.env.example`（无真实值）、小测试数据；公开或私有+zlisto | fresh clone 到新目录、`.env` 放上一级、按 README 计时运行；密钥扫描；记录可见性/collaborator 状态 |
-| report.html | 10–15 letter 打印页、八节顺序、图片内嵌、双击可开 | 浏览器打印预览数页数；检查无外链图片；数字与证据文件逐项对照 |
-| slides.html | ≤10 页、reveal.js、图片内嵌 | 双击打开、方向键逐页检查；说明 CDN 依赖 |
-| demo 视频（可选） | 2–3 分钟真实演示 | 仅在用户本人录制后记录；不替代运行验收 |
+| GitHub repo | All code, README, `.env.example` (no real values), small test data; public or private + zlisto | Fresh clone into a new directory, `.env` one level up, run timed following the README; secret scan; record visibility/collaborator status |
+| report.html | 10–15 letter print pages, eight sections in order, images embedded, opens by double-click | Count pages in browser print preview; check no external image links; compare numbers against evidence files item by item |
+| slides.html | ≤10 slides, reveal.js, images embedded | Open by double-click, check each slide with arrow keys; state the CDN dependency |
+| Demo video (optional) | 2–3 minute real demo | Recorded only after the user records it; does not replace run acceptance |
 
-## 6. 现有工程基线（问题1核对结果）
+## 6. Existing engineering baseline (Question 1 check results)
 
-详细证据：evidence/q01.md。摘要：
+Detailed evidence: evidence/q01.md. Summary:
 
-- **可复用**：`app/config.py`（模型锁定、两级 `.env`）、`app/llm.py`（唯一调用点、Portkey、强制绕过响应缓存）、`app/pricing.py`/`ledger.py`/`budget.py`（计价、账本、调用前预算检查）、`app/agent.py`/`tools.py`/`events.py`（agent 循环、委派、白名单、上限、trace）、`app/safety.py`（spotlight、注入扫描、脱敏）、`app/server.py` 外壳与 `web/` 时间线/成本卡、`run.py`/启动脚本、`scripts/tokenomics.py`/`inline_images.py`。离线测试 296 passed。
-- **占位（待替换）**：`app/domain/*`、`data/sample/*`、`app/orchestrator.py` 中的团队/元数据/`ALLOW_DOMAINS`/拒答文案、`web/app.js` 结果卡、`scripts/redteam.py`、依赖样例文件的测试、README/DESIGN。
-- **未实现（问题1时）**：公开来源采集、来源注册表、统一记录 schema、America/New_York 日期窗口、硬条件过滤、匹配解释输出、刷新/来源状态端点、数据模式标注、采集器网络隔离测试。问题2已实现其中的采集、来源注册表、统一记录、快照/缓存标注与网络隔离测试（`app/collect/`）；日期窗口分组、硬条件过滤、匹配解释与应用内刷新仍未实现。
-- **真实模型调用前的门槛**：F-01～F-08（缺失 usage 记 0、失败/重试不入账、无调用次数上限、model 字段为常量、无真实/模拟标记、`OPENAI_*` 环境变量、空格 key）。
+- **Reusable**: `app/config.py` (model lock, two-level `.env`), `app/llm.py` (single call point, Portkey, forced bypass of response cache), `app/pricing.py`/`ledger.py`/`budget.py` (pricing, ledger, pre-call budget check), `app/agent.py`/`tools.py`/`events.py` (agent loop, delegation, allowlist, caps, trace), `app/safety.py` (spotlight, injection scan, redaction), `app/server.py` shell and `web/` timeline/cost card, `run.py`/startup scripts, `scripts/tokenomics.py`/`inline_images.py`. Offline tests 296 passed.
+- **Placeholder (to be replaced)**: `app/domain/*`, `data/sample/*`, team/metadata/`ALLOW_DOMAINS`/refusal text in `app/orchestrator.py`, result cards in `web/app.js`, `scripts/redteam.py`, tests depending on sample files, README/DESIGN.
+- **Not implemented (as of Question 1)**: public source collection, source registry, unified record schema, America/New_York date window, hard-condition filtering, match explanation output, refresh/source status endpoints, data mode labels, collector network isolation test. Question 2 has implemented the collection, source registry, unified record, snapshot/cache labels, and network isolation test (`app/collect/`); date-window grouping, hard-condition filtering, match explanation, and in-app refresh are still not implemented.
+- **Gates before real model calls**: F-01 to F-08 (missing usage recorded as 0, failures/retries not in the ledger, no call count cap, model field is a constant, no real/mock marker, `OPENAI_*` environment variables, key with spaces).
 
-## 7. 等待用户补充（P-）
+## 7. Awaiting user input (P-)
 
-| 编号 | 需要的信息 | 用途 | 是否阻塞当前工作 |
+| ID | Information needed | Use | Blocks current work? |
 |---|---|---|---|
-| P-01 | 报告/slides 署名（姓名写法） | Report §1、slides 标题 | 已提供：**Tongyu David Chen**（2026-10-25） |
-| P-02 | 真实 GitHub repo URL、公开/私有、是否已加 `zlisto` | Report §1、Canvas 提交、“can run it” | 否（提交前需要） |
-| P-03 | Canvas 实际显示的截止时区 | 时间安排 | 否；用户表示不重要（2026-10-25） |
-| P-04 | creator n=1 真实操作记录（真人操作、计时、截图、原话） | Impact 证据 | 否（应用可用后需要） |
-| P-05 | `.git` 目录归属另一 Windows 账户（CodexSandboxOffline），普通 git 命令报 “dubious ownership”。需用户决定：允许执行 `git config --global --add safe.directory "C:/Users/david/Desktop/Courses/my-app/final project"`，或用其他方式修正归属 | 首次提交、推送 | 否（提交前需要；只读检查可用 `git -c safe.directory=...`）；用户表示之后自行更新该配置（2026-10-25） |
-| P-06 | 首批两个公开来源的最终选择是否需用户确认 | 公开采集 | 否（问题2已按候选实测选定，见 I-12） |
-| P-07 | events.yale.edu 的 robots.txt 为 `Disallow: /`：保持不自动采集（默认），或由用户另行取得许可 | 来源覆盖 | 已决定：不采集（用户 2026-10-25 确认） |
+| P-01 | Name for the report/slides byline (name spelling) | Report §1, slides title | Provided: **Tongyu David Chen** (2026-10-25) |
+| P-02 | Real GitHub repo URL, public/private, whether `zlisto` has been added | Report §1, Canvas submission, "can run it" | No (needed before submission) |
+| P-03 | The deadline time zone Canvas actually shows | Scheduling | No; the user said it is not important (2026-10-25) |
+| P-04 | Creator n=1 real-use record (human operation, timing, screenshots, own words) | Impact evidence | No (needed once the app is usable) |
+| P-05 | The `.git` directory is owned by another Windows account (CodexSandboxOffline), and ordinary git commands report "dubious ownership". The user must decide: allow running `git config --global --add safe.directory "C:/Users/david/Desktop/Courses/my-app/final project"`, or fix the ownership another way | First commit, push | No (needed before commit; read-only checks can use `git -c safe.directory=...`); the user said they will update this setting themselves later (2026-10-25) |
+| P-06 | Whether the final choice of the first two public sources needs the user's confirmation | Public collection | No (Question 2 already chose by measuring candidates, see I-12) |
+| P-07 | events.yale.edu's robots.txt is `Disallow: /`: keep not collecting automatically (default), or the user obtains permission separately | Source coverage | Decided: do not collect (confirmed by the user 2026-10-25) |
 
-## 8. 协作方式
+## 8. Collaboration method
 
-- 用户按问题1→10 逐题发送；只完成当次问题，不提前实施后题。
-- 每题结束更新 PROGRESS.md、AI_prompts.md（Initial Prompt / Follow-up Prompt / What Was Lacking，只记真实发生的内容）和 evidence/qNN.md。
-- 前题缺项持续传递；依赖真实数据、计量/安全或真实模型的验收不能越过前置缺口；生成文档不等于销项。
-- 中断后先读本文件、PROGRESS.md 及本题证据，核对现有修改，只补未完成或因新改动失效的部分；能复用的真实运行不为补截图付费重跑。
+- The user sends questions 1 to 10 one by one; only the current question is completed, later questions are not implemented ahead of time.
+- At the end of each question, update PROGRESS.md, AI_prompts.md (Initial Prompt / Follow-up Prompt / What Was Lacking, recording only what really happened), and evidence/qNN.md.
+- Gaps from earlier questions carry forward; acceptance that depends on real data, metering/safety, or a real model cannot skip past a prerequisite gap; generating a document does not close an item.
+- After an interruption, first read this file, PROGRESS.md, and this question's evidence, check existing changes, and complete only what is unfinished or invalidated by new changes; reuse real runs where possible and do not pay to rerun just to get screenshots.

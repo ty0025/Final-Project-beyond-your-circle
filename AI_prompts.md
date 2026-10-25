@@ -1,99 +1,100 @@
-# AI_prompts.md — 开发过程中的 AI 提示记录
+# AI_prompts.md — log of AI prompts used during development
 
-> 格式沿用 Initial Prompt / Follow-up Prompt / What Was Lacking。
-> 只记录真实发生的内容：没有追问就写“无”，不编造缺陷或迭代。
-> 开发工具：Claude Code（桌面 App，模型 Claude Opus 5.5）。这是开发工具调用，**不属于**应用运行时的课程模型调用（应用只用 gpt-6-luna，见 PROJECT_SPEC.md M-01），也不计入应用 tokenomics。
-> 隐私处理：提示中出现的本机微信文件路径以 `<本地Word路径>` 代替，其余文字原样保留。
+> Format: Initial Prompt / Follow-up Prompt / What Was Lacking.
+> Only what actually happened is recorded: if there was no follow-up, it says "None"; no defects or iterations are invented.
+> Development tool: Claude Code (desktop app, model Claude Opus 5.5). These are development-tool calls; they are **not** the app's runtime course-model calls (the app only uses gpt-6-luna, see PROJECT_SPEC.md M-01) and are not counted in the app's tokenomics.
+> Language: the prompts were written in Chinese. This log gives faithful English translations; quoted prompts are translations, not the original wording.
+> Privacy: the local WeChat file path in the prompts is replaced by `<local Word path>`; everything else is translated in full.
 
 ---
 
-## 背景说明（问题1之前，2026-10-25）
+## Background (before Question 1, 2026-10-25)
 
 ### Initial Prompt
 
-用户发送项目背景（评分细则与证据规则、项目目标与原始要求、真实用户问题、已确定的产品方向、范围与事实边界、现有工程背景、模型/密钥/证据规则、最终提交格式、逐题协作方式），并要求：
+The user sent the project background (grading rubric and evidence rules, project goals and original requirements, the real user problem, the product direction already decided, scope and factual boundaries, the existing engineering background, model/key/evidence rules, the final submission format, and the one-question-at-a-time workflow), and asked:
 
-> 现在的回复要求：只阅读这条背景，不检查目录、不联网、不运行命令或模型、不创建或修改文件、不开始分析实施方案。只回复：“已阅读背景，等待第一个问题。”
+> Reply requirements for now: read only this background; do not inspect directories, go online, run commands or models, create or modify files, or start analysing an implementation plan. Reply only: "Background read; waiting for the first question."
 
-（背景全文要点已整理进 PROJECT_SPEC.md 的 `U-`、`M-`、`I-` 各节；原始要求文件路径为 `<本地Word路径>/MGT409_FinalProject_要求整理(1).docx`。）
+(The key points of the background are captured in PROJECT_SPEC.md sections `U-`, `M-` and `I-`; the original requirements file is `<local Word path>/MGT409_FinalProject_要求整理(1).docx`, a Chinese summary of the course requirements.)
 
 ### Follow-up Prompt
 
-无。
+None.
 
 ### What Was Lacking
 
-无（该轮只要求确认阅读，Claude Code 只回复了指定的一句话，未执行任何操作）。
+None (this round only asked to confirm reading; Claude Code replied with the requested sentence and took no action).
 
 ---
 
-## 问题1：核对现有工程，固定评分与验收基线（2026-10-25）
+## Question 1: Review the existing project and fix the grading and acceptance baseline (2026-10-25)
 
 ### Initial Prompt
 
 ```text
-请完成 MGT409 Final Project 的问题1：核对现有工程，固定评分与验收基线。
+Please complete Question 1 of the MGT409 Final Project: review the existing project and fix the grading and acceptance baseline.
 
-项目目录：C:/Users/david/Desktop/Courses/my-app/final project。
-以最初的Final Project要求为准，优先复用现有工程。核心是面向SOM学生的公开校园活动与社群发现，不接私人渠道、不做日历排程。
-开始时核对适用AGENTS.md、现有修改，以及已经存在的PROJECT_SPEC.md、PROGRESS.md和本题证据，恢复已确认范围与状态；文件缺失时先依据已收到的背景和原始要求恢复必要信息，不猜测用户偏好。
-前题缺项必须传递到本题状态，可继续独立工作；真实数据、安全/usage基础、模型真实调用等关键依赖不满足时，相关验收保持失败或未验证，不能因交接到后题而算通过。本题范围内可修复的问题应自主修复并做对应复验，不因首次失败就结束；确实缺外部条件或真人输入时，明确记录阻碍并继续独立工作。
-应用运行时课程模型调用仅 gpt-6-luna/Portkey；保护密钥、原始数据、已有成果和真实证据。
+Project directory: C:/Users/david/Desktop/Courses/my-app/final project.
+The original Final Project requirements take precedence; reuse the existing project wherever possible. The core is discovery of public campus events and communities for SOM students; no private channels and no calendar scheduling.
+At the start, check the applicable AGENTS.md, existing changes, and any existing PROJECT_SPEC.md, PROGRESS.md and evidence for this question, and restore the confirmed scope and status. If files are missing, first restore the necessary information from the background and original requirements already received; do not guess the user's preferences.
+Gaps from earlier questions must carry over into this question's status, and independent work may continue. When key dependencies such as real data, the safety/usage foundation or real model calls are not in place, the related acceptance items stay failed or unverified; handing them to a later question does not make them pass. Problems within this question's scope should be fixed autonomously and re-verified, not abandoned after the first failure. When something truly needs an external condition or human input, record the blocker clearly and continue with independent work.
+At app runtime, course model calls use only gpt-6-luna via Portkey; protect the key, raw data, existing results and real evidence.
 
-对应评分：全局，尤其可运行 5 分、真实应用 15 分和后续报告证据。
-前置：已阅读上一条背景。本题不调用模型、不制作新页面；现在可以按以下要求检查实际工程。
+Grading: global, especially "can run it" (5 points), "real app" (15 points) and evidence for the later report.
+Prerequisite: the previous background message has been read. This question makes no model calls and builds no new pages; you may now inspect the actual project as follows.
 
-请完成以下任务：
-1. 先读取原始 Final Project Word：<本地Word路径>/MGT409_FinalProject_要求整理(1).docx，并按其中注释核对课程原文。再阅读现有 README、DESIGN、领域模型/工具/提示、编排、服务与网页入口，检查 Git 状态及启动方式。将现有代码、文档宣称和实际验证分别列出。
-2. 检查并保留模型锁定、两级.env、密钥隔离、usage映射、预算/循环限制及trace。基础缺失则先修复或标明：修复前不得发真实模型请求，可以继续不依赖模型的工作。确认仍为Harbor Bikes占位时列出替换位置，暂不领域重写。
-3. 把已确认背景及本题核对到的原始要求整理为工程内 PROJECT_SPEC.md，形成 evidence/rubric_checklist.md，逐项列出 100 分评分与最终交付要求。区分课程要求与我们的实现选择。
-4. 建立 PROGRESS.md 和真实交互日志，评分检查表使用“评分项、实现位置、验证方法、证据路径/版本/run_id、状态”。提前记录署名、真实repo URL、真人操作等需用户补充的信息；不因缺少它们停止独立工作。用户耗时仅为回忆估计，不加总为测量或声称节时收益。
-5. 若现有环境可用，执行一次现有离线测试作为基线；若依赖缺失，记录原因及最小修复。不要为恢复旧占位示例修改大量无关业务。
+Please complete these tasks:
+1. First read the original Final Project Word file: <local Word path>/MGT409_FinalProject_要求整理(1).docx, and check the course's original text against its notes. Then read the existing README, DESIGN, domain models/tools/prompts, orchestration, server and web entry points, and check the Git status and how the app starts. List separately the existing code, what the documents claim, and what has actually been verified.
+2. Check and keep the model lock, the two-level .env, key isolation, usage mapping, budget/loop limits and traces. If foundations are missing, fix them first or flag them: no real model requests until they are fixed, but work that does not depend on the model may continue. If the domain is still the Harbor Bikes placeholder, list the places to replace without rewriting the domain yet.
+3. Turn the confirmed background and the original requirements checked here into a PROJECT_SPEC.md in the project, and create evidence/rubric_checklist.md listing the 100-point rubric and the final delivery requirements item by item. Distinguish course requirements from our implementation choices.
+4. Create PROGRESS.md and a real-interaction log. The rubric checklist uses the columns "rubric item, implementation location, verification method, evidence path/version/run_id, status". Record in advance the information the user must supply, such as the author name, the real repo URL and real-person use; do not stop independent work because these are missing. The user's time figures are only recalled estimates; do not add them up as measurements or claim time savings.
+5. If the existing environment works, run the existing offline tests once as a baseline; if dependencies are missing, record the reason and the minimal fix. Do not change a lot of unrelated code just to restore the old placeholder example.
 
-验收：能够明确指出可复用模块、未实现的公开采集能力、接口变化与当前基线；证据/状态文件真实，无密钥泄露。
-交付：PROJECT_SPEC.md、PROGRESS.md、evidence/rubric_checklist.md、evidence/q01.md、AI_prompts.md。
+Acceptance: clearly identify the reusable modules, the public-collection capabilities not yet implemented, interface changes and the current baseline; evidence/status files are truthful, with no key leaks.
+Deliverables: PROJECT_SPEC.md, PROGRESS.md, evidence/rubric_checklist.md, evidence/q01.md, AI_prompts.md.
 
-本题结束时，请更新 PROGRESS.md、AI_prompts.md 和 evidence/q01.md，并汇报：已完成内容、修改文件、实际验证及结果、未完成/未验证事项、后续衔接信息。追问只记录实际发生内容，费用与效果不编造。
-中断后续做时，先核对已有成果与证据，只补未完成或因改动失效的部分；符合当前条件的既有真实运行可复用，不为重生成记录反复付费调用。
-完成并交接本题后，等待我发送下一个问题。
+At the end of this question, update PROGRESS.md, AI_prompts.md and evidence/q01.md, and report: what was completed, files changed, actual verification and results, unfinished/unverified items, and handover information for the next step. Record only follow-ups that actually happened; do not invent costs or effects.
+If resuming after an interruption, first check the existing results and evidence and only complete what is unfinished or invalidated by changes; real runs that still fit the current conditions may be reused instead of paying repeatedly to regenerate records.
+After completing and handing over this question, wait for me to send the next question.
 ```
 
 ### Follow-up Prompt
 
-无（截至本题交付，用户尚未就问题1追问）。
+None (as of delivery, the user had not followed up on Question 1).
 
 ### What Was Lacking
 
-本题交付时尚无用户反馈，因此不记录缺陷。执行中遇到的环境问题（Word 文件无批注对象、`.git` 归属另一 Windows 账户、Windows 缺 `tzdata`）属于工程事实，记录在 evidence/q01.md，而不是提示缺陷。
+There was no user feedback at delivery, so no defects are recorded. Environment problems met during the work (no comment objects in the Word file, `.git` owned by another Windows account, `tzdata` missing on Windows) are engineering facts recorded in evidence/q01.md, not prompt defects.
 
 ---
 
-## 问题2：实现有限公开来源采集，建立真实小样本（2026-10-25）
+## Question 2: Implement bounded collection from public sources and build a small real sample (2026-10-25)
 
 ### Initial Prompt
 
-用户先发送了一组通用开发原则（节约 token、复用现有成果、先完成最小可用流程、必要基础从开始保留、按改动范围验证、每次调用有明确目的、失败先定位再最小修复、用验收结果决定是否继续修改、汇报保持简短），随后是问题2原文：
+The user first sent a set of general development principles (save tokens, reuse existing results, finish the minimal working flow first, keep the necessary foundations from the start, verify according to the scope of each change, give every call a clear purpose, find the cause of a failure before making a minimal fix, let acceptance results decide whether to keep changing things, keep reports short), followed by Question 2:
 
 ```text
-请完成 MGT409 Final Project 的问题2：实现有限公开来源采集，建立真实小样本。
+Please complete Question 2 of the MGT409 Final Project: implement bounded collection from public sources and build a small real sample.
 
-项目目录：C:/Users/david/Desktop/Courses/my-app/final project。
-以最初的Final Project要求为准，优先复用现有工程。核心是面向SOM学生的公开校园活动与社群发现，不接私人渠道、不做日历排程。
-（开头的通用说明与问题1相同，此处从略。）
+Project directory: C:/Users/david/Desktop/Courses/my-app/final project.
+The original Final Project requirements take precedence; reuse the existing project wherever possible. The core is discovery of public campus events and communities for SOM students; no private channels and no calendar scheduling.
+(The general opening is the same as in Question 1 and is omitted here.)
 
-对应评分：真实应用 15、创新/价值 21、后续 Agent 与 Impact 证据。
-前置：第1题 已核对底座，候选来源见本条消息下方；它们必须实际验证后才能算接入。
+Grading: real app 15, novelty/value 21, later agent and impact evidence.
+Prerequisite: Question 1 has checked the foundation; candidate sources are listed below this message. They must be verified before they count as connected.
 
-请完成以下任务：
-1. 先验证两个不同官方/组织者公开来源的程序可读性，支持跨来源最小流程；第三个及更多来源在核心流程和证据成立后再扩展，3–5个只是建议。不要把需要登录、模板空壳或失败页面标为已接入；单一难抓来源不应无限重试。
-2. 为所选来源实现有界采集/刷新：有限允许名单，超时、大小和页面数量限制，安全重定向；不抓取私人内容、不引入额外付费搜索 key。优先公开目录与详情的简洁读取，记录实际覆盖边界。
-3. 定义统一活动/社群/持续项目记录，保留原始 URL、组织方、收集时间、支持字段的必要原文、日期/时区/地点、形式、资格、费用、报名信息及缺失值。
-4. 持久化最后成功记录与来源状态，保存带出处的小测试样本。网络失败能使用明确标注日期的已有快照；失败不是无活动，也不允许抹除最后成功数据。
-5. 采集中的任何模型提取也使用共同网关、预算、账本。能确定性提取的字段优先用代码，不能确定就保留未知。
-6. 不将 season/program 变成虚构单场活动；不将社群主页变成虚构本周活动，不写虚构样本来充当真实公开数据。
+Please complete these tasks:
+1. First verify that two public sources from different official sites or organizers can be read programmatically, supporting a minimal cross-source flow. A third or more sources come only after the core flow and evidence hold; 3–5 is only a suggestion. Do not mark sources that need a login, template shells or error pages as connected; do not retry a single hard source endlessly.
+2. Implement bounded collection/refresh for the chosen sources: a limited allowlist, timeouts, size and page-count limits, and safe redirects; no private content and no extra paid search key. Prefer simple reads of public listings and detail pages, and record the actual coverage boundary.
+3. Define a unified record for events, communities and ongoing programs that keeps the original URL, organizer, collection time, the original wording that supports each field, date/time zone/location, format, eligibility, cost, registration information and missing values.
+4. Persist the last successful records and the source status, and save a small test sample with provenance. On network failure, an existing snapshot clearly marked with its date may be used; a failure does not mean "no events", and it must not erase the last success.
+5. Any model extraction during collection also goes through the shared gateway, budget and ledger. Fields that can be extracted deterministically are extracted by code; if a value is uncertain, keep it unknown.
+6. Do not turn a season or program into fictitious single events; do not turn a community home page into a fictitious event this week; do not write fictitious samples to pose as real public data.
 
-验收：两个不同来源的真实采集记录、字段核对与失败/缓存回退支持跨来源验收；模拟故障明确标注。……（验收、交付与收尾说明原文略）
-可调查的候选入口（先验证，不代表已接入）：
+Acceptance: real collected records from two different sources, field checks and failure/cache fallback support cross-source acceptance; simulated faults are clearly labelled. … (the rest of the acceptance, delivery and closing text is omitted)
+Candidate entry points to investigate (verify first; listing them does not mean they are connected):
 - https://events.yale.edu/
 - https://poorvucenter.yale.edu/
 - https://geospatial.yale.edu/events/2026-11-20-build-a-bot-workshop
@@ -103,256 +104,263 @@
 - https://yaleconnect.yale.edu/ycyalephotographysociety/home/
 ```
 
-（“从略/原文略”处为与问题1相同的通用段落及收尾说明，用户原文完整，此处为节省篇幅省略。）
+(The parts marked "omitted" are the general paragraphs and closing text that were identical to Question 1. The user's message was complete; they are left out here only to save space.)
 
 ### Follow-up Prompt
 
-无（截至本题交付，用户尚未就问题2追问）。问题2消息到达时，问题1的后台审计仍在运行；Claude Code 先用已完成的审计结果补完问题1文件，再开始问题2，这不是用户追问。
+None (as of delivery, the user had not followed up on Question 2). When the Question 2 message arrived, the Question 1 background audit was still running; Claude Code first used the finished audit results to complete the Question 1 files and then started Question 2. This was not a user follow-up.
 
 ### What Was Lacking
 
-本题交付时尚无用户反馈，因此不记录缺陷。执行中由 Claude Code 自己发现并修复的提取错误（地点缺失、费用误判、“flexible”场次被赋日期、误报格式冲突）记录在 evidence/q02.md §6。
+There was no user feedback at delivery, so no defects are recorded. Extraction errors that Claude Code found and fixed itself (missing locations, misread costs, a "flexible" session given a date, a false format-conflict warning) are recorded in evidence/q02.md §6.
 
 ---
 
-## 问题3：完成可浏览的基础发现流程（2026-10-25）
+## Question 3: Complete a browsable basic discovery flow (2026-10-25)
 
 ### Initial Prompt
 
 ```text
-请完成 MGT409 Final Project 的问题3：完成可浏览的基础发现流程。
+Please complete Question 3 of the MGT409 Final Project: complete a browsable basic discovery flow.
 
-项目目录：C:/Users/david/Desktop/Courses/my-app/final project。
-（开头的通用说明与问题1、2相同，此处从略。）
+Project directory: C:/Users/david/Desktop/Courses/my-app/final project.
+(The general opening is the same as in Questions 1 and 2 and is omitted here.)
 
-对应评分：真实应用 15、易用性 10、可运行 5。
-前置：第2题数据契约已确定；至少一个真实来源记录才能验收真实数据浏览。零真实记录时仅完成空状态/隔离mock的接口与页面，保留数据缺口；第二来源未就绪不宣称跨来源完成。本题不依赖新模型调用。
+Grading: real app 15, ease of use 10, can run it 5.
+Prerequisite: the Question 2 data contract is fixed. At least one real source record is needed to accept real-data browsing. With zero real records, only the empty state and isolated mock interfaces/pages are done and the data gap is kept; if the second source is not ready, do not claim cross-source completion. This question does not depend on new model calls.
 
-请完成以下任务：
-1. 接入现有 FastAPI/静态网页，实现活动与社群数据接口、来源状态、刷新入口。沿用既有服务，不加新的构建或数据库服务。
-2. 提供基础兴趣/参与方式/时间范围筛选，分为本周、后续机会、长期社群/持续项目。显示 America/New_York 对应起止日期。
-3. 确定性处理去重、过期、缺失日期、实际地点、报名截止和已知不满足条件的条目。资格未知与已确认满足分开显示。
-4. 卡片打开正确的原始详情；有报名链接也不保证名额。不自动替用户报名。
-5. 覆盖无结果、日期不明、仅社群、抓取失败、缓存/快照状态。刷新失败时维持上次结果并提示时间。
-6. 固定参考时间只用于明确标注的测试，真实页面按实际时间处理。America/New_York采用实际时区规则，检查跨周边界及夏令时切换附近的日期；不硬编码固定UTC偏移。选择少量能揭露问题的检查。
+Please complete these tasks:
+1. Connect to the existing FastAPI/static web pages: implement the event and community data API, the source status and a refresh entry point. Use the existing server; add no new build or database service.
+2. Provide basic interest / participation mode / time range filters, grouped into this week, later opportunities, and long-term communities/ongoing programs. Show the corresponding America/New_York start and end dates.
+3. Handle deterministically: duplicates, past items, missing dates, actual location, registration deadlines, and entries with known unmet conditions. Show unknown eligibility separately from confirmed eligibility.
+4. Cards open the correct original detail page; a registration link does not guarantee a spot. Do not register on the user's behalf.
+5. Cover no results, unknown date, community only, collection failure and cache/snapshot states. When a refresh fails, keep the last results and show the time.
+6. A fixed reference time is used only in clearly labelled tests; the real page uses the actual time. America/New_York uses the real time-zone rules; check dates around week boundaries and daylight-saving changes; do not hard-code a fixed UTC offset. Choose a few checks that can reveal problems.
 
-验收：不调用模型也能在网页浏览真实来源记录，三个区内容分类正确、可打开出处，刷新/失败状态诚实。此阶段的确定性浏览不冒充 AI 推荐完成。
-交付：数据接口与基础网页、定向验证、实际页面截图、evidence/q03.md。
-（收尾说明原文略，与前两题相同。）
+Acceptance: real source records can be browsed on the web page without calling a model, the three sections are classified correctly, sources can be opened, and refresh/failure states are honest. Deterministic browsing at this stage does not pose as a finished AI recommendation.
+Deliverables: data API and basic web page, targeted verification, screenshots of the actual page, evidence/q03.md.
+(The closing text is omitted; it is the same as in the previous two questions.)
 ```
 
 ### Follow-up Prompt
 
-无（截至本题交付，用户尚未就问题3追问）。
+None (as of delivery, the user had not followed up on Question 3).
 
 ### What Was Lacking
 
-本题交付时尚无用户反馈，因此不记录缺陷。Claude Code 自己在浏览器验证中发现并修复的问题（刷新结果提示被清空、断网时误报 robots 禁止、线上活动重复提示地点缺失）记录在 evidence/q03.md §3。
+There was no user feedback at delivery, so no defects are recorded. Problems Claude Code found and fixed during browser verification (the refresh result message was cleared, robots.txt was misreported as disallowing access during an outage, online events were repeatedly flagged as missing a location) are recorded in evidence/q03.md §3.
 
 ---
 
-## 问题4：接入理解目的的 Agent 与领域工具（2026-10-25）
+## Question 4: Connect a purpose-aware agent and domain tools (2026-10-25)
 
 ### Initial Prompt
 
 ```text
-请完成 MGT409 Final Project 的问题4：接入理解目的的 Agent 与领域工具。
+Please complete Question 4 of the MGT409 Final Project: connect a purpose-aware agent and domain tools.
 
-项目目录：C:/Users/david/Desktop/Courses/my-app/final project。
-（开头的通用说明与问题1–3相同，此处从略。）
+Project directory: C:/Users/david/Desktop/Courses/my-app/final project.
+(The general opening is the same as in Questions 1–3 and is omitted here.)
 
-对应评分：Agent design 10、真实应用 15、后续 Tokenomics。
-前置：第3题 流程可用，保留共同安全/计量基础。
+Grading: agent design 10, real app 15, later tokenomics.
+Prerequisite: the Question 3 flow works; keep the shared safety/metering foundation.
 
-请完成以下任务：
-1. 扩展原领域模型与工具：将自然语言需求变为兴趣、交流目的、参与/观赛、经验、身份、日期/地点等可解释条件；未说清的信息不捏造。
-2. 以真实记录 ID 检索、读取详情与出处，让模型使用工具，不凭记忆编校园活动。
-3. 复用 coordinator/researcher/verifier 时明确各自实际职责、最小工具权限和交接。组织方式以有效且省调用为准，不为证明“多 agent”强制无意义委派。
-4. 更新旧占位业务提示、示例、APP_META、输出契约和链接允许名单。保留旧通用接口兼容性或同步更新调用方，不能只改提示文案。
-5. 先用离线mock/stub验证工具和输出契约，不运行其他本地/远端模型。仅在有真实数据、合规key、安全及usage基础就绪后，完成一次有界真实模型端到端调用；记录实际角色、工具结果、usage、停止原因、run_id。模拟接口只能证明接口行为，不能充当真实模型证据；前置不足保持真实调用未验证。
-6. 所有调用只经过既有后端模型网关；若缺 key/权限，保留离线结果并明确真实调用未验证，不绕过模型限制。
+Please complete these tasks:
+1. Extend the original domain models and tools: turn a natural-language request into explainable conditions such as interest, purpose of interaction, participating vs. watching, experience, identity, and date/location; do not invent anything that was not said.
+2. Search and read details and sources by real record ID, and have the model use the tools rather than making up campus events from memory.
+3. When reusing coordinator/researcher/verifier, state each one's actual duties, least tool permissions and hand-offs. Choose the organisation for effectiveness and fewer calls; do not force meaningless delegation just to show "multi-agent".
+4. Update the old placeholder business prompts, examples, APP_META, output contract and link allowlist. Keep the old generic interfaces compatible or update their callers at the same time; do not just change prompt wording.
+5. First verify the tools and the output contract with offline mocks/stubs, without running other local or remote models. Only when real data, a compliant key and the safety and usage foundations are ready, complete one bounded real end-to-end model call; record the actual roles, tool results, usage, stop reason and run_id. Mock interfaces only prove interface behaviour and cannot stand in for real-model evidence; if prerequisites are missing, keep the real call unverified.
+6. All calls go only through the existing backend model gateway; if the key or permissions are missing, keep the offline results, state clearly that the real call is unverified, and do not bypass the model restrictions.
 
-验收：一条自然语言目的能经真实工具产生基于已有记录的结构化结果，可追踪来源与全部模型调用。截图与 trace 对得上；未调用的角色不写成已工作。
-交付：领域工具/模型/提示/编排更新，架构初稿，真实 run trace 与截图，evidence/q04.md。
-（收尾说明原文略，与前几题相同。）
+Acceptance: one natural-language purpose produces, through real tools, a structured result based on existing records, with traceable sources and all model calls. Screenshots match the trace; roles that were not called are not described as having worked.
+Deliverables: domain tool/model/prompt/orchestration updates, a draft architecture, a real run trace and screenshot, evidence/q04.md.
+(The closing text is omitted; it is the same as in the previous questions.)
 ```
 
 ### Follow-up Prompt
 
-无（截至本题交付，用户尚未就问题4追问）。
+None (as of delivery, the user had not followed up on Question 4).
 
 ### What Was Lacking
 
-本题交付时尚无用户反馈，因此不记录缺陷。Claude Code 在测试中自己发现并修复的问题（verification 事件关键字重复、测试辅助函数绕过环境变量屏蔽、脱敏测试原本没有真正检验脱敏）记录在 evidence/q04.md §1、§3。
+There was no user feedback at delivery, so no defects are recorded. Problems Claude Code found and fixed in testing (a duplicate keyword in the verification event, a test helper that bypassed the environment-variable masking, a redaction test that did not actually test redaction) are recorded in evidence/q04.md §1 and §3.
 
 ---
 
-## 问题5：落实有依据的匹配、参与门槛与探索推荐（2026-10-25）
+## Question 5: Grounded matching, participation conditions and exploratory recommendations (2026-10-25)
 
 ### Initial Prompt
 
 ```text
-请完成 MGT409 Final Project 的问题5：落实有依据的匹配、参与门槛与探索推荐。
+Please complete Question 5 of the MGT409 Final Project: implement grounded matching, participation conditions and exploratory recommendations.
 
-项目目录：C:/Users/david/Desktop/Courses/my-app/final project。
-（开头的通用说明与问题1–4相同，此处从略。）
+Project directory: C:/Users/david/Desktop/Courses/my-app/final project.
+(The general opening is the same as in Questions 1–4 and is omitted here.)
 
-对应评分：Idea 21、动机/差异 8、真实应用 15、Agent design 10。
-前置：第4题 工具调用与输出契约成立。
+Grading: idea 21, motivation/difference 8, real app 15, agent design 10.
+Prerequisite: Question 4's tool calls and output contract hold.
 
-请完成以下任务：
-1. 分开主题相关性、具体参与目的、硬性参与条件和未知事项。已知不满足条件的内容不作为“可参加匹配”；未知条件只能有条件推荐或待确认。
-2. 日期、地点、组织方、费用、资格等关键字段由服务端从记录还原并验证引用 ID，不能接受模型自由生成的新事实。推荐理由与来源事实分别保存。
-3. 每条推荐解释为什么贴近目的、什么形式提供交流机会、下一步看哪里/核实什么；没有公开证据就不保证能接触讲者或认识某类人。
-4. 以匹配为主，只在存在有依据的关联时加入少量探索内容。探索不放松身份、时间、地点等硬约束；没有合适项可为零。
-5. 处理摄影讨论/展览及暗房先修、运动参赛/观赛及已截止报名、AI 入门/研究报告、未知资格、仅社群与空结果。用少量人工核对公开记录作为功能案例，标记固定测试时间。
-6. 与关键词标签式结果做小规模可复现对照，说明目的/门槛处理改变什么。同时建立 evidence/alternatives.md，核查 Yale-Localist、YaleConnect、普通 ChatGPT 的实际能力、依据与核查时间。按各工具实际浏览/搜索能力公平比较，未实测项写未实测；内部关键词对照不能证明胜过外部产品，也不能推出社会收益。
+Please complete these tasks:
+1. Separate topic relevance, the specific purpose of taking part, hard participation conditions and unknowns. Content with a known unmet condition is not a "match you can join"; unknown conditions can only give a conditional recommendation or "to confirm".
+2. Key fields such as date, location, organizer, cost and eligibility are restored from the record by the server, which also verifies the referenced IDs; new facts freely generated by the model are not accepted. Store the recommendation reasons separately from the source facts.
+3. Each recommendation explains why it fits the purpose, what format offers interaction, and where to look or what to check next; without public evidence, do not promise access to speakers or meeting certain kinds of people.
+4. Focus on matches; add a small amount of exploratory content only when there is a grounded connection. Exploration does not relax hard constraints such as identity, time and location; zero is fine when nothing fits.
+5. Handle photography discussion/exhibitions and darkroom prerequisites, playing vs. watching sports and closed registration, AI introductions/research talks, unknown eligibility, community-only results and empty results. Use a few manually verified public records as functional cases, labelled with a fixed test time.
+6. Make a small, reproducible comparison with keyword/tag-style results that shows what the purpose/condition handling changes. Also create evidence/alternatives.md, checking the actual capabilities, sources and check times of Yale-Localist, YaleConnect and ordinary ChatGPT. Compare fairly according to each tool's actual browsing/search ability and write "not tested" for untested items; the internal keyword comparison cannot prove superiority over external products, nor imply social benefit.
 
-验收：结果可逐条追溯，排除/降为待确认的理由正确，探索关联有依据，验证器能拒绝无来源的字段。
-交付：推荐与验证逻辑、案例对照、字段支持证据、evidence/q05.md。
-（收尾说明原文略，与前几题相同。）
+Acceptance: results are traceable item by item, the reasons for exclusion or downgrade to "to confirm" are correct, exploratory links are grounded, and the verifier can reject unsourced fields.
+Deliverables: recommendation and verification logic, case comparison, field-support evidence, evidence/q05.md.
+(The closing text is omitted; it is the same as in the previous questions.)
 ```
 
 ### Follow-up Prompt
 
-无（截至本题交付，用户尚未就问题5追问）。
+None (as of delivery, the user had not followed up on Question 5).
 
 ### What Was Lacking
 
-本题交付时尚无用户反馈，因此不记录缺陷。Claude Code 自己发现并修复的问题（同页多条记录被错误去重、报名日期范围与年份解析、“ai”被长度过滤、交流信号误匹配组织名、补丁中混入退格字节）记录在 evidence/q05.md §4。
+There was no user feedback at delivery, so no defects are recorded. Problems Claude Code found and fixed itself (several records on one page wrongly deduplicated, parsing of registration date ranges and years, "ai" dropped by a length filter, interaction signals matching the organizer's name, a backspace byte mixed into a patch) are recorded in evidence/q05.md §4.
 
 ---
 
-## 新对话交接（问题5之后、问题6之前，2026-10-25）
+## New-conversation handoff (after Question 5, before Question 6, 2026-10-25)
 
 ### Initial Prompt
 
-上一个对话的上下文已满。用户在新对话粘贴交接消息（全文见 `my-app/新对话交接_MGT409.md` 第二节）：要求只读、完整读取规划与状态文件、各题证据、核心代码及其余文件开头，然后回复“阅读确认”（阅读清单、6 个校验问题、发现的问题、问题6前需要用户提供或决定的事）；不改文件、不跑测试、不启动服务、不调用模型。
+The previous conversation's context was full. In a new conversation the user pasted a handoff message (full text in section 2 of `my-app/新对话交接_MGT409.md`, the handoff note): read, read-only and in full, the planning and status files, the evidence for each question, the core code and the opening of the remaining files, then reply with a "reading confirmation" (reading list, 6 check questions, problems found, things needed from the user before Question 6); no file changes, no tests, no server starts and no model calls.
 
 ### Follow-up Prompt
 
-用户对“问题6开始前需要提供或决定的事”的答复（原文）：
+The user's reply about "things to provide or decide before Question 6" (translated):
 
-> 嗯，第一个问题，我晚点会把那个 config 更新，然后 port key 我之前有。第二个问题，GitHub 仓库 URL 最后我们会完成。第三个不重要，呃，报报告和 slides 的撰写还不用开始做，署名写Tongyu David Chen。即时截图和记下原话，你晚点问我吧。六，呃，第六个问题是可以的，不用采集。
+> Um, the first one: I'll update that config later, and I already have the Portkey key. Second, we'll finish the GitHub repo URL at the end. The third one isn't important. Uh, writing the report and slides doesn't need to start yet; sign them "Tongyu David Chen". For the live screenshots and recording my exact words, ask me later. Six, uh, the sixth one is fine; no need to collect.
 
-据此更新了 PROGRESS.md §4 与 PROJECT_SPEC.md §7 的 P-01、P-03、P-04、P-05、P-07。
+Based on this, P-01, P-03, P-04, P-05 and P-07 in PROGRESS.md §4 and PROJECT_SPEC.md §7 were updated.
 
 ### What Was Lacking
 
-无。只读阶段未修改文件；核对中发现的文件间不一致记录在 PROGRESS.md §7，留待相关题目处理。
+None. No files were changed during the read-only phase; inconsistencies found between files were recorded in PROGRESS.md §7 for the relevant questions.
 
 ---
 
-## 问题6：完成最终用户操作流程（2026-10-25/26）
+## Question 6: Complete the final user flow (2026-10-25/26)
 
 ### Initial Prompt
 
-用户先选择编排方式（原文）：“问题6按 ultracode 照常用 workflow 编排，不必顾虑 token。” 随后粘贴问题6原文：
+The user first chose how to orchestrate (translated): "For Question 6, use workflow orchestration as usual under ultracode; don't worry about tokens." Then the user pasted Question 6:
 
 ```text
-请完成 MGT409 Final Project 的问题6：完成最终用户操作流程。
-（开头的通用说明与问题1–5相同，此处从略。）
-对应评分：易用性 10、真实应用 15，以及报告截图。
-前置：第5题 推荐可靠。本题控制视觉范围，以清楚易用为标准。
-请完成以下任务：
-1. 用户用简短自然语言表达需求，必要时修改 SOM 身份、参与方式等条件；输入示例来自真实兴趣，避免长问卷或强制注册。
-2. 整合本周/未来/社群的结果展示、主要匹配与探索标识、匹配依据、已知条件/待确认事项、来源与更新时间、详情/报名外链。
-3. 保持来源、缓存、过期/截止、空结果、加载、取消、超时、模型失败、预算限制状态清晰；用户可重试必要步骤，不丢弃已成功数据。
-4. 主页面服务活动发现；工具追踪和费用保留在可展开的运行详情/证据视图，不让技术信息阻碍使用。
-5. 保留蓝色风格，验证窄屏、文字可读性、键盘操作及链接安全。无需复杂动画、地图、账户或社交功能。
-6. 从实际网页执行一次输入到打开出处的完整路径，截图记录真实运行。单独标明自动化检查、快照数据和真实模型各自范围。
-验收：陌生用户可理解推荐和下一步；前后端真实连通，主要成功与失败状态可用；没有只有聊天文本却打不开活动的断点。
-交付：完整网页、必要定向检查、端到端截图、evidence/q06.md。
-（收尾说明原文略，与前几题相同。）
+Please complete Question 6 of the MGT409 Final Project: complete the final user flow.
+(The general opening is the same as in Questions 1–5 and is omitted here.)
+Grading: ease of use 10, real app 15, and screenshots for the report.
+Prerequisite: Question 5's recommendations are reliable. Keep the visual scope under control; the standard is clear and easy to use.
+Please complete these tasks:
+1. Users state their needs in short natural language and, when needed, change conditions such as SOM identity and participation mode; input examples come from real interests; avoid long questionnaires or forced sign-up.
+2. Integrate the display of this-week / upcoming / community results, labels for main matches vs. exploratory picks, the basis for each match, known conditions and items to confirm, source and update time, and detail/registration links.
+3. Keep the source, cache, past/deadline, empty-result, loading, cancel, timeout, model-failure and budget-limit states clear; users can retry the necessary step without losing data that already succeeded.
+4. The main page serves activity discovery; tool traces and costs stay in an expandable run-details/evidence view so that technical information does not get in the way.
+5. Keep the blue style; verify narrow screens, text readability, keyboard operation and link safety. No complex animation, maps, accounts or social features.
+6. Run one complete path on the actual web page from input to opening the source, and take screenshots of the real run. Label separately what automated checks, snapshot data and the real model each cover.
+Acceptance: a stranger can understand the recommendations and next steps; frontend and backend are really connected; the main success and failure states work; there is no dead end where only chat text exists and the activity cannot be opened.
+Deliverables: complete web page, necessary targeted checks, end-to-end screenshots, evidence/q06.md.
+(The closing text is omitted; it is the same as in the previous questions.)
 ```
 
 ### Follow-up Prompt
 
-本题进行中用户发来的消息（按时间顺序，均为原文或原文要点）：
-1. 问题7全文（安全与预算边界）在问题6审计进行中到达；Claude Code 回复按顺序处理、先完成问题6。
-2. 问题8全文（真实计量、使用记录、fresh clone）到达；同样排队。
-3. 一条只有 “Q” 的消息；Claude Code 当作可能误发，继续问题6。
-4. 停止与规则（原文）：
+Messages the user sent while this question was in progress (in order; translations of the original wording or its key points):
+1. The full text of Question 7 (safety and budget boundaries) arrived while the Question 6 audit was running; Claude Code replied that it would handle the questions in order and finish Question 6 first.
+2. The full text of Question 8 (real metering, usage record, fresh clone) arrived; it was also queued.
+3. A message containing only "Q"; Claude Code treated it as possibly sent by mistake and continued Question 6.
+4. Stop and rules (translated):
 
-> 先停一下当前改动，按下面的规则继续，不要同时做多题：
-> 1. 顺序：先收尾问题6 → 再做问题7 → 再做问题8。每题完成后立刻写 evidence/q0N.md，更新 PROGRESS.md、AI_prompts.md、rubric_checklist.md 中受影响的行，用 5 行汇报，然后才开始下一题。
-> 2. 冻结已验收的逻辑：app/domain/conditions.py、verify.py、discover.py 等问题1–5 的代码，除非有测试失败或本题验收明确需要，否则不要再改；要改的话在汇报里说明原因。
-> 3. 只做达到验收所需的最小改动，不重构、不加额外功能，不追求界面细节。
-> 4. 真实模型调用要先列计划（几次、目的、预计费用）再执行；一次运行同时拿功能、trace 和成本证据；补截图用 ?run=<run_id> 回放，不重复付费。
-> 5. 每题限时约 60–90 分钟。遇到卡住的地方，记录阻碍和已验证的部分，然后继续下一题，不要反复重试。
-> 6. 截止是 10/26 18:00，后面还有 README、fresh clone、report.html、slides.html，所以问题6–8 都只做最小有效验收。
-> 现在先用 3 行告诉我：问题6/7/8 各做到哪了、刚才在改 conditions.py 的原因，然后从问题6收尾开始。
+> Pause the current changes and continue under the rules below; do not work on several questions at once:
+> 1. Order: finish Question 6 → then Question 7 → then Question 8. After each question, immediately write evidence/q0N.md, update the affected rows of PROGRESS.md, AI_prompts.md and rubric_checklist.md, report in 5 lines, and only then start the next question.
+> 2. Freeze accepted logic: do not change code from Questions 1–5 such as app/domain/conditions.py, verify.py and discover.py unless a test fails or this question's acceptance clearly requires it; if you change it, explain why in the report.
+> 3. Make only the minimal changes needed for acceptance: no refactoring, no extra features, no polishing of interface details.
+> 4. Before real model calls, list a plan (how many, purpose, expected cost), then run them; one run should provide functional, trace and cost evidence at the same time; use ?run=<run_id> replay for extra screenshots instead of paying again.
+> 5. Limit each question to about 60–90 minutes. When stuck, record the blocker and what has been verified, then move on to the next question; do not retry repeatedly.
+> 6. The deadline is 10/26 18:00, and the README, fresh clone, report.html and slides.html still follow, so Questions 6–8 only need minimal effective acceptance.
+> Now first tell me in 3 lines where Questions 6/7/8 each stand and why you were changing conditions.py, then start by wrapping up Question 6.
 
 ### What Was Lacking
 
-由第4条追问反映（只记实际发生的）：Claude Code 在问题6未完成时已启动问题7的只读审计（与“不要同时做多题”冲突）；按复审建议修改了问题5已验收的判定逻辑（随后撤回，记为 G-11）；真实调用计划在此之前未单独列出。之后按规则执行：先列 1 次真实运行计划再运行，问题6交接前未使用问题7审计结果。
+Reflected by follow-up 4 (only what actually happened): while Question 6 was unfinished, Claude Code had already started a read-only audit for Question 7, which conflicted with "do not work on several questions at once"; it changed Question 5's accepted decision logic following review suggestions (later reverted and recorded as G-11); and it had not listed a separate plan for real calls before that point. Afterwards it followed the rules: it listed a plan for 1 real run before running it, and did not use the Question 7 audit results before handing over Question 6.
 
 ---
 
-## 问题7：验证并强化本项目的安全与预算边界（2026-10-26）
+## Question 7: Verify and harden the project's safety and budget boundaries (2026-10-26)
 
 ### Initial Prompt
 
-问题7全文在问题6进行中到达（用户只粘贴了题目，未附其他文字），按用户随后的规则在问题6交接后开始：
+The full text of Question 7 arrived during Question 6 (the user pasted only the question, with no other text). Following the user's later rules, it was started after Question 6 was handed over:
 
 ```text
-请完成 MGT409 Final Project 的问题7：验证并强化本项目的安全与预算边界。
-（开头的通用说明与问题1–6相同，此处从略。）
-对应评分：Safety 8、真实应用 15，支持可用性与成本控制。
-前置：前六题已持续保留基本保护；本题不把“写了提示”当防御有效。
-请完成以下任务：
-1. 对新采集工具测试来源允许名单、重定向、超时、大小限制、文件/本机/内网访问拒绝。用可控测试或 mock 验证，避免实际读取私人文件/访问内网。
-2. 将恶意公告作为隔离测试样本：含忽略指令、输出 canary/密钥、诱导访问不允许网址等内容；与正常公告对照，检查工具权限、输出和敏感信息保护。
-3. 检查浏览器如何显示不可信文本与链接，避免脚本、危险协议或外传参数。不要为了显示原文直接插入未处理 HTML。
-4. 验证无出处字段/错误资格、模型失败、重复委派/重试、token/USD/时长上限能终止并诚实显示，所有已发生调用仍计入 usage。
-5. 至少保留一个由应用自己防御实际拦截的记录/截图或测试。若是供应商内容过滤拦截，单独注明，不能冒充应用层防御。
-6. 同时保留正常输入通过的对照，避免“所有问题都拒绝”被写成安全成功。演示攻击数据与真实公开活动分开，测试调用与正常成本样本分开但均保留总账。
-验收：有具体输入、触发层、预期、实际、trace/截图及局限；无真密钥或私人内容进入证据，拒绝后的调用不会继续失控。
-交付：必要修复、少量有意义的安全/预算测试、证据导出、evidence/q07.md。
-（收尾说明原文略，与前几题相同。）
+Please complete Question 7 of the MGT409 Final Project: verify and harden the project's safety and budget boundaries.
+(The general opening is the same as in Questions 1–6 and is omitted here.)
+Grading: Safety 8, real app 15; supports usability and cost control.
+Prerequisite: the first six questions have kept the basic protections; this question does not treat "a prompt was written" as an effective defence.
+Please complete these tasks:
+1. For the new collection tools, test the source allowlist, redirects, timeouts, size limits, and refusal of file/local/intranet access. Verify with controlled tests or mocks; avoid actually reading private files or accessing the intranet.
+2. Use a malicious announcement as an isolated test sample, containing ignore-instructions, output of the canary/key, and lures to non-allowed URLs; compare it with a normal announcement and check tool permissions, outputs and the protection of sensitive information.
+3. Check how the browser shows untrusted text and links, avoiding scripts, dangerous protocols and exfiltration parameters. Do not insert unprocessed HTML directly to show the original text.
+4. Verify that unsourced fields / wrong eligibility, model failure, repeated delegation/retries, and token/USD/duration caps terminate and are shown honestly, and that all calls that happened are still counted in usage.
+5. Keep at least one record/screenshot or test where the app's own defence actually blocked something. If the provider's content filter blocked it, label that separately; it cannot pose as an app-level defence.
+6. Also keep a control where normal input passes, so that "rejecting everything" is not written up as a safety success. Keep demo attack data separate from real public events, and test calls separate from normal cost samples, while keeping an overall ledger for both.
+Acceptance: concrete input, triggering layer, expected result, actual result, trace/screenshot and limitations; no real key or private content enters the evidence; calls after a refusal do not keep running out of control.
+Deliverables: necessary fixes, a few meaningful safety/budget tests, an evidence export, evidence/q07.md.
+(The closing text is omitted; it is the same as in the previous questions.)
 ```
 
 ### Follow-up Prompt
 
-本题期间无新的追问；按问题6期间收到的规则执行（顺序、冻结已验收逻辑、最小改动、真实调用先列计划、限时）。
+No new follow-ups during this question; it followed the rules received during Question 6 (order, freezing accepted logic, minimal changes, planning real calls first, time limits).
 
 ### What Was Lacking
 
-无用户反馈。Claude Code 在问题6期间预先运行的只读审计提出了约 10 处代码修改和完整红队框架，超出“最小有效验收”，本题只采用其中与验收直接相关的 4 处修改；其余记为局限（q07 §4）。
+No user feedback. The read-only audit that Claude Code ran in advance during Question 6 proposed about 10 code changes and a full red-team framework, beyond "minimal effective acceptance"; this question adopted only the 4 changes directly tied to acceptance and recorded the rest as limitations (q07 §4).
 
 ---
 
-## 问题8：完成真实计量、用户使用记录和 fresh-clone 验证（2026-10-26）
+## Question 8: Complete real metering, the usage record and fresh-clone verification (2026-10-26)
 
 ### Initial Prompt
 
-问题8全文在问题6进行中到达（只粘贴题目），按用户规则在问题7交接后开始：
+The full text of Question 8 arrived during Question 6 (the question only). Following the user's rules, it was started after Question 7 was handed over:
 
 ```text
-请完成 MGT409 Final Project 的问题8：完成真实计量、用户使用记录和 fresh-clone 验证。
-（开头的通用说明与前几题相同，此处从略。）
-对应评分：Tokenomics 8、Impact 5、老师能运行 5、Agent design 10。
-前置：网页流程与安全已验证。区分可自动准备的工作与真人必须完成的部分。按四个小步分别保存结果：A 真人任务准备/使用记录；B usage 与优化测量；C 费率及规模化成本；D fresh-clone 验证。A 暂待用户操作时先完成 B–D，不把四步强行塞进一次连续执行。
-请完成以下任务：
-1. 预先定义一个符合真实兴趣的短任务及成功标准……准备简洁记录表。
-2. 若用户愿意亲自操作，记录真实网页任务时间、结果、此前是否知道、是否愿意进一步了解及原话反馈……记录顺序/熟悉效应。
-3. 未经用户实际操作，不生成真人反馈、计时或“用户已测试”……
-4. 读取全部真实调用账本，做少量有界、正常任务的成本测量和一项成本优化对照……优先利用已有真实运行，只有证据不足才追加调用。
-5. 从课程/网关可核实依据检查费率和usage语义，注明来源/日期……
-6. usage与可核实费率齐全时，给出单次、每用户每月、100和10000用户成本……
-7. 在隔离目录从待交付的真实仓库版本 fresh clone，按 README 放父级 .env 并启动、操作。需要本地提交时只包含本项目，保留现有历史/修改，不推远程……
-8. 报告所有缺证据项……
-验收分A/B/C/D记录……
-交付：tokenomics 数据/说明、使用记录或待测状态、clone 检查、关键截图、evidence/q08.md。
-（收尾说明原文略。）
+Please complete Question 8 of the MGT409 Final Project: complete real metering, the usage record and fresh-clone verification.
+(The general opening is the same as in the previous questions and is omitted here.)
+Grading: Tokenomics 8, Impact 5, can run it 5, Agent design 10.
+Prerequisite: the web flow and safety are verified. Separate work that can be prepared automatically from the parts a real person must do. Save results in four small steps: A real-person task preparation / usage record; B usage and optimisation measurement; C rates and scaled cost; D fresh-clone verification. While A waits for the user, finish B–D first; do not force all four steps into one continuous run.
+Please complete these tasks:
+1. Define in advance a short task based on real interests and its success criteria … Prepare a concise record sheet.
+2. If the user is willing to do it personally, record the real web task's time, results, whether they knew about each item before, whether they want to learn more, and their own words … record the order/familiarity effect.
+3. Without the user actually doing it, do not generate real-person feedback, timings or "user has tested" …
+4. Read all real-call ledgers, make a few bounded cost measurements of normal tasks and one cost-optimisation comparison … prefer existing real runs; add calls only if the evidence is insufficient.
+5. Check rates and usage semantics against verifiable course/gateway sources, noting the source and date …
+6. When usage and verifiable rates are complete, give the cost per run, per user per month, and for 100 and 10,000 users …
+7. In an isolated directory, fresh-clone the real repository version to be delivered, put .env in the parent folder as the README says, then start and operate it. If a local commit is needed, include only this project, keep the existing history/changes, and do not push to a remote …
+8. Report every item that lacks evidence …
+Acceptance is recorded as A/B/C/D …
+Deliverables: tokenomics data/notes, the usage record or its pending status, the clone check, key screenshots, evidence/q08.md.
+(The closing text is omitted.)
 ```
 
-（原文中省略号处为题目原文较长的条目，完整内容见用户消息；此处为节省篇幅截取。）
+(Ellipses mark longer items of the original question; the full text is in the user's message and was shortened here to save space.)
 
 ### Follow-up Prompt
 
-本题期间无新的追问。
+After Question 8 was handed over (translated):
+1. "Do Question 8-A now: please tell me step by step how to do it and what to record; I'll follow the table in real_use_log.md."
+2. "Sure. Before that, I want you to change one thing first: my prompt.md is probably mostly in Chinese right now, but the assignment must be entirely in English so the instructor and TAs can read it. Please replace all of it with English that has the same meaning and reads naturally. Use as few tokens as possible, but make sure the task is done well." (Claude Code translated this file, AI_prompts.md, into English.)
+3. "Translate the other Chinese documents in the repo that the instructor will see (PROGRESS.md, PROJECT_SPEC.md, evidence/*.md, etc.) into English as well, again using as few tokens as possible." (Claude Code translated 12 documents in parallel and checked each against its committed original.)
+4. "Right, the GitHub link isn't submitted yet; I'll create one later and send it to you. Let's go back to the table."
+5. "I can't open this site, give me one [that works]." (The preview server ran in Claude Code's own environment; Claude Code started the app with start.bat in the user's terminal on port 8000.)
+6. The filled record form for 8-A plus two screenshots, and: "Translate all of it into English for me and expand the wording a little." (Claude Code recorded the session in English, kept the user's feedback as a faithful translation without expanding it because it is evidence, and wrote the descriptive parts in fuller sentences.)
+7. "Fix G-12 now: a search with a time window must not miss ongoing programs. Minimal change, add tests, and list a plan before the real verification." (Claude Code changed `search_listings` in `app/domain/tools.py`, added 2 regression tests, listed a 1-run plan, then ran it: `r_21eea8b51494`.)
 
 ### What Was Lacking
 
-无用户反馈。fresh clone 第 1 次实测失败（`requirements.txt` 缺 `httpx`），这是前几题“只在开发目录 venv 启动”留下的缺口，本题修复后重新 clone 验证。
+No user feedback on the deliverables. The first fresh-clone attempt failed (`requirements.txt` was missing `httpx`), a gap left by the earlier questions only starting the app in the development venv; this question fixed it and verified with a new clone. The user asked for this log to be in English for grading; it had been written in Chinese.

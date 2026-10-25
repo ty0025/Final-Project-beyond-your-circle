@@ -1,0 +1,649 @@
+{
+  "run_id": "r_21eea8b51494",
+  "started_at": "2026-10-25T21:23:11.988Z",
+  "events": [
+    {
+      "seq": 1,
+      "ts": "2026-10-25T21:23:12.004Z",
+      "run_id": "r_21eea8b51494",
+      "type": "run_started",
+      "agent": null,
+      "data": {
+        "input_preview": "I need to find someone who is also interested in photography",
+        "app_title": "Beyond Your Circle",
+        "options": {
+          "som_student": true,
+          "participation": "either",
+          "time_window": "next_few_weeks"
+        }
+      }
+    },
+    {
+      "seq": 2,
+      "ts": "2026-10-25T21:23:15.059Z",
+      "run_id": "r_21eea8b51494",
+      "type": "model_call",
+      "agent": "guard",
+      "data": {
+        "step": 0,
+        "attempt": 1,
+        "mode": "live",
+        "served_model": "gpt-6-luna-global",
+        "finish": "final",
+        "usage": {
+          "input_tokens": 370,
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "output_tokens": 37,
+          "reasoning_tokens": 0,
+          "uncached_input_tokens": 370,
+          "total_tokens": 407
+        },
+        "usage_missing": [],
+        "cost_usd": 5.55e-05,
+        "latency_ms": 3054,
+        "n_function_calls": 0,
+        "run_usage": {
+          "input_tokens": 370,
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "output_tokens": 37,
+          "reasoning_tokens": 0,
+          "uncached_input_tokens": 370,
+          "total_tokens": 407
+        },
+        "run_cost_usd": 5.55e-05,
+        "run_calls": 1
+      }
+    },
+    {
+      "seq": 3,
+      "ts": "2026-10-25T21:23:15.064Z",
+      "run_id": "r_21eea8b51494",
+      "type": "agent_started",
+      "agent": "matcher",
+      "data": {
+        "depth": 0,
+        "task_preview": "I need to find someone who is also interested in photography\n\nConditions the user set with the form (treat them exactly like the user's own words): the user is a Yale SOM graduate student; the user is fine with in person or online; the user wants something in the next few weeks.",
+        "tools": [
+          "search_listings",
+          "get_listing"
+        ]
+      }
+    },
+    {
+      "seq": 4,
+      "ts": "2026-10-25T21:23:17.910Z",
+      "run_id": "r_21eea8b51494",
+      "type": "model_call",
+      "agent": "matcher",
+      "data": {
+        "step": 1,
+        "attempt": 1,
+        "mode": "live",
+        "served_model": "gpt-6-luna-global",
+        "finish": "tool_calls",
+        "usage": {
+          "input_tokens": 2508,
+          "cached_tokens": 0,
+          "cache_write_tokens": 2505,
+          "output_tokens": 145,
+          "reasoning_tokens": 95,
+          "uncached_input_tokens": 3,
+          "total_tokens": 2653
+        },
+        "usage_missing": [],
+        "cost_usd": 0.000385925,
+        "latency_ms": 2845,
+        "n_function_calls": 1,
+        "run_usage": {
+          "input_tokens": 2878,
+          "cached_tokens": 0,
+          "cache_write_tokens": 2505,
+          "output_tokens": 182,
+          "reasoning_tokens": 95,
+          "uncached_input_tokens": 373,
+          "total_tokens": 3060
+        },
+        "run_cost_usd": 0.000441425,
+        "run_calls": 2
+      }
+    },
+    {
+      "seq": 5,
+      "ts": "2026-10-25T21:23:17.910Z",
+      "run_id": "r_21eea8b51494",
+      "type": "tool_call",
+      "agent": "matcher",
+      "data": {
+        "tool": "search_listings",
+        "call_id": "call_WjYXyxSQ62fpChlcUD45V5Od",
+        "arguments": {
+          "interests": [
+            "photography",
+            "photo",
+            "photographer",
+            "camera",
+            "darkroom",
+            "film"
+          ],
+          "participation": "any",
+          "when": "coming",
+          "max_results": 8
+        }
+      }
+    },
+    {
+      "seq": 6,
+      "ts": "2026-10-25T21:23:17.913Z",
+      "run_id": "r_21eea8b51494",
+      "type": "tool_result",
+      "agent": "matcher",
+      "data": {
+        "tool": "search_listings",
+        "call_id": "call_WjYXyxSQ62fpChlcUD45V5Od",
+        "ok": true,
+        "preview": "{\"now\": \"Sun Oct 25, 5:23 PM EDT\", \"this_week_window\": \"Sun Oct 25 – Sat Oct 31\", \"data_sources\": [{\"source\": \"Creative Arts Workshop: photography classes\", \"data\": \"cached\", \"collected\": \"Sat Oct 24, 9:50 PM EDT\"}, {\"source\": \"Yale Center for Geospatial Solutions: events\", \"data\": \"cached\", \"collected\": \"Sat Oct 24, 9:50 PM EDT\"}], \"filters_used\": {\"interests\": [\"photography\", \"photo\", \"photographer\", \"camera\", \"darkroom\", \"film\"], \"participation\": \"any\", \"when\": \"coming\"}, \"results\": [{\"recor…",
+        "duration_ms": 2,
+        "truncated": false
+      }
+    },
+    {
+      "seq": 7,
+      "ts": "2026-10-25T21:23:21.215Z",
+      "run_id": "r_21eea8b51494",
+      "type": "model_call",
+      "agent": "matcher",
+      "data": {
+        "step": 2,
+        "attempt": 1,
+        "mode": "live",
+        "served_model": "gpt-6-luna-global",
+        "finish": "tool_calls",
+        "usage": {
+          "input_tokens": 3438,
+          "cached_tokens": 2505,
+          "cache_write_tokens": 930,
+          "output_tokens": 260,
+          "reasoning_tokens": 231,
+          "uncached_input_tokens": 3,
+          "total_tokens": 3698
+        },
+        "usage_missing": [],
+        "cost_usd": 0.00027160000000000004,
+        "latency_ms": 3301,
+        "n_function_calls": 1,
+        "run_usage": {
+          "input_tokens": 6316,
+          "cached_tokens": 2505,
+          "cache_write_tokens": 3435,
+          "output_tokens": 442,
+          "reasoning_tokens": 326,
+          "uncached_input_tokens": 376,
+          "total_tokens": 6758
+        },
+        "run_cost_usd": 0.000713025,
+        "run_calls": 3
+      }
+    },
+    {
+      "seq": 8,
+      "ts": "2026-10-25T21:23:21.215Z",
+      "run_id": "r_21eea8b51494",
+      "type": "tool_call",
+      "agent": "matcher",
+      "data": {
+        "tool": "get_listing",
+        "call_id": "call_X9kUtK83znV5pijdvINOVBnq",
+        "arguments": {
+          "record_id": "caw-photo-dc1d381afb"
+        }
+      }
+    },
+    {
+      "seq": 9,
+      "ts": "2026-10-25T21:23:21.216Z",
+      "run_id": "r_21eea8b51494",
+      "type": "tool_result",
+      "agent": "matcher",
+      "data": {
+        "tool": "get_listing",
+        "call_id": "call_X9kUtK83znV5pijdvINOVBnq",
+        "ok": true,
+        "preview": "{\"record_id\": \"caw-photo-dc1d381afb\", \"title\": \"Open Darkroom Session\", \"kind\": \"program\", \"section\": \"ongoing program or community\", \"when\": \"next session Fri Oct 30, 2026 · 6:00 PM–9:00 PM EDT (+2 more listed)\", \"upcoming_sessions\": [\"Fri Oct 30, 2026 · 6:00 PM–9:00 PM EDT (Register)\", \"Fri Nov 6, 2026 · 6:00 PM–9:00 PM EST (Register)\", \"Fri Nov 13, 2026 · 6:00 PM–9:00 PM EST (Register)\"], \"date_text\": \"Term: Fall 2026\", \"format\": \"In person\", \"location\": \"80 Audubon Street, New Haven, CT 065…",
+        "duration_ms": 0,
+        "truncated": false
+      }
+    },
+    {
+      "seq": 10,
+      "ts": "2026-10-25T21:23:30.961Z",
+      "run_id": "r_21eea8b51494",
+      "type": "model_call",
+      "agent": "matcher",
+      "data": {
+        "step": 3,
+        "attempt": 1,
+        "mode": "live",
+        "served_model": "gpt-6-luna-global",
+        "finish": "final",
+        "usage": {
+          "input_tokens": 4160,
+          "cached_tokens": 3435,
+          "cache_write_tokens": 722,
+          "output_tokens": 1102,
+          "reasoning_tokens": 766,
+          "uncached_input_tokens": 3,
+          "total_tokens": 5262
+        },
+        "usage_missing": [],
+        "cost_usd": 0.0006759,
+        "latency_ms": 9743,
+        "n_function_calls": 0,
+        "run_usage": {
+          "input_tokens": 10476,
+          "cached_tokens": 5940,
+          "cache_write_tokens": 4157,
+          "output_tokens": 1544,
+          "reasoning_tokens": 1092,
+          "uncached_input_tokens": 379,
+          "total_tokens": 12020
+        },
+        "run_cost_usd": 0.001388925,
+        "run_calls": 4
+      }
+    },
+    {
+      "seq": 11,
+      "ts": "2026-10-25T21:23:30.961Z",
+      "run_id": "r_21eea8b51494",
+      "type": "agent_finished",
+      "agent": "matcher",
+      "data": {
+        "stopped_reason": "final",
+        "steps": 3,
+        "tool_calls": 2,
+        "usage": {
+          "input_tokens": 10106,
+          "cached_tokens": 5940,
+          "cache_write_tokens": 4157,
+          "output_tokens": 1507,
+          "reasoning_tokens": 1092,
+          "uncached_input_tokens": 9,
+          "total_tokens": 11613
+        },
+        "cost_usd": 0.001333425,
+        "output_preview": "{\"understood\": {\"interests\": [\"photography\"], \"purpose\": \"Find someone who is also interested in photography.\", \"purpose_type\": \"meet_people_or_join_community\", \"participation\": \"either\", \"play_or_watch\": \"not_applicable\", \"experience_level\": null, \"identity\": \"Yale SOM graduate student\", \"time_win…"
+      }
+    },
+    {
+      "seq": 12,
+      "ts": "2026-10-25T21:23:30.962Z",
+      "run_id": "r_21eea8b51494",
+      "type": "verification",
+      "agent": "verifier",
+      "data": {
+        "kind": "code",
+        "checked": 1,
+        "kept": 1,
+        "excluded": 0,
+        "dropped": 0,
+        "quotes_total": 1,
+        "quotes_verified": 1,
+        "details_redacted": 0,
+        "listings_read": [
+          "caw-photo-dc1d381afb"
+        ],
+        "note": "Deterministic check by code (no model call): IDs, availability, verbatim quotes, unsupported details, and participation conditions against what you said.",
+        "dropped_picks": [],
+        "excluded_picks": []
+      }
+    },
+    {
+      "seq": 13,
+      "ts": "2026-10-25T21:23:30.962Z",
+      "run_id": "r_21eea8b51494",
+      "type": "final",
+      "agent": null,
+      "data": {
+        "ok": true,
+        "stopped_reason": "final",
+        "output": {
+          "understood": {
+            "interests": [
+              "photography"
+            ],
+            "purpose": "Find someone who is also interested in photography.",
+            "purpose_type": "meet_people_or_join_community",
+            "participation": "either",
+            "play_or_watch": "not_applicable",
+            "experience_level": null,
+            "identity": "Yale SOM graduate student",
+            "time_window": "next_few_weeks",
+            "time_preference": null,
+            "location_preference": null,
+            "not_stated": [
+              "experience_level",
+              "location_preference"
+            ],
+            "provenance": {
+              "identity": {
+                "source": "form",
+                "value": "Yale SOM graduate student"
+              },
+              "participation": {
+                "source": "form",
+                "value": "either"
+              },
+              "time_window": {
+                "source": "form",
+                "value": "next_few_weeks"
+              }
+            }
+          },
+          "summary": "I found one close photography listing and no exploratory picks. The listing is a darkroom practice session, but the page does not describe social interaction, so it may not help you connect with another photography enthusiast.",
+          "follow_up_question": "Have you taken a darkroom class at CAW before?",
+          "picks": [
+            {
+              "record_id": "caw-photo-dc1d381afb",
+              "status": "conditional",
+              "section": "ongoing",
+              "model_fit": "close",
+              "reasoning": {
+                "why": "This is a photography-focused darkroom practice opportunity that could put you in a shared photography setting. The page does not say whether participants interact or connect with one another.",
+                "interaction": "The page does not describe how attendees interact or who attends, so meeting particular people or speakers is not guaranteed.",
+                "interaction_quote": null,
+                "interaction_grounded": false,
+                "exploration_link": null,
+                "link_quote": null,
+                "verified_quotes": [
+                  "This darkroom practice session is for students who have taken darkroom classes at CAW before"
+                ],
+                "unverified_quotes": [],
+                "rejected_details": [],
+                "author": "gpt-6-luna (matcher); quotes checked by code"
+              },
+              "relevance": [
+                {
+                  "term": "darkroom",
+                  "field": "title"
+                },
+                {
+                  "term": "photography",
+                  "field": "topics"
+                }
+              ],
+              "conditions": [
+                {
+                  "kind": "time",
+                  "status": "met",
+                  "text": "You asked for something in the next few weeks; the next session is Fri Oct 30, 2026 · 6:00 PM–9:00 PM EDT.",
+                  "quote": null
+                },
+                {
+                  "kind": "prerequisite",
+                  "status": "to_confirm",
+                  "text": "The page sets a prerequisite; you did not say whether you meet it.",
+                  "quote": "This darkroom practice session is for students who have taken darkroom classes at CAW before and are comfortable working independently."
+                },
+                {
+                  "kind": "age",
+                  "status": "info",
+                  "text": "Suggested age on the page: Suggested Ages: 18+.",
+                  "quote": "Suggested Ages: 18+"
+                },
+                {
+                  "kind": "registration",
+                  "status": "info",
+                  "text": "Next session status on the page: “Register”. A link does not guarantee a spot.",
+                  "quote": "Register"
+                }
+              ],
+              "next_steps": [
+                "Read the original page: https://creativeartsworkshop.org/courses/no-term/open-darkroom-session/",
+                "Confirm before you plan on it: The page sets a prerequisite; you did not say whether you meet it.",
+                "Not stated on the page (ask the organizer if it matters): capacity.",
+                "Registration is on the organizer's site (https://campscui.active.com/orgs/CreativeArtsWorkshop?season=3846734&session=71700334); a link does not guarantee a spot."
+              ],
+              "facts": [
+                {
+                  "field": "format",
+                  "value": "In person",
+                  "page_wording": "In person",
+                  "basis": "course header label",
+                  "source_url": "https://creativeartsworkshop.org/courses/no-term/open-darkroom-session/",
+                  "collected_at": "2026-10-25T01:50:51+00:00"
+                },
+                {
+                  "field": "when",
+                  "value": "Fri Oct 30, 2026 · 6:00 PM–9:00 PM EDT",
+                  "page_wording": "Term: Fall 2026",
+                  "basis": "page text",
+                  "source_url": "https://creativeartsworkshop.org/courses/no-term/open-darkroom-session/",
+                  "collected_at": "2026-10-25T01:50:51+00:00"
+                },
+                {
+                  "field": "when",
+                  "value": "Fri Oct 30, 2026 · 6:00 PM–9:00 PM EDT",
+                  "page_wording": "Open Practice Session: Friday, 6–9 pm, 9/11 $30.00; Registration closed",
+                  "basis": "first of 10 session blocks",
+                  "source_url": "https://creativeartsworkshop.org/courses/no-term/open-darkroom-session/",
+                  "collected_at": "2026-10-25T01:50:51+00:00"
+                },
+                {
+                  "field": "conditions",
+                  "value": "This darkroom practice session is for students who have taken darkroom classes at CAW before and are comfortable working independently.; Suggested Ages: 18+",
+                  "page_wording": "This darkroom practice session is for students who have taken darkroom classes at CAW before and are comfortable working independently.",
+                  "basis": "page text",
+                  "source_url": "https://creativeartsworkshop.org/courses/no-term/open-darkroom-session/",
+                  "collected_at": "2026-10-25T01:50:51+00:00"
+                },
+                {
+                  "field": "conditions",
+                  "value": "This darkroom practice session is for students who have taken darkroom classes at CAW before and are comfortable working independently.; Suggested Ages: 18+",
+                  "page_wording": "Suggested Ages: 18+",
+                  "basis": "page text",
+                  "source_url": "https://creativeartsworkshop.org/courses/no-term/open-darkroom-session/",
+                  "collected_at": "2026-10-25T01:50:51+00:00"
+                },
+                {
+                  "field": "cost",
+                  "value": "Sessions are $30 each.",
+                  "page_wording": "Sessions are $30 each.",
+                  "basis": "page text",
+                  "source_url": "https://creativeartsworkshop.org/courses/no-term/open-darkroom-session/",
+                  "collected_at": "2026-10-25T01:50:51+00:00"
+                },
+                {
+                  "field": "registration",
+                  "value": "To reserve a spot for a specific week, please contact the front desk at 203-562-4927.",
+                  "page_wording": "To reserve a spot for a specific week, please contact the front desk at 203-562-4927.",
+                  "basis": "page text",
+                  "source_url": "https://creativeartsworkshop.org/courses/no-term/open-darkroom-session/",
+                  "collected_at": "2026-10-25T01:50:51+00:00"
+                },
+                {
+                  "field": "registration",
+                  "value": "To reserve a spot for a specific week, please contact the front desk at 203-562-4927.",
+                  "page_wording": "https://campscui.active.com/orgs/CreativeArtsWorkshop?season=3846734&session=71700334",
+                  "basis": "session 'Register' link",
+                  "source_url": "https://creativeartsworkshop.org/courses/no-term/open-darkroom-session/",
+                  "collected_at": "2026-10-25T01:50:51+00:00"
+                },
+                {
+                  "field": "location",
+                  "value": "80 Audubon Street, New Haven, CT 06510 (organizer's address)",
+                  "page_wording": "80 Audubon Street, New Haven, CT 06510",
+                  "basis": "site footer 'Location' (organizer address)",
+                  "source_url": "https://creativeartsworkshop.org/courses/no-term/open-darkroom-session/",
+                  "collected_at": "2026-10-25T01:50:51+00:00"
+                },
+                {
+                  "field": "organizer",
+                  "value": "Creative Arts Workshop",
+                  "page_wording": "Creative Arts Workshop",
+                  "basis": "publishing site (organizer's own course page)",
+                  "source_url": "https://creativeartsworkshop.org/courses/no-term/open-darkroom-session/",
+                  "collected_at": "2026-10-25T01:50:51+00:00"
+                },
+                {
+                  "field": "capacity",
+                  "value": null,
+                  "page_wording": null,
+                  "basis": "not stated on the page",
+                  "source_url": "https://creativeartsworkshop.org/courses/no-term/open-darkroom-session/",
+                  "collected_at": "2026-10-25T01:50:51+00:00"
+                }
+              ],
+              "grounded": true,
+              "card": {
+                "id": "caw-photo-dc1d381afb",
+                "kind": "program",
+                "kind_label": "Program / series",
+                "title": "Open Darkroom Session",
+                "url": "https://creativeartsworkshop.org/courses/no-term/open-darkroom-session/",
+                "source_id": "caw-photo",
+                "source_name": "Creative Arts Workshop: photography classes",
+                "publisher": "Creative Arts Workshop",
+                "publisher_type": "Community nonprofit",
+                "organizer": "Creative Arts Workshop",
+                "data_mode": "cached",
+                "collected_at": "2026-10-25T01:50:51+00:00",
+                "collected_at_text": "Sat Oct 24, 9:50 PM EDT",
+                "start": null,
+                "end": null,
+                "when_text": null,
+                "date_text": "Term: Fall 2026",
+                "next_session": {
+                  "start": "2026-10-30T18:00:00-04:00",
+                  "when_text": "Fri Oct 30, 2026 · 6:00 PM–9:00 PM EDT",
+                  "status_text": "Register",
+                  "register_url": "https://campscui.active.com/orgs/CreativeArtsWorkshop?season=3846734&session=71700334",
+                  "this_week": true
+                },
+                "upcoming_sessions": [
+                  {
+                    "start": "2026-10-30T18:00:00-04:00",
+                    "when_text": "Fri Oct 30, 2026 · 6:00 PM–9:00 PM EDT",
+                    "status_text": "Register",
+                    "register_url": "https://campscui.active.com/orgs/CreativeArtsWorkshop?season=3846734&session=71700334",
+                    "this_week": true
+                  },
+                  {
+                    "start": "2026-11-06T18:00:00-05:00",
+                    "when_text": "Fri Nov 6, 2026 · 6:00 PM–9:00 PM EST",
+                    "status_text": "Register",
+                    "register_url": "https://campscui.active.com/orgs/CreativeArtsWorkshop?season=3846734&session=71700334",
+                    "this_week": false
+                  },
+                  {
+                    "start": "2026-11-13T18:00:00-05:00",
+                    "when_text": "Fri Nov 13, 2026 · 6:00 PM–9:00 PM EST",
+                    "status_text": "Register",
+                    "register_url": "https://campscui.active.com/orgs/CreativeArtsWorkshop?season=3846734&session=71700334",
+                    "this_week": false
+                  }
+                ],
+                "undated_sessions": 0,
+                "session_this_week": true,
+                "format_label": "In person",
+                "location_label": "80 Audubon Street, New Haven, CT 06510 (organizer's address)",
+                "cost_label": "Sessions are $30 each.",
+                "registration_url": "https://campscui.active.com/orgs/CreativeArtsWorkshop?season=3846734&session=71700334",
+                "registration_text": "To reserve a spot for a specific week, please contact the front desk at 203-562-4927.",
+                "registration_note": "A registration link does not guarantee a spot. Registration happens on the organizer's site.",
+                "deadline_text": null,
+                "deadline_at": null,
+                "eligibility_open": [],
+                "eligibility_check": [
+                  "This darkroom practice session is for students who have taken darkroom classes at CAW before and are comfortable working independently.",
+                  "Suggested Ages: 18+"
+                ],
+                "not_stated": [
+                  "capacity"
+                ],
+                "warnings": [
+                  "Session dates show month/day only; the year 2026 comes from the page's term line ('Fall 2026').",
+                  "Location is the organizer's address from the site footer; the page does not name a course-specific room."
+                ],
+                "summary": "This darkroom practice session is for students who have taken darkroom classes at CAW before and are comfortable working independently.",
+                "topics": [
+                  "Photography"
+                ],
+                "also_at": [],
+                "matched_terms": [],
+                "format_unknown_for_filter": false
+              }
+            }
+          ],
+          "excluded": [],
+          "dropped": [],
+          "also_read": [],
+          "windows": {
+            "now": "2026-10-25T17:23:15-04:00",
+            "now_text": "Sun Oct 25, 5:23 PM EDT",
+            "timezone": "America/New_York",
+            "this_week": {
+              "start": "2026-10-25T00:00:00-04:00",
+              "end": "2026-11-01T00:00:00-04:00",
+              "label": "Sun Oct 25 – Sat Oct 31"
+            },
+            "coming": {
+              "start": "2026-11-01T00:00:00-04:00",
+              "label": "From Sun Nov 1"
+            }
+          },
+          "sources": [
+            {
+              "name": "Creative Arts Workshop: photography classes",
+              "data_mode": "cached",
+              "collected_at_text": "Sat Oct 24, 9:50 PM EDT",
+              "n_records": 2,
+              "last_outcome": "ok",
+              "last_attempt_text": "Sat Oct 24, 9:50 PM EDT",
+              "simulated": false
+            },
+            {
+              "name": "Yale Center for Geospatial Solutions: events",
+              "data_mode": "cached",
+              "collected_at_text": "Sat Oct 24, 9:50 PM EDT",
+              "n_records": 9,
+              "last_outcome": "ok",
+              "last_attempt_text": "Sat Oct 24, 9:50 PM EDT",
+              "simulated": false
+            }
+          ],
+          "n_listings": 11,
+          "verification": {
+            "checked": 1,
+            "kept": 1,
+            "excluded": 0,
+            "dropped": 0,
+            "quotes_total": 1,
+            "quotes_verified": 1,
+            "details_redacted": 0,
+            "listings_read": [
+              "caw-photo-dc1d381afb"
+            ],
+            "note": "Deterministic check by code (no model call): IDs, availability, verbatim quotes, unsupported details, and participation conditions against what you said."
+          }
+        },
+        "output_text": "I found one close photography listing and no exploratory picks. The listing is a darkroom practice session, but the page does not describe social interaction, so it may not help you connect with another photography enthusiast.",
+        "usage": {
+          "input_tokens": 10476,
+          "cached_tokens": 5940,
+          "cache_write_tokens": 4157,
+          "output_tokens": 1544,
+          "reasoning_tokens": 1092,
+          "uncached_input_tokens": 379,
+          "total_tokens": 12020
+        },
+        "cost_usd": 0.001388925,
+        "n_model_calls": 4,
+        "n_failed_attempts": 0,
+        "safety_findings": 0,
+        "duration_ms": 18957
+      }
+    }
+  ]
+}

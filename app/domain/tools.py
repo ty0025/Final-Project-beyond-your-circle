@@ -96,9 +96,14 @@ def search(session: ListingSession, interests: list[str], participation: str, wh
         if len(term) >= 2 and term not in terms:
             terms.append(term)
     session.search_terms.update(terms)
-    view = build_discovery(session.results, now=session.now, mode=participation, when=when)
+    # A time window must not hide ongoing programs and communities: their sessions are checked against the
+    # window later by code (conditions.evaluate). Single-date events outside the window stay out (G-12).
+    view = build_discovery(session.results, now=session.now, mode=participation, when="all")
+    keep = {"this_week": {"this_week", "ongoing"}, "coming": {"coming", "ongoing"}, "ongoing": {"ongoing"}}.get(when)
     scored = []
     for name, items in view["sections"].items():
+        if keep is not None and name not in keep:
+            continue
         for card in items:
             hits = _matches(terms, _haystack(card))
             scored.append((-len(hits), _SECTION_ORDER[name], card["start"] or "", name, card, hits))
@@ -181,7 +186,8 @@ def register_domain_tools(registry: ToolRegistry, settings: Settings, session: L
             "interests: short lowercase keywords and close synonyms, e.g. ['photography', 'photo', 'darkroom', 'film']. "
             "participation: 'in_person', 'online' or 'any' (items whose page does not say stay included). "
             "when: 'this_week' (next 7 days), 'coming' (later single-date events), 'ongoing' (programs and "
-            "communities) or 'all'. Times are America/New_York."
+            "communities) or 'all'; 'this_week' and 'coming' also return ongoing programs and communities, whose "
+            "sessions the app checks against the window. Times are America/New_York."
         ),
         untrusted_output=True,
         max_output_chars=7000,
