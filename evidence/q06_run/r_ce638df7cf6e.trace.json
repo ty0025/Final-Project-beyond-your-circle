@@ -1,0 +1,998 @@
+{
+  "run_id": "r_ce638df7cf6e",
+  "started_at": "2026-10-25T19:41:06.459Z",
+  "events": [
+    {
+      "seq": 1,
+      "ts": "2026-10-25T19:41:06.459Z",
+      "run_id": "r_ce638df7cf6e",
+      "type": "run_started",
+      "agent": null,
+      "data": {
+        "input_preview": "I'm not technical but want a beginner-friendly way to learn how people use AI tools.",
+        "app_title": "Beyond Your Circle",
+        "options": {
+          "som_student": true,
+          "participation": "online"
+        }
+      }
+    },
+    {
+      "seq": 2,
+      "ts": "2026-10-25T19:41:09.292Z",
+      "run_id": "r_ce638df7cf6e",
+      "type": "model_call",
+      "agent": "guard",
+      "data": {
+        "step": 0,
+        "attempt": 1,
+        "mode": "live",
+        "served_model": "gpt-6-luna-global",
+        "finish": "final",
+        "usage": {
+          "input_tokens": 377,
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "output_tokens": 35,
+          "reasoning_tokens": 0,
+          "uncached_input_tokens": 377,
+          "total_tokens": 412
+        },
+        "usage_missing": [],
+        "cost_usd": 5.52e-05,
+        "latency_ms": 2829,
+        "n_function_calls": 0,
+        "run_usage": {
+          "input_tokens": 377,
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "output_tokens": 35,
+          "reasoning_tokens": 0,
+          "uncached_input_tokens": 377,
+          "total_tokens": 412
+        },
+        "run_cost_usd": 5.52e-05,
+        "run_calls": 1
+      }
+    },
+    {
+      "seq": 3,
+      "ts": "2026-10-25T19:41:09.303Z",
+      "run_id": "r_ce638df7cf6e",
+      "type": "agent_started",
+      "agent": "matcher",
+      "data": {
+        "depth": 0,
+        "task_preview": "I'm not technical but want a beginner-friendly way to learn how people use AI tools.\n\nConditions the user set with the form (treat them exactly like the user's own words): the user is a Yale SOM graduate student; the user wants to take part online.",
+        "tools": [
+          "search_listings",
+          "get_listing"
+        ]
+      }
+    },
+    {
+      "seq": 4,
+      "ts": "2026-10-25T19:41:10.904Z",
+      "run_id": "r_ce638df7cf6e",
+      "type": "model_call",
+      "agent": "matcher",
+      "data": {
+        "step": 1,
+        "attempt": 1,
+        "mode": "live",
+        "served_model": "gpt-6-luna-global",
+        "finish": "tool_calls",
+        "usage": {
+          "input_tokens": 2477,
+          "cached_tokens": 0,
+          "cache_write_tokens": 2474,
+          "output_tokens": 87,
+          "reasoning_tokens": 36,
+          "uncached_input_tokens": 3,
+          "total_tokens": 2564
+        },
+        "usage_missing": [],
+        "cost_usd": 0.00035305,
+        "latency_ms": 1596,
+        "n_function_calls": 1,
+        "run_usage": {
+          "input_tokens": 2854,
+          "cached_tokens": 0,
+          "cache_write_tokens": 2474,
+          "output_tokens": 122,
+          "reasoning_tokens": 36,
+          "uncached_input_tokens": 380,
+          "total_tokens": 2976
+        },
+        "run_cost_usd": 0.00040825,
+        "run_calls": 2
+      }
+    },
+    {
+      "seq": 5,
+      "ts": "2026-10-25T19:41:10.904Z",
+      "run_id": "r_ce638df7cf6e",
+      "type": "tool_call",
+      "agent": "matcher",
+      "data": {
+        "tool": "search_listings",
+        "call_id": "call_RWxo7xu3on2YTNU8xfVYcQgR",
+        "arguments": {
+          "interests": [
+            "ai",
+            "genai",
+            "generative ai",
+            "chatbot",
+            "bot",
+            "prompt"
+          ],
+          "participation": "online",
+          "when": "all",
+          "max_results": 8
+        }
+      }
+    },
+    {
+      "seq": 6,
+      "ts": "2026-10-25T19:41:10.908Z",
+      "run_id": "r_ce638df7cf6e",
+      "type": "tool_result",
+      "agent": "matcher",
+      "data": {
+        "tool": "search_listings",
+        "call_id": "call_RWxo7xu3on2YTNU8xfVYcQgR",
+        "ok": true,
+        "preview": "{\"now\": \"Sun Oct 25, 3:41 PM EDT\", \"this_week_window\": \"Sun Oct 25 – Sat Oct 31\", \"data_sources\": [{\"source\": \"Creative Arts Workshop: photography classes\", \"data\": \"cached\", \"collected\": \"Sat Oct 24, 9:50 PM EDT\"}, {\"source\": \"Yale Center for Geospatial Solutions: events\", \"data\": \"cached\", \"collected\": \"Sat Oct 24, 9:50 PM EDT\"}], \"filters_used\": {\"interests\": [\"ai\", \"genai\", \"generative ai\", \"chatbot\", \"bot\", \"prompt\"], \"participation\": \"online\", \"when\": \"all\"}, \"results\": [{\"record_id\": \"yc…",
+        "duration_ms": 4,
+        "truncated": false
+      }
+    },
+    {
+      "seq": 7,
+      "ts": "2026-10-25T19:41:13.208Z",
+      "run_id": "r_ce638df7cf6e",
+      "type": "model_call",
+      "agent": "matcher",
+      "data": {
+        "step": 2,
+        "attempt": 1,
+        "mode": "live",
+        "served_model": "gpt-6-luna-global",
+        "finish": "tool_calls",
+        "usage": {
+          "input_tokens": 3427,
+          "cached_tokens": 2474,
+          "cache_write_tokens": 950,
+          "output_tokens": 106,
+          "reasoning_tokens": 12,
+          "uncached_input_tokens": 3,
+          "total_tokens": 3533
+        },
+        "usage_missing": [],
+        "cost_usd": 0.00019679,
+        "latency_ms": 2295,
+        "n_function_calls": 3,
+        "run_usage": {
+          "input_tokens": 6281,
+          "cached_tokens": 2474,
+          "cache_write_tokens": 3424,
+          "output_tokens": 228,
+          "reasoning_tokens": 48,
+          "uncached_input_tokens": 383,
+          "total_tokens": 6509
+        },
+        "run_cost_usd": 0.0006050399999999999,
+        "run_calls": 3
+      }
+    },
+    {
+      "seq": 8,
+      "ts": "2026-10-25T19:41:13.209Z",
+      "run_id": "r_ce638df7cf6e",
+      "type": "tool_call",
+      "agent": "matcher",
+      "data": {
+        "tool": "get_listing",
+        "call_id": "call_7SG37k5dain6VGlMif7xxgPR",
+        "arguments": {
+          "record_id": "ycgs-events-5971125a69"
+        }
+      }
+    },
+    {
+      "seq": 9,
+      "ts": "2026-10-25T19:41:13.210Z",
+      "run_id": "r_ce638df7cf6e",
+      "type": "tool_result",
+      "agent": "matcher",
+      "data": {
+        "tool": "get_listing",
+        "call_id": "call_7SG37k5dain6VGlMif7xxgPR",
+        "ok": true,
+        "preview": "{\"record_id\": \"ycgs-events-5971125a69\", \"title\": \"Intro to GenAI Promptathon\", \"kind\": \"event\", \"section\": \"this week\", \"when\": \"Tue Oct 27, 2026 · 12:00 PM–1:00 PM EDT\", \"upcoming_sessions\": [], \"date_text\": \"Tue Oct 27, 2026 12:00 pm—1:00 pm\", \"format\": \"Online\", \"location\": \"not stated\", \"organizer\": \"Yale Center for Geospatial Solutions\", \"cost\": \"not stated\", \"registration\": \"REGISTER\", \"capacity\": \"not stated\", \"conditions_stated\": [\"No prior AI experience is required — just a willingness…",
+        "duration_ms": 1,
+        "truncated": false
+      }
+    },
+    {
+      "seq": 10,
+      "ts": "2026-10-25T19:41:13.211Z",
+      "run_id": "r_ce638df7cf6e",
+      "type": "tool_call",
+      "agent": "matcher",
+      "data": {
+        "tool": "get_listing",
+        "call_id": "call_r7iVWF3sNPRiib7i42yHWc0W",
+        "arguments": {
+          "record_id": "ycgs-events-9d7a535869"
+        }
+      }
+    },
+    {
+      "seq": 11,
+      "ts": "2026-10-25T19:41:13.213Z",
+      "run_id": "r_ce638df7cf6e",
+      "type": "tool_result",
+      "agent": "matcher",
+      "data": {
+        "tool": "get_listing",
+        "call_id": "call_r7iVWF3sNPRiib7i42yHWc0W",
+        "ok": true,
+        "preview": "{\"record_id\": \"ycgs-events-9d7a535869\", \"title\": \"Build A Bot Workshop\", \"kind\": \"event\", \"section\": \"coming weeks\", \"when\": \"Fri Nov 20, 2026 · 12:00 PM–1:00 PM EST\", \"upcoming_sessions\": [], \"date_text\": \"Fri Nov 20, 2026 12:00 pm—1:00 pm\", \"format\": \"Online\", \"location\": \"not stated\", \"organizer\": \"Yale Center for Geospatial Solutions\", \"cost\": \"not stated\", \"registration\": \"REGISTER\", \"capacity\": \"Attendance will be capped at 50 people.\", \"conditions_stated\": [\"No coding experience is neces…",
+        "duration_ms": 1,
+        "truncated": false
+      }
+    },
+    {
+      "seq": 12,
+      "ts": "2026-10-25T19:41:13.214Z",
+      "run_id": "r_ce638df7cf6e",
+      "type": "tool_call",
+      "agent": "matcher",
+      "data": {
+        "tool": "get_listing",
+        "call_id": "call_rxqjRLOwxZBBB1oUBHCNk61C",
+        "arguments": {
+          "record_id": "ycgs-events-8d19c8ae70"
+        }
+      }
+    },
+    {
+      "seq": 13,
+      "ts": "2026-10-25T19:41:13.217Z",
+      "run_id": "r_ce638df7cf6e",
+      "type": "tool_result",
+      "agent": "matcher",
+      "data": {
+        "tool": "get_listing",
+        "call_id": "call_rxqjRLOwxZBBB1oUBHCNk61C",
+        "ok": true,
+        "preview": "{\"record_id\": \"ycgs-events-8d19c8ae70\", \"title\": \"Hack My Life\", \"kind\": \"event\", \"section\": \"coming weeks\", \"when\": \"Tue Dec 15, 2026 · 12:00 PM–1:00 PM EST\", \"upcoming_sessions\": [], \"date_text\": \"Tue Dec 15, 2026 12:00 pm—1:00 pm\", \"format\": \"Online\", \"location\": \"not stated\", \"organizer\": \"Yale Center for Geospatial Solutions\", \"cost\": \"not stated\", \"registration\": \"REGISTER\", \"capacity\": \"not stated\", \"conditions_stated\": [], \"not_stated\": [\"who can join\", \"cost\", \"capacity\"], \"warnings\": …",
+        "duration_ms": 3,
+        "truncated": false
+      }
+    },
+    {
+      "seq": 14,
+      "ts": "2026-10-25T19:41:21.398Z",
+      "run_id": "r_ce638df7cf6e",
+      "type": "model_call",
+      "agent": "matcher",
+      "data": {
+        "step": 3,
+        "attempt": 1,
+        "mode": "live",
+        "served_model": "gpt-6-luna-global",
+        "finish": "final",
+        "usage": {
+          "input_tokens": 4467,
+          "cached_tokens": 3424,
+          "cache_write_tokens": 1040,
+          "output_tokens": 1078,
+          "reasoning_tokens": 572,
+          "uncached_input_tokens": 3,
+          "total_tokens": 5545
+        },
+        "usage_missing": [],
+        "cost_usd": 0.00070354,
+        "latency_ms": 8178,
+        "n_function_calls": 0,
+        "run_usage": {
+          "input_tokens": 10748,
+          "cached_tokens": 5898,
+          "cache_write_tokens": 4464,
+          "output_tokens": 1306,
+          "reasoning_tokens": 620,
+          "uncached_input_tokens": 386,
+          "total_tokens": 12054
+        },
+        "run_cost_usd": 0.00130858,
+        "run_calls": 4
+      }
+    },
+    {
+      "seq": 15,
+      "ts": "2026-10-25T19:41:21.399Z",
+      "run_id": "r_ce638df7cf6e",
+      "type": "agent_finished",
+      "agent": "matcher",
+      "data": {
+        "stopped_reason": "final",
+        "steps": 3,
+        "tool_calls": 4,
+        "usage": {
+          "input_tokens": 10371,
+          "cached_tokens": 5898,
+          "cache_write_tokens": 4464,
+          "output_tokens": 1271,
+          "reasoning_tokens": 620,
+          "uncached_input_tokens": 9,
+          "total_tokens": 11642
+        },
+        "cost_usd": 0.0012533800000000001,
+        "output_preview": "{\"understood\": {\"interests\": [\"AI tools\"], \"purpose\": \"Learn how people use AI tools in a beginner-friendly way.\", \"purpose_type\": \"learn_or_discuss_topic\", \"participation\": \"online\", \"play_or_watch\": \"not_applicable\", \"experience_level\": \"Not technical; wants a beginner-friendly option.\", \"identit…"
+      }
+    },
+    {
+      "seq": 16,
+      "ts": "2026-10-25T19:41:21.401Z",
+      "run_id": "r_ce638df7cf6e",
+      "type": "verification",
+      "agent": "verifier",
+      "data": {
+        "kind": "code",
+        "checked": 3,
+        "kept": 3,
+        "excluded": 0,
+        "dropped": 0,
+        "quotes_total": 5,
+        "quotes_verified": 5,
+        "details_redacted": 0,
+        "listings_read": [
+          "ycgs-events-5971125a69",
+          "ycgs-events-8d19c8ae70",
+          "ycgs-events-9d7a535869"
+        ],
+        "note": "Deterministic check by code (no model call): IDs, availability, verbatim quotes, unsupported details, and participation conditions against what you said.",
+        "dropped_picks": [],
+        "excluded_picks": []
+      }
+    },
+    {
+      "seq": 17,
+      "ts": "2026-10-25T19:41:21.401Z",
+      "run_id": "r_ce638df7cf6e",
+      "type": "final",
+      "agent": null,
+      "data": {
+        "ok": true,
+        "stopped_reason": "final",
+        "output": {
+          "understood": {
+            "interests": [
+              "AI tools"
+            ],
+            "purpose": "Learn how people use AI tools in a beginner-friendly way.",
+            "purpose_type": "learn_or_discuss_topic",
+            "participation": "online",
+            "play_or_watch": "not_applicable",
+            "experience_level": "Not technical; wants a beginner-friendly option.",
+            "identity": "Yale SOM graduate student",
+            "time_window": "not_stated",
+            "time_preference": null,
+            "location_preference": null,
+            "not_stated": [
+              "time_window",
+              "location_preference"
+            ],
+            "provenance": {
+              "identity": {
+                "source": "form",
+                "value": "Yale SOM graduate student"
+              },
+              "participation": {
+                "source": "form",
+                "value": "online"
+              }
+            }
+          },
+          "summary": "I found three close matches, all focused on learning or using AI tools. Two listings are labeled online but also mention in-person attendees, so their format should be confirmed; the page for the promptathon does not note that discrepancy.",
+          "follow_up_question": null,
+          "picks": [
+            {
+              "record_id": "ycgs-events-5971125a69",
+              "status": "match",
+              "section": "this_week",
+              "model_fit": "close",
+              "reasoning": {
+                "why": "A hands-on introduction to generative AI tools directly fits your goal, and the page says no prior AI experience is required.",
+                "interaction": "Hands-on use of two generative AI tools; interaction with other participants is not described on the page.",
+                "interaction_quote": "Get hands-on with two of the generative AI tools available at Yale: Clarity and Copilot.",
+                "interaction_grounded": true,
+                "exploration_link": null,
+                "link_quote": null,
+                "verified_quotes": [
+                  "Get hands-on with two of the generative AI tools available at Yale: Clarity and Copilot.",
+                  "No prior AI experience is required — just a willingness to experiment."
+                ],
+                "unverified_quotes": [],
+                "rejected_details": [],
+                "author": "gpt-6-luna (matcher); quotes checked by code"
+              },
+              "relevance": [
+                {
+                  "term": "ai",
+                  "field": "summary"
+                },
+                {
+                  "term": "genai",
+                  "field": "title"
+                },
+                {
+                  "term": "generative ai",
+                  "field": "summary"
+                },
+                {
+                  "term": "tools",
+                  "field": "summary"
+                }
+              ],
+              "conditions": [
+                {
+                  "kind": "format",
+                  "status": "met",
+                  "text": "You asked for online; the page says Online.",
+                  "quote": "Online"
+                },
+                {
+                  "kind": "prerequisite",
+                  "status": "met",
+                  "text": "The page says no particular experience is needed.",
+                  "quote": "No prior AI experience is required — just a willingness to experiment."
+                },
+                {
+                  "kind": "registration",
+                  "status": "info",
+                  "text": "Registration happens on the organizer's site; a link does not guarantee a spot.",
+                  "quote": "REGISTER"
+                }
+              ],
+              "next_steps": [
+                "Read the original page: https://geospatial.yale.edu/events/2026-10-27-intro-to-genai-promptathon",
+                "Not stated on the page (ask the organizer if it matters): cost, capacity.",
+                "Registration is on the organizer's site (https://cglink.me/2dA/r2333099); a link does not guarantee a spot."
+              ],
+              "facts": [
+                {
+                  "field": "format",
+                  "value": "Online",
+                  "page_wording": "Online",
+                  "basis": "event format label",
+                  "source_url": "https://geospatial.yale.edu/events/2026-10-27-intro-to-genai-promptathon",
+                  "collected_at": "2026-10-25T01:50:54+00:00"
+                },
+                {
+                  "field": "when",
+                  "value": "Tue Oct 27, 2026 · 12:00 PM–1:00 PM EDT",
+                  "page_wording": "datetime=\"2026-10-27T12:00:00-04:00\"; text \"Tue Oct 27, 2026 12:00 pm—1:00 pm\"",
+                  "basis": "time@datetime",
+                  "source_url": "https://geospatial.yale.edu/events/2026-10-27-intro-to-genai-promptathon",
+                  "collected_at": "2026-10-25T01:50:54+00:00"
+                },
+                {
+                  "field": "when",
+                  "value": "Tue Oct 27, 2026 · 12:00 PM–1:00 PM EDT",
+                  "page_wording": "DTEND:20261027T170000Z",
+                  "basis": "'Add to Calendar' iCal data on the page",
+                  "source_url": "https://geospatial.yale.edu/events/2026-10-27-intro-to-genai-promptathon",
+                  "collected_at": "2026-10-25T01:50:54+00:00"
+                },
+                {
+                  "field": "registration",
+                  "value": "REGISTER",
+                  "page_wording": "REGISTER: https://cglink.me/2dA/r2333099",
+                  "basis": "event website / register button",
+                  "source_url": "https://geospatial.yale.edu/events/2026-10-27-intro-to-genai-promptathon",
+                  "collected_at": "2026-10-25T01:50:54+00:00"
+                },
+                {
+                  "field": "conditions",
+                  "value": "No prior AI experience is required — just a willingness to experiment.",
+                  "page_wording": "No prior AI experience is required — just a willingness to experiment.",
+                  "basis": "event description",
+                  "source_url": "https://geospatial.yale.edu/events/2026-10-27-intro-to-genai-promptathon",
+                  "collected_at": "2026-10-25T01:50:54+00:00"
+                },
+                {
+                  "field": "organizer",
+                  "value": "Yale Center for Geospatial Solutions",
+                  "page_wording": "Yale Center for Geospatial Solutions",
+                  "basis": "og:site_name (publishing site)",
+                  "source_url": "https://geospatial.yale.edu/events/2026-10-27-intro-to-genai-promptathon",
+                  "collected_at": "2026-10-25T01:50:54+00:00"
+                },
+                {
+                  "field": "cost",
+                  "value": null,
+                  "page_wording": null,
+                  "basis": "not stated on the page",
+                  "source_url": "https://geospatial.yale.edu/events/2026-10-27-intro-to-genai-promptathon",
+                  "collected_at": "2026-10-25T01:50:54+00:00"
+                },
+                {
+                  "field": "capacity",
+                  "value": null,
+                  "page_wording": null,
+                  "basis": "not stated on the page",
+                  "source_url": "https://geospatial.yale.edu/events/2026-10-27-intro-to-genai-promptathon",
+                  "collected_at": "2026-10-25T01:50:54+00:00"
+                }
+              ],
+              "grounded": true,
+              "card": {
+                "id": "ycgs-events-5971125a69",
+                "kind": "event",
+                "kind_label": "Event",
+                "title": "Intro to GenAI Promptathon",
+                "url": "https://geospatial.yale.edu/events/2026-10-27-intro-to-genai-promptathon",
+                "source_id": "ycgs-events",
+                "source_name": "Yale Center for Geospatial Solutions: events",
+                "publisher": "Yale Center for Geospatial Solutions",
+                "publisher_type": "Official Yale",
+                "organizer": "Yale Center for Geospatial Solutions",
+                "data_mode": "cached",
+                "collected_at": "2026-10-25T01:50:54+00:00",
+                "collected_at_text": "Sat Oct 24, 9:50 PM EDT",
+                "start": "2026-10-27T12:00:00-04:00",
+                "end": "2026-10-27T13:00:00-04:00",
+                "when_text": "Tue Oct 27, 2026 · 12:00 PM–1:00 PM EDT",
+                "date_text": "Tue Oct 27, 2026 12:00 pm—1:00 pm",
+                "next_session": null,
+                "upcoming_sessions": [],
+                "undated_sessions": 0,
+                "session_this_week": false,
+                "format_label": "Online",
+                "location_label": "Online",
+                "cost_label": null,
+                "registration_url": "https://cglink.me/2dA/r2333099",
+                "registration_text": "REGISTER",
+                "registration_note": "A registration link does not guarantee a spot. Registration happens on the organizer's site.",
+                "deadline_text": null,
+                "deadline_at": null,
+                "eligibility_open": [
+                  "No prior AI experience is required — just a willingness to experiment."
+                ],
+                "eligibility_check": [],
+                "not_stated": [
+                  "cost",
+                  "capacity"
+                ],
+                "warnings": [],
+                "summary": "Get hands-on with two of the generative AI tools available at Yale: Clarity and Copilot.",
+                "topics": [],
+                "also_at": [],
+                "matched_terms": [],
+                "format_unknown_for_filter": false
+              }
+            },
+            {
+              "record_id": "ycgs-events-9d7a535869",
+              "status": "conditional",
+              "section": "coming",
+              "model_fit": "close",
+              "reasoning": {
+                "why": "It covers chatbot fundamentals and lets participants design a chatbot, offering a practical way to learn about AI tools. The page says no coding experience is necessary.",
+                "interaction": "A workshop where participants can design their own tailored chatbot.",
+                "interaction_quote": "provide participants the opportunity to design their own tailored chatbot",
+                "interaction_grounded": true,
+                "exploration_link": null,
+                "link_quote": null,
+                "verified_quotes": [
+                  "This workshop will cover the fundamentals chatbots",
+                  "No coding experience is necessary."
+                ],
+                "unverified_quotes": [],
+                "rejected_details": [],
+                "author": "gpt-6-luna (matcher); quotes checked by code"
+              },
+              "relevance": [
+                {
+                  "term": "bot",
+                  "field": "title"
+                },
+                {
+                  "term": "chatbot",
+                  "field": "summary"
+                }
+              ],
+              "conditions": [
+                {
+                  "kind": "format",
+                  "status": "to_confirm",
+                  "text": "You asked for online; the page is contradictory about the format.",
+                  "quote": "Online"
+                },
+                {
+                  "kind": "prerequisite",
+                  "status": "met",
+                  "text": "The page says no particular experience is needed.",
+                  "quote": "No coding experience is necessary."
+                },
+                {
+                  "kind": "registration",
+                  "status": "info",
+                  "text": "Registration happens on the organizer's site; a link does not guarantee a spot.",
+                  "quote": "REGISTER"
+                },
+                {
+                  "kind": "capacity",
+                  "status": "to_confirm",
+                  "text": "Places are limited; availability is not shown here.",
+                  "quote": "Attendance will be capped at 50 people."
+                },
+                {
+                  "kind": "equipment",
+                  "status": "info",
+                  "text": "You need to bring a laptop to this workshop.",
+                  "quote": "bring a laptop to this workshop"
+                }
+              ],
+              "next_steps": [
+                "Read the original page: https://geospatial.yale.edu/events/2026-11-20-build-a-bot-workshop",
+                "Confirm before you plan on it: You asked for online; the page is contradictory about the format. Places are limited; availability is not shown here.",
+                "Not stated on the page (ask the organizer if it matters): cost.",
+                "Registration is on the organizer's site (https://cglink.me/2dA/r2333101); a link does not guarantee a spot."
+              ],
+              "facts": [
+                {
+                  "field": "format",
+                  "value": "Online",
+                  "page_wording": "Online",
+                  "basis": "event format label",
+                  "source_url": "https://geospatial.yale.edu/events/2026-11-20-build-a-bot-workshop",
+                  "collected_at": "2026-10-25T01:50:59+00:00"
+                },
+                {
+                  "field": "when",
+                  "value": "Fri Nov 20, 2026 · 12:00 PM–1:00 PM EST",
+                  "page_wording": "datetime=\"2026-11-20T12:00:00-05:00\"; text \"Fri Nov 20, 2026 12:00 pm—1:00 pm\"",
+                  "basis": "time@datetime",
+                  "source_url": "https://geospatial.yale.edu/events/2026-11-20-build-a-bot-workshop",
+                  "collected_at": "2026-10-25T01:50:59+00:00"
+                },
+                {
+                  "field": "when",
+                  "value": "Fri Nov 20, 2026 · 12:00 PM–1:00 PM EST",
+                  "page_wording": "DTEND:20261120T180000Z",
+                  "basis": "'Add to Calendar' iCal data on the page",
+                  "source_url": "https://geospatial.yale.edu/events/2026-11-20-build-a-bot-workshop",
+                  "collected_at": "2026-10-25T01:50:59+00:00"
+                },
+                {
+                  "field": "registration",
+                  "value": "REGISTER",
+                  "page_wording": "REGISTER: https://cglink.me/2dA/r2333101",
+                  "basis": "event website / register button",
+                  "source_url": "https://geospatial.yale.edu/events/2026-11-20-build-a-bot-workshop",
+                  "collected_at": "2026-10-25T01:50:59+00:00"
+                },
+                {
+                  "field": "conditions",
+                  "value": "No coding experience is necessary.; Attendees are also required to bring a laptop to this workshop.",
+                  "page_wording": "No coding experience is necessary.",
+                  "basis": "event description",
+                  "source_url": "https://geospatial.yale.edu/events/2026-11-20-build-a-bot-workshop",
+                  "collected_at": "2026-10-25T01:50:59+00:00"
+                },
+                {
+                  "field": "conditions",
+                  "value": "No coding experience is necessary.; Attendees are also required to bring a laptop to this workshop.",
+                  "page_wording": "Attendees are also required to bring a laptop to this workshop.",
+                  "basis": "event description",
+                  "source_url": "https://geospatial.yale.edu/events/2026-11-20-build-a-bot-workshop",
+                  "collected_at": "2026-10-25T01:50:59+00:00"
+                },
+                {
+                  "field": "capacity",
+                  "value": "Attendance will be capped at 50 people.",
+                  "page_wording": "Attendance will be capped at 50 people.",
+                  "basis": "event description",
+                  "source_url": "https://geospatial.yale.edu/events/2026-11-20-build-a-bot-workshop",
+                  "collected_at": "2026-10-25T01:50:59+00:00"
+                },
+                {
+                  "field": "organizer",
+                  "value": "Yale Center for Geospatial Solutions",
+                  "page_wording": "Yale Center for Geospatial Solutions",
+                  "basis": "og:site_name (publishing site)",
+                  "source_url": "https://geospatial.yale.edu/events/2026-11-20-build-a-bot-workshop",
+                  "collected_at": "2026-10-25T01:50:59+00:00"
+                },
+                {
+                  "field": "cost",
+                  "value": null,
+                  "page_wording": null,
+                  "basis": "not stated on the page",
+                  "source_url": "https://geospatial.yale.edu/events/2026-11-20-build-a-bot-workshop",
+                  "collected_at": "2026-10-25T01:50:59+00:00"
+                }
+              ],
+              "grounded": true,
+              "card": {
+                "id": "ycgs-events-9d7a535869",
+                "kind": "event",
+                "kind_label": "Event",
+                "title": "Build A Bot Workshop",
+                "url": "https://geospatial.yale.edu/events/2026-11-20-build-a-bot-workshop",
+                "source_id": "ycgs-events",
+                "source_name": "Yale Center for Geospatial Solutions: events",
+                "publisher": "Yale Center for Geospatial Solutions",
+                "publisher_type": "Official Yale",
+                "organizer": "Yale Center for Geospatial Solutions",
+                "data_mode": "cached",
+                "collected_at": "2026-10-25T01:50:59+00:00",
+                "collected_at_text": "Sat Oct 24, 9:50 PM EDT",
+                "start": "2026-11-20T12:00:00-05:00",
+                "end": "2026-11-20T13:00:00-05:00",
+                "when_text": "Fri Nov 20, 2026 · 12:00 PM–1:00 PM EST",
+                "date_text": "Fri Nov 20, 2026 12:00 pm—1:00 pm",
+                "next_session": null,
+                "upcoming_sessions": [],
+                "undated_sessions": 0,
+                "session_this_week": false,
+                "format_label": "Online",
+                "location_label": "Online",
+                "cost_label": null,
+                "registration_url": "https://cglink.me/2dA/r2333101",
+                "registration_text": "REGISTER",
+                "registration_note": "A registration link does not guarantee a spot. Registration happens on the organizer's site.",
+                "deadline_text": null,
+                "deadline_at": null,
+                "eligibility_open": [
+                  "No coding experience is necessary."
+                ],
+                "eligibility_check": [
+                  "Attendees are also required to bring a laptop to this workshop.",
+                  "Attendance will be capped at 50 people."
+                ],
+                "not_stated": [
+                  "cost"
+                ],
+                "warnings": [
+                  "The page labels the format 'Online' but the description mentions in-person attendees; format to be confirmed."
+                ],
+                "summary": "This workshop will cover the fundamentals chatbots and provide participants the opportunity to design their own tailored chatbot.",
+                "topics": [],
+                "also_at": [],
+                "matched_terms": [],
+                "format_unknown_for_filter": false
+              }
+            },
+            {
+              "record_id": "ycgs-events-8d19c8ae70",
+              "status": "conditional",
+              "section": "coming",
+              "model_fit": "close",
+              "reasoning": {
+                "why": "This workshop focuses on how AI tools can help with everyday tasks, which is a practical example of how people use them.",
+                "interaction": "The page does not describe how attendees interact or who attends, so meeting particular people or speakers is not guaranteed.",
+                "interaction_quote": null,
+                "interaction_grounded": false,
+                "exploration_link": null,
+                "link_quote": null,
+                "verified_quotes": [
+                  "Learn how AI tools can streamline every day tasks in this lunchtime workshop."
+                ],
+                "unverified_quotes": [],
+                "rejected_details": [],
+                "author": "gpt-6-luna (matcher); quotes checked by code"
+              },
+              "relevance": [
+                {
+                  "term": "ai",
+                  "field": "summary"
+                },
+                {
+                  "term": "tools",
+                  "field": "summary"
+                }
+              ],
+              "conditions": [
+                {
+                  "kind": "format",
+                  "status": "to_confirm",
+                  "text": "You asked for online; the page is contradictory about the format.",
+                  "quote": "Online"
+                },
+                {
+                  "kind": "registration",
+                  "status": "info",
+                  "text": "Registration happens on the organizer's site; a link does not guarantee a spot.",
+                  "quote": "REGISTER"
+                }
+              ],
+              "next_steps": [
+                "Read the original page: https://geospatial.yale.edu/events/2026-12-15-hack-my-life",
+                "Confirm before you plan on it: You asked for online; the page is contradictory about the format.",
+                "Not stated on the page (ask the organizer if it matters): who can join, cost, capacity.",
+                "Registration is on the organizer's site (https://cglink.me/2dA/r2333102); a link does not guarantee a spot."
+              ],
+              "facts": [
+                {
+                  "field": "format",
+                  "value": "Online",
+                  "page_wording": "Online",
+                  "basis": "event format label",
+                  "source_url": "https://geospatial.yale.edu/events/2026-12-15-hack-my-life",
+                  "collected_at": "2026-10-25T01:51:01+00:00"
+                },
+                {
+                  "field": "when",
+                  "value": "Tue Dec 15, 2026 · 12:00 PM–1:00 PM EST",
+                  "page_wording": "datetime=\"2026-12-15T12:00:00-05:00\"; text \"Tue Dec 15, 2026 12:00 pm—1:00 pm\"",
+                  "basis": "time@datetime",
+                  "source_url": "https://geospatial.yale.edu/events/2026-12-15-hack-my-life",
+                  "collected_at": "2026-10-25T01:51:01+00:00"
+                },
+                {
+                  "field": "when",
+                  "value": "Tue Dec 15, 2026 · 12:00 PM–1:00 PM EST",
+                  "page_wording": "DTEND:20261215T180000Z",
+                  "basis": "'Add to Calendar' iCal data on the page",
+                  "source_url": "https://geospatial.yale.edu/events/2026-12-15-hack-my-life",
+                  "collected_at": "2026-10-25T01:51:01+00:00"
+                },
+                {
+                  "field": "registration",
+                  "value": "REGISTER",
+                  "page_wording": "REGISTER: https://cglink.me/2dA/r2333102",
+                  "basis": "event website / register button",
+                  "source_url": "https://geospatial.yale.edu/events/2026-12-15-hack-my-life",
+                  "collected_at": "2026-10-25T01:51:01+00:00"
+                },
+                {
+                  "field": "organizer",
+                  "value": "Yale Center for Geospatial Solutions",
+                  "page_wording": "Yale Center for Geospatial Solutions",
+                  "basis": "og:site_name (publishing site)",
+                  "source_url": "https://geospatial.yale.edu/events/2026-12-15-hack-my-life",
+                  "collected_at": "2026-10-25T01:51:01+00:00"
+                },
+                {
+                  "field": "cost",
+                  "value": null,
+                  "page_wording": null,
+                  "basis": "not stated on the page",
+                  "source_url": "https://geospatial.yale.edu/events/2026-12-15-hack-my-life",
+                  "collected_at": "2026-10-25T01:51:01+00:00"
+                },
+                {
+                  "field": "capacity",
+                  "value": null,
+                  "page_wording": null,
+                  "basis": "not stated on the page",
+                  "source_url": "https://geospatial.yale.edu/events/2026-12-15-hack-my-life",
+                  "collected_at": "2026-10-25T01:51:01+00:00"
+                }
+              ],
+              "grounded": true,
+              "card": {
+                "id": "ycgs-events-8d19c8ae70",
+                "kind": "event",
+                "kind_label": "Event",
+                "title": "Hack My Life",
+                "url": "https://geospatial.yale.edu/events/2026-12-15-hack-my-life",
+                "source_id": "ycgs-events",
+                "source_name": "Yale Center for Geospatial Solutions: events",
+                "publisher": "Yale Center for Geospatial Solutions",
+                "publisher_type": "Official Yale",
+                "organizer": "Yale Center for Geospatial Solutions",
+                "data_mode": "cached",
+                "collected_at": "2026-10-25T01:51:01+00:00",
+                "collected_at_text": "Sat Oct 24, 9:51 PM EDT",
+                "start": "2026-12-15T12:00:00-05:00",
+                "end": "2026-12-15T13:00:00-05:00",
+                "when_text": "Tue Dec 15, 2026 · 12:00 PM–1:00 PM EST",
+                "date_text": "Tue Dec 15, 2026 12:00 pm—1:00 pm",
+                "next_session": null,
+                "upcoming_sessions": [],
+                "undated_sessions": 0,
+                "session_this_week": false,
+                "format_label": "Online",
+                "location_label": "Online",
+                "cost_label": null,
+                "registration_url": "https://cglink.me/2dA/r2333102",
+                "registration_text": "REGISTER",
+                "registration_note": "A registration link does not guarantee a spot. Registration happens on the organizer's site.",
+                "deadline_text": null,
+                "deadline_at": null,
+                "eligibility_open": [],
+                "eligibility_check": [],
+                "not_stated": [
+                  "who can join",
+                  "cost",
+                  "capacity"
+                ],
+                "warnings": [
+                  "The page labels the format 'Online' but the description mentions in-person attendees; format to be confirmed."
+                ],
+                "summary": "Learn how AI tools can streamline every day tasks in this lunchtime workshop.",
+                "topics": [],
+                "also_at": [],
+                "matched_terms": [],
+                "format_unknown_for_filter": false
+              }
+            }
+          ],
+          "excluded": [],
+          "dropped": [],
+          "also_read": [],
+          "windows": {
+            "now": "2026-10-25T15:41:09-04:00",
+            "now_text": "Sun Oct 25, 3:41 PM EDT",
+            "timezone": "America/New_York",
+            "this_week": {
+              "start": "2026-10-25T00:00:00-04:00",
+              "end": "2026-11-01T00:00:00-04:00",
+              "label": "Sun Oct 25 – Sat Oct 31"
+            },
+            "coming": {
+              "start": "2026-11-01T00:00:00-04:00",
+              "label": "From Sun Nov 1"
+            }
+          },
+          "sources": [
+            {
+              "name": "Creative Arts Workshop: photography classes",
+              "data_mode": "cached",
+              "collected_at_text": "Sat Oct 24, 9:50 PM EDT",
+              "n_records": 2,
+              "last_outcome": "ok",
+              "last_attempt_text": "Sat Oct 24, 9:50 PM EDT",
+              "simulated": false
+            },
+            {
+              "name": "Yale Center for Geospatial Solutions: events",
+              "data_mode": "cached",
+              "collected_at_text": "Sat Oct 24, 9:50 PM EDT",
+              "n_records": 9,
+              "last_outcome": "ok",
+              "last_attempt_text": "Sat Oct 24, 9:50 PM EDT",
+              "simulated": false
+            }
+          ],
+          "n_listings": 11,
+          "verification": {
+            "checked": 3,
+            "kept": 3,
+            "excluded": 0,
+            "dropped": 0,
+            "quotes_total": 5,
+            "quotes_verified": 5,
+            "details_redacted": 0,
+            "listings_read": [
+              "ycgs-events-5971125a69",
+              "ycgs-events-8d19c8ae70",
+              "ycgs-events-9d7a535869"
+            ],
+            "note": "Deterministic check by code (no model call): IDs, availability, verbatim quotes, unsupported details, and participation conditions against what you said."
+          }
+        },
+        "output_text": "I found three close matches, all focused on learning or using AI tools. Two listings are labeled online but also mention in-person attendees, so their format should be confirmed; the page for the promptathon does not note that discrepancy.",
+        "usage": {
+          "input_tokens": 10748,
+          "cached_tokens": 5898,
+          "cache_write_tokens": 4464,
+          "output_tokens": 1306,
+          "reasoning_tokens": 620,
+          "uncached_input_tokens": 386,
+          "total_tokens": 12054
+        },
+        "cost_usd": 0.00130858,
+        "n_model_calls": 4,
+        "safety_findings": 0,
+        "duration_ms": 14942
+      }
+    }
+  ]
+}

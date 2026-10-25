@@ -1,0 +1,690 @@
+{
+  "source_id": "ycgs-events",
+  "source_name": "Yale Center for Geospatial Solutions: events",
+  "collected_at": "2026-10-25T01:33:05+00:00",
+  "coverage": "Events listing (first page only); event pages dated today..+75 days by URL slug, at most 10.",
+  "records": [
+    {
+      "record_id": "ycgs-events-be4bf73baf",
+      "source_id": "ycgs-events",
+      "kind": "event",
+      "title": "Geospatial CoP: Accessing, Evaluating, and Analyzing PlanetScope Imagery",
+      "url": "https://geospatial.yale.edu/events/2026-10-27-geospatial-cop-accessing-evaluating-and-analyzing-planetscope-imagery",
+      "publisher": "Yale Center for Geospatial Solutions",
+      "organizer": "Yale Center for Geospatial Solutions",
+      "collected_at": "2026-10-25T01:33:07+00:00",
+      "timezone": "America/New_York",
+      "date_text": "Tue Oct 27, 2026 9:30 am—12:30 pm",
+      "start": "2026-10-27T09:30:00-04:00",
+      "end": "2026-10-27T12:30:00-04:00",
+      "sessions": [],
+      "format": null,
+      "format_text": null,
+      "location_text": null,
+      "eligibility_texts": [],
+      "cost_text": null,
+      "registration_url": "https://cglink.me/2dA/r2334083",
+      "registration_text": "REGISTER",
+      "capacity_text": null,
+      "topics": [],
+      "summary": "Learn more about PlanetScope with our hands-on workshop!",
+      "evidence": [
+        {
+          "field": "start",
+          "quote": "datetime=\"2026-10-27T09:30:00-04:00\"; text \"Tue Oct 27, 2026 9:30 am—12:30 pm\"",
+          "basis": "time@datetime"
+        },
+        {
+          "field": "end",
+          "quote": "DTEND:20261027T163000Z",
+          "basis": "'Add to Calendar' iCal data on the page"
+        },
+        {
+          "field": "registration_url",
+          "quote": "REGISTER: https://cglink.me/2dA/r2334083",
+          "basis": "event website / register button"
+        },
+        {
+          "field": "organizer",
+          "quote": "Yale Center for Geospatial Solutions",
+          "basis": "og:site_name (publishing site)"
+        }
+      ],
+      "missing": [
+        "format",
+        "location_text",
+        "eligibility_texts",
+        "cost_text",
+        "capacity_text"
+      ],
+      "warnings": []
+    },
+    {
+      "record_id": "ycgs-events-5971125a69",
+      "source_id": "ycgs-events",
+      "kind": "event",
+      "title": "Intro to GenAI Promptathon",
+      "url": "https://geospatial.yale.edu/events/2026-10-27-intro-to-genai-promptathon",
+      "publisher": "Yale Center for Geospatial Solutions",
+      "organizer": "Yale Center for Geospatial Solutions",
+      "collected_at": "2026-10-25T01:33:08+00:00",
+      "timezone": "America/New_York",
+      "date_text": "Tue Oct 27, 2026 12:00 pm—1:00 pm",
+      "start": "2026-10-27T12:00:00-04:00",
+      "end": "2026-10-27T13:00:00-04:00",
+      "sessions": [],
+      "format": "online",
+      "format_text": "Online",
+      "location_text": null,
+      "eligibility_texts": [
+        "No prior AI experience is required — just a willingness to experiment."
+      ],
+      "cost_text": null,
+      "registration_url": "https://cglink.me/2dA/r2333099",
+      "registration_text": "REGISTER",
+      "capacity_text": null,
+      "topics": [],
+      "summary": "Get hands-on with two of the generative AI tools available at Yale: Clarity and Copilot.",
+      "evidence": [
+        {
+          "field": "format",
+          "quote": "Online",
+          "basis": "event format label"
+        },
+        {
+          "field": "start",
+          "quote": "datetime=\"2026-10-27T12:00:00-04:00\"; text \"Tue Oct 27, 2026 12:00 pm—1:00 pm\"",
+          "basis": "time@datetime"
+        },
+        {
+          "field": "end",
+          "quote": "DTEND:20261027T170000Z",
+          "basis": "'Add to Calendar' iCal data on the page"
+        },
+        {
+          "field": "registration_url",
+          "quote": "REGISTER: https://cglink.me/2dA/r2333099",
+          "basis": "event website / register button"
+        },
+        {
+          "field": "eligibility_texts",
+          "quote": "No prior AI experience is required — just a willingness to experiment.",
+          "basis": "event description"
+        },
+        {
+          "field": "organizer",
+          "quote": "Yale Center for Geospatial Solutions",
+          "basis": "og:site_name (publishing site)"
+        }
+      ],
+      "missing": [
+        "location_text",
+        "cost_text",
+        "capacity_text"
+      ],
+      "warnings": []
+    },
+    {
+      "record_id": "ycgs-events-2602910e02",
+      "source_id": "ycgs-events",
+      "kind": "event",
+      "title": "Geospatial CoP: Narrative Cartography - How Journalists Turn Maps Into Stories",
+      "url": "https://geospatial.yale.edu/events/2026-10-28-geospatial-cop-narrative-cartography-how-journalists-turn-maps-into-stories",
+      "publisher": "Yale Center for Geospatial Solutions",
+      "organizer": "Yale Center for Geospatial Solutions",
+      "collected_at": "2026-10-25T01:33:09+00:00",
+      "timezone": "America/New_York",
+      "date_text": "Wed Oct 28, 2026 4:00 pm—5:00 pm",
+      "start": "2026-10-28T16:00:00-04:00",
+      "end": "2026-10-28T17:00:00-04:00",
+      "sessions": [],
+      "format": null,
+      "format_text": null,
+      "location_text": null,
+      "eligibility_texts": [],
+      "cost_text": null,
+      "registration_url": "https://cglink.me/2dA/r2336029",
+      "registration_text": "REGISTER",
+      "capacity_text": null,
+      "topics": [],
+      "summary": "Learn how narrative story telling can be integrated into map design",
+      "evidence": [
+        {
+          "field": "start",
+          "quote": "datetime=\"2026-10-28T16:00:00-04:00\"; text \"Wed Oct 28, 2026 4:00 pm—5:00 pm\"",
+          "basis": "time@datetime"
+        },
+        {
+          "field": "end",
+          "quote": "DTEND:20261028T210000Z",
+          "basis": "'Add to Calendar' iCal data on the page"
+        },
+        {
+          "field": "registration_url",
+          "quote": "REGISTER: https://cglink.me/2dA/r2336029",
+          "basis": "event website / register button"
+        },
+        {
+          "field": "organizer",
+          "quote": "Yale Center for Geospatial Solutions",
+          "basis": "og:site_name (publishing site)"
+        }
+      ],
+      "missing": [
+        "format",
+        "location_text",
+        "eligibility_texts",
+        "cost_text",
+        "capacity_text"
+      ],
+      "warnings": []
+    },
+    {
+      "record_id": "ycgs-events-f313121cad",
+      "source_id": "ycgs-events",
+      "kind": "event",
+      "title": "Telling Stories with Maps - Part II: Hands-On Map Making [in person]",
+      "url": "https://geospatial.yale.edu/events/2026-10-28-telling-stories-with-maps-part-ii-hands-on-map-making-in-person",
+      "publisher": "Yale Center for Geospatial Solutions",
+      "organizer": "Co-hosted by the Yale Library and the Yale Center for Geospatial Solutions",
+      "collected_at": "2026-10-25T01:33:10+00:00",
+      "timezone": "America/New_York",
+      "date_text": "Wed Oct 28, 2026 9:00 am—12:30 pm",
+      "start": "2026-10-28T09:00:00-04:00",
+      "end": "2026-10-28T12:30:00-04:00",
+      "sessions": [],
+      "format": "in_person",
+      "format_text": "In-person",
+      "location_text": "DH Lab, Sterling Memorial Library",
+      "eligibility_texts": [
+        "This series of two workshops is designed for instructors who want to help students use maps and map-based storytelling in their coursework.",
+        "Part II: Hands-On Map Making (In person): October 28, 9:00 AM-12:30 PM (Part I attendance or viewing the recording is required) LOCATION: DH Lab, Sterling Memorial Library"
+      ],
+      "cost_text": null,
+      "registration_url": "https://cglink.me/2dA/r2335083",
+      "registration_text": "REGISTER",
+      "capacity_text": null,
+      "topics": [],
+      "summary": "Learn how to create interactive map-stories and bring map-based storytelling into your classroom with hands-on tools and teaching strategies.",
+      "evidence": [
+        {
+          "field": "format",
+          "quote": "In-person",
+          "basis": "event format label"
+        },
+        {
+          "field": "start",
+          "quote": "datetime=\"2026-10-28T09:00:00-04:00\"; text \"Wed Oct 28, 2026 9:00 am—12:30 pm\"",
+          "basis": "time@datetime"
+        },
+        {
+          "field": "end",
+          "quote": "DTEND:20261028T163000Z",
+          "basis": "'Add to Calendar' iCal data on the page"
+        },
+        {
+          "field": "registration_url",
+          "quote": "REGISTER: https://cglink.me/2dA/r2335083",
+          "basis": "event website / register button"
+        },
+        {
+          "field": "location_text",
+          "quote": "LOCATION: DH Lab, Sterling Memorial Library",
+          "basis": "event description"
+        },
+        {
+          "field": "organizer",
+          "quote": "Co-hosted by the Yale Library and the Yale Center for Geospatial Solutions",
+          "basis": "event description"
+        },
+        {
+          "field": "eligibility_texts",
+          "quote": "This series of two workshops is designed for instructors who want to help students use maps and map-based storytelling in their coursework.",
+          "basis": "event description"
+        },
+        {
+          "field": "eligibility_texts",
+          "quote": "Part II: Hands-On Map Making (In person): October 28, 9:00 AM-12:30 PM (Part I attendance or viewing the recording is required) LOCATION: DH Lab, Sterling Memorial Library",
+          "basis": "event description"
+        }
+      ],
+      "missing": [
+        "cost_text",
+        "capacity_text"
+      ],
+      "warnings": []
+    },
+    {
+      "record_id": "ycgs-events-357e37a349",
+      "source_id": "ycgs-events",
+      "kind": "event",
+      "title": "YCGS Drone Hobbyist Gathering II",
+      "url": "https://geospatial.yale.edu/events/2026-11-09-ycgs-drone-hobbyist-gathering-ii",
+      "publisher": "Yale Center for Geospatial Solutions",
+      "organizer": "This is the first in a monthly series of gatherings hosted by YCGS.",
+      "collected_at": "2026-10-25T01:33:11+00:00",
+      "timezone": "America/New_York",
+      "date_text": "Mon Nov 9, 2026 6:00 pm—7:00 pm",
+      "start": "2026-11-09T18:00:00-05:00",
+      "end": "2026-11-09T19:00:00-05:00",
+      "sessions": [],
+      "format": null,
+      "format_text": null,
+      "location_text": "East Rock Brewery, New Haven, CT",
+      "eligibility_texts": [
+        "Join the Yale Center for Geospatial Solutions (YCGS) for our first Drone Hobbyist Gathering, a casual evening meetup for drone enthusiasts of all experience levels!",
+        "+21 only - Refreshments and drinks provided!"
+      ],
+      "cost_text": null,
+      "registration_url": "https://cglink.me/2dA/r2335816",
+      "registration_text": "REGISTER",
+      "capacity_text": null,
+      "topics": [],
+      "summary": "Join YCGS for a casual evening of drones, conversation, and connection with fellow enthusiasts!",
+      "evidence": [
+        {
+          "field": "start",
+          "quote": "datetime=\"2026-11-09T18:00:00-05:00\"; text \"Mon Nov 9, 2026 6:00 pm—7:00 pm\"",
+          "basis": "time@datetime"
+        },
+        {
+          "field": "end",
+          "quote": "DTEND:20261110T000000Z",
+          "basis": "'Add to Calendar' iCal data on the page"
+        },
+        {
+          "field": "registration_url",
+          "quote": "REGISTER: https://cglink.me/2dA/r2335816",
+          "basis": "event website / register button"
+        },
+        {
+          "field": "location_text",
+          "quote": "📍 East Rock Brewery, New Haven, CT",
+          "basis": "event description"
+        },
+        {
+          "field": "organizer",
+          "quote": "This is the first in a monthly series of gatherings hosted by YCGS.",
+          "basis": "event description"
+        },
+        {
+          "field": "eligibility_texts",
+          "quote": "Join the Yale Center for Geospatial Solutions (YCGS) for our first Drone Hobbyist Gathering, a casual evening meetup for drone enthusiasts of all experience levels!",
+          "basis": "event description"
+        },
+        {
+          "field": "eligibility_texts",
+          "quote": "+21 only - Refreshments and drinks provided!",
+          "basis": "event description"
+        }
+      ],
+      "missing": [
+        "format",
+        "cost_text",
+        "capacity_text"
+      ],
+      "warnings": []
+    },
+    {
+      "record_id": "ycgs-events-29f5227779",
+      "source_id": "ycgs-events",
+      "kind": "event",
+      "title": "Save the Date: GIS Day 2026",
+      "url": "https://geospatial.yale.edu/events/2026-11-16-save-the-date-gis-day-2026",
+      "publisher": "Yale Center for Geospatial Solutions",
+      "organizer": "Yale Center for Geospatial Solutions",
+      "collected_at": "2026-10-25T01:33:12+00:00",
+      "timezone": "America/New_York",
+      "date_text": "Mon Nov 16, 2026 8:30 am—5:00 pm",
+      "start": "2026-11-16T08:30:00-05:00",
+      "end": "2026-11-16T17:00:00-05:00",
+      "sessions": [],
+      "format": "in_person",
+      "format_text": "In-person",
+      "location_text": null,
+      "eligibility_texts": [],
+      "cost_text": null,
+      "registration_url": "https://uconn.co1.qualtrics.com/jfe/form/SV_20qHNpX5Dv0QZkq",
+      "registration_text": "REGISTER",
+      "capacity_text": null,
+      "topics": [],
+      "summary": "Join us Monday, Nov 16 at the Yale Peabody Museum for a day of geospatial talks, GeoAI workshops, a poster session, and great conversation.",
+      "evidence": [
+        {
+          "field": "format",
+          "quote": "In-person",
+          "basis": "event format label"
+        },
+        {
+          "field": "start",
+          "quote": "datetime=\"2026-11-16T08:30:00-05:00\"; text \"Mon Nov 16, 2026 8:30 am—5:00 pm\"",
+          "basis": "time@datetime"
+        },
+        {
+          "field": "end",
+          "quote": "DTEND:20261116T220000Z",
+          "basis": "'Add to Calendar' iCal data on the page"
+        },
+        {
+          "field": "registration_url",
+          "quote": "REGISTER: https://uconn.co1.qualtrics.com/jfe/form/SV_20qHNpX5Dv0QZkq",
+          "basis": "event website / register button"
+        },
+        {
+          "field": "organizer",
+          "quote": "Yale Center for Geospatial Solutions",
+          "basis": "og:site_name (publishing site)"
+        }
+      ],
+      "missing": [
+        "location_text",
+        "eligibility_texts",
+        "cost_text",
+        "capacity_text"
+      ],
+      "warnings": []
+    },
+    {
+      "record_id": "ycgs-events-9d7a535869",
+      "source_id": "ycgs-events",
+      "kind": "event",
+      "title": "Build A Bot Workshop",
+      "url": "https://geospatial.yale.edu/events/2026-11-20-build-a-bot-workshop",
+      "publisher": "Yale Center for Geospatial Solutions",
+      "organizer": "Yale Center for Geospatial Solutions",
+      "collected_at": "2026-10-25T01:33:13+00:00",
+      "timezone": "America/New_York",
+      "date_text": "Fri Nov 20, 2026 12:00 pm—1:00 pm",
+      "start": "2026-11-20T12:00:00-05:00",
+      "end": "2026-11-20T13:00:00-05:00",
+      "sessions": [],
+      "format": "online",
+      "format_text": "Online",
+      "location_text": null,
+      "eligibility_texts": [
+        "No coding experience is necessary.",
+        "Attendees are also required to bring a laptop to this workshop."
+      ],
+      "cost_text": null,
+      "registration_url": "https://cglink.me/2dA/r2333101",
+      "registration_text": "REGISTER",
+      "capacity_text": "Attendance will be capped at 50 people.",
+      "topics": [],
+      "summary": "This workshop will cover the fundamentals chatbots and provide participants the opportunity to design their own tailored chatbot.",
+      "evidence": [
+        {
+          "field": "format",
+          "quote": "Online",
+          "basis": "event format label"
+        },
+        {
+          "field": "start",
+          "quote": "datetime=\"2026-11-20T12:00:00-05:00\"; text \"Fri Nov 20, 2026 12:00 pm—1:00 pm\"",
+          "basis": "time@datetime"
+        },
+        {
+          "field": "end",
+          "quote": "DTEND:20261120T180000Z",
+          "basis": "'Add to Calendar' iCal data on the page"
+        },
+        {
+          "field": "registration_url",
+          "quote": "REGISTER: https://cglink.me/2dA/r2333101",
+          "basis": "event website / register button"
+        },
+        {
+          "field": "eligibility_texts",
+          "quote": "No coding experience is necessary.",
+          "basis": "event description"
+        },
+        {
+          "field": "eligibility_texts",
+          "quote": "Attendees are also required to bring a laptop to this workshop.",
+          "basis": "event description"
+        },
+        {
+          "field": "capacity_text",
+          "quote": "Attendance will be capped at 50 people.",
+          "basis": "event description"
+        },
+        {
+          "field": "organizer",
+          "quote": "Yale Center for Geospatial Solutions",
+          "basis": "og:site_name (publishing site)"
+        }
+      ],
+      "missing": [
+        "location_text",
+        "cost_text"
+      ],
+      "warnings": [
+        "The page labels the format 'Online' but the description mentions in-person attendees; format to be confirmed."
+      ]
+    },
+    {
+      "record_id": "ycgs-events-264e8cf89d",
+      "source_id": "ycgs-events",
+      "kind": "event",
+      "title": "iKONICO Workshop",
+      "url": "https://geospatial.yale.edu/events/2026-12-04-ikonico-workshop",
+      "publisher": "Yale Center for Geospatial Solutions",
+      "organizer": "Yale Center for Geospatial Solutions",
+      "collected_at": "2026-10-25T01:33:14+00:00",
+      "timezone": "America/New_York",
+      "date_text": "Fri Dec 4, 2026 2:00 pm—5:00 pm",
+      "start": "2026-12-04T14:00:00-05:00",
+      "end": "2026-12-04T17:00:00-05:00",
+      "sessions": [],
+      "format": "in_person",
+      "format_text": "In-person",
+      "location_text": "DH Lab",
+      "eligibility_texts": [
+        "This half-day workshop is designed for researchers, students, engineers, and practitioners interested in exploring new approaches to data collection and analysis across a range of environmental applications—from biodiversity tracking and agroforestry to food systems, climate impacts, and public hea…",
+        "This workshop is open to Yale faculty, students, and external collaborators."
+      ],
+      "cost_text": null,
+      "registration_url": "https://cglink.me/2dA/r2331315",
+      "registration_text": "REGISTER",
+      "capacity_text": "Capacity: 30 participants",
+      "topics": [],
+      "summary": "Explore how iKONICO connects community observations with remote-sensing data for environmental research and monitoring.",
+      "evidence": [
+        {
+          "field": "format",
+          "quote": "In-person",
+          "basis": "event format label"
+        },
+        {
+          "field": "start",
+          "quote": "datetime=\"2026-12-04T14:00:00-05:00\"; text \"Fri Dec 4, 2026 2:00 pm—5:00 pm\"",
+          "basis": "time@datetime"
+        },
+        {
+          "field": "end",
+          "quote": "DTEND:20261204T220000Z",
+          "basis": "'Add to Calendar' iCal data on the page"
+        },
+        {
+          "field": "registration_url",
+          "quote": "REGISTER: https://cglink.me/2dA/r2331315",
+          "basis": "event website / register button"
+        },
+        {
+          "field": "location_text",
+          "quote": "Location: DH Lab",
+          "basis": "event description"
+        },
+        {
+          "field": "eligibility_texts",
+          "quote": "This half-day workshop is designed for researchers, students, engineers, and practitioners interested in exploring new approaches to data collection and analysis across a range of environmental applications—from biodiversity tracking and agroforestry to food systems, climate impacts, and public hea…",
+          "basis": "event description"
+        },
+        {
+          "field": "eligibility_texts",
+          "quote": "This workshop is open to Yale faculty, students, and external collaborators.",
+          "basis": "event description"
+        },
+        {
+          "field": "capacity_text",
+          "quote": "Capacity: 30 participants",
+          "basis": "event description"
+        },
+        {
+          "field": "organizer",
+          "quote": "Yale Center for Geospatial Solutions",
+          "basis": "og:site_name (publishing site)"
+        }
+      ],
+      "missing": [
+        "cost_text"
+      ],
+      "warnings": []
+    },
+    {
+      "record_id": "ycgs-events-8d19c8ae70",
+      "source_id": "ycgs-events",
+      "kind": "event",
+      "title": "Hack My Life",
+      "url": "https://geospatial.yale.edu/events/2026-12-15-hack-my-life",
+      "publisher": "Yale Center for Geospatial Solutions",
+      "organizer": "Yale Center for Geospatial Solutions",
+      "collected_at": "2026-10-25T01:33:15+00:00",
+      "timezone": "America/New_York",
+      "date_text": "Tue Dec 15, 2026 12:00 pm—1:00 pm",
+      "start": "2026-12-15T12:00:00-05:00",
+      "end": "2026-12-15T13:00:00-05:00",
+      "sessions": [],
+      "format": "online",
+      "format_text": "Online",
+      "location_text": null,
+      "eligibility_texts": [],
+      "cost_text": null,
+      "registration_url": "https://cglink.me/2dA/r2333102",
+      "registration_text": "REGISTER",
+      "capacity_text": null,
+      "topics": [],
+      "summary": "Learn how AI tools can streamline every day tasks in this lunchtime workshop.",
+      "evidence": [
+        {
+          "field": "format",
+          "quote": "Online",
+          "basis": "event format label"
+        },
+        {
+          "field": "start",
+          "quote": "datetime=\"2026-12-15T12:00:00-05:00\"; text \"Tue Dec 15, 2026 12:00 pm—1:00 pm\"",
+          "basis": "time@datetime"
+        },
+        {
+          "field": "end",
+          "quote": "DTEND:20261215T180000Z",
+          "basis": "'Add to Calendar' iCal data on the page"
+        },
+        {
+          "field": "registration_url",
+          "quote": "REGISTER: https://cglink.me/2dA/r2333102",
+          "basis": "event website / register button"
+        },
+        {
+          "field": "organizer",
+          "quote": "Yale Center for Geospatial Solutions",
+          "basis": "og:site_name (publishing site)"
+        }
+      ],
+      "missing": [
+        "location_text",
+        "eligibility_texts",
+        "cost_text",
+        "capacity_text"
+      ],
+      "warnings": [
+        "The page labels the format 'Online' but the description mentions in-person attendees; format to be confirmed."
+      ]
+    }
+  ],
+  "reparsed_at": "2026-10-25T01:34:48+00:00",
+  "snapshot_note": "Fixed snapshot of a real automated collection. Shown as 'snapshot' with its collected_at date; not live data.",
+  "collection_outcome": "ok",
+  "requests": [
+    {
+      "url": "https://geospatial.yale.edu/robots.txt",
+      "at": "2026-10-25T01:33:05+00:00",
+      "status": 200,
+      "bytes": 2072,
+      "ms": 34
+    },
+    {
+      "url": "https://geospatial.yale.edu/events",
+      "at": "2026-10-25T01:33:06+00:00",
+      "status": 200,
+      "bytes": 140194,
+      "ms": 12
+    },
+    {
+      "url": "https://geospatial.yale.edu/events/2026-10-27-geospatial-cop-accessing-evaluating-and-analyzing-planetscope-imagery",
+      "at": "2026-10-25T01:33:07+00:00",
+      "status": 200,
+      "bytes": 36074,
+      "ms": 8
+    },
+    {
+      "url": "https://geospatial.yale.edu/events/2026-10-27-intro-to-genai-promptathon",
+      "at": "2026-10-25T01:33:08+00:00",
+      "status": 200,
+      "bytes": 35265,
+      "ms": 9
+    },
+    {
+      "url": "https://geospatial.yale.edu/events/2026-10-28-geospatial-cop-narrative-cartography-how-journalists-turn-maps-into-stories",
+      "at": "2026-10-25T01:33:09+00:00",
+      "status": 200,
+      "bytes": 38753,
+      "ms": 16
+    },
+    {
+      "url": "https://geospatial.yale.edu/events/2026-10-28-telling-stories-with-maps-part-ii-hands-on-map-making-in-person",
+      "at": "2026-10-25T01:33:10+00:00",
+      "status": 200,
+      "bytes": 40865,
+      "ms": 9
+    },
+    {
+      "url": "https://geospatial.yale.edu/events/2026-11-09-ycgs-drone-hobbyist-gathering-ii",
+      "at": "2026-10-25T01:33:11+00:00",
+      "status": 200,
+      "bytes": 37348,
+      "ms": 13
+    },
+    {
+      "url": "https://geospatial.yale.edu/events/2026-11-16-save-the-date-gis-day-2026",
+      "at": "2026-10-25T01:33:12+00:00",
+      "status": 200,
+      "bytes": 35959,
+      "ms": 9
+    },
+    {
+      "url": "https://geospatial.yale.edu/events/2026-11-20-build-a-bot-workshop",
+      "at": "2026-10-25T01:33:13+00:00",
+      "status": 200,
+      "bytes": 35816,
+      "ms": 8
+    },
+    {
+      "url": "https://geospatial.yale.edu/events/2026-12-04-ikonico-workshop",
+      "at": "2026-10-25T01:33:14+00:00",
+      "status": 200,
+      "bytes": 38351,
+      "ms": 8
+    },
+    {
+      "url": "https://geospatial.yale.edu/events/2026-12-15-hack-my-life",
+      "at": "2026-10-25T01:33:15+00:00",
+      "status": 200,
+      "bytes": 35595,
+      "ms": 14
+    }
+  ],
+  "robots": {
+    "geospatial.yale.edu": "robots.txt read"
+  }
+}

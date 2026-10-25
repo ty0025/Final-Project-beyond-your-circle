@@ -1,0 +1,301 @@
+{
+  "source_id": "caw-photo",
+  "source_name": "Creative Arts Workshop: photography classes",
+  "collected_at": "2026-10-25T01:32:34+00:00",
+  "coverage": "Photography department listing (first page only) and up to 4 linked course pages.",
+  "records": [
+    {
+      "record_id": "caw-photo-d1411fc392",
+      "source_id": "caw-photo",
+      "kind": "program",
+      "title": "Photography Individual Coaching",
+      "url": "https://creativeartsworkshop.org/courses/no-term/photography-individual-coaching/",
+      "publisher": "Creative Arts Workshop",
+      "organizer": "Creative Arts Workshop",
+      "collected_at": "2026-10-25T01:32:54+00:00",
+      "timezone": "America/New_York",
+      "date_text": "Term: Fall 2026",
+      "start": null,
+      "end": null,
+      "sessions": [
+        {
+          "date_text": "Dates & times are flexible: Monday, Tuesday, Wednesday, Thursday, Friday, 6–7:30 pm, 12/18 1 session: $90.00; Capacity: 1",
+          "start": null,
+          "end": null,
+          "status_text": null,
+          "register_url": null
+        }
+      ],
+      "format": null,
+      "format_text": null,
+      "location_text": "80 Audubon Street, New Haven, CT 06510",
+      "eligibility_texts": [
+        "Suggested Ages: 15+"
+      ],
+      "cost_text": "Tuition is $90 for each 1½ hour session.",
+      "registration_url": null,
+      "registration_text": "Reserve a single session or continue with multiple sessions as your skills and projects evolve.",
+      "capacity_text": "Capacity: 1",
+      "topics": [
+        "Photography"
+      ],
+      "summary": "Whether you’re purchasing your first camera, exploring a new photographic technique, or refining an established practice, personalized one-on-one coaching provides instruction tailored to your goals and experience.",
+      "evidence": [
+        {
+          "field": "topics",
+          "quote": "Photography Private Lesson: All Levels",
+          "basis": "course category line"
+        },
+        {
+          "field": "date_text",
+          "quote": "Term: Fall 2026",
+          "basis": "page text"
+        },
+        {
+          "field": "sessions",
+          "quote": "Dates & times are flexible: Monday, Tuesday, Wednesday, Thursday, Friday, 6–7:30 pm, 12/18 1 session: $90.00; Capacity: 1",
+          "basis": "first of 1 session blocks"
+        },
+        {
+          "field": "eligibility_texts",
+          "quote": "Suggested Ages: 15+",
+          "basis": "page text"
+        },
+        {
+          "field": "cost_text",
+          "quote": "Tuition is $90 for each 1½ hour session.",
+          "basis": "page text"
+        },
+        {
+          "field": "registration_text",
+          "quote": "Reserve a single session or continue with multiple sessions as your skills and projects evolve.",
+          "basis": "page text"
+        },
+        {
+          "field": "capacity_text",
+          "quote": "Capacity: 1",
+          "basis": "page text / session block"
+        },
+        {
+          "field": "location_text",
+          "quote": "80 Audubon Street, New Haven, CT 06510",
+          "basis": "site footer 'Location' (organizer address)"
+        },
+        {
+          "field": "organizer",
+          "quote": "Creative Arts Workshop",
+          "basis": "publishing site (organizer's own course page)"
+        }
+      ],
+      "missing": [
+        "when",
+        "format"
+      ],
+      "warnings": [
+        "Session timing is flexible ('Dates & times are flexible: Monday, Tuesday, Wednesday, Thursday, Friday, 6–7:30 pm, 12/18'); not treated as a dated session.",
+        "Location is the organizer's address from the site footer; the page does not name a course-specific room."
+      ]
+    },
+    {
+      "record_id": "caw-photo-dc1d381afb",
+      "source_id": "caw-photo",
+      "kind": "program",
+      "title": "Open Darkroom Session",
+      "url": "https://creativeartsworkshop.org/courses/no-term/open-darkroom-session/",
+      "publisher": "Creative Arts Workshop",
+      "organizer": "Creative Arts Workshop",
+      "collected_at": "2026-10-25T01:33:05+00:00",
+      "timezone": "America/New_York",
+      "date_text": "Term: Fall 2026",
+      "start": null,
+      "end": null,
+      "sessions": [
+        {
+          "date_text": "Open Practice Session: Friday, 6–9 pm, 9/11 $30.00;",
+          "start": "2026-09-11T18:00:00-04:00",
+          "end": "2026-09-11T21:00:00-04:00",
+          "status_text": "Registration closed",
+          "register_url": null
+        },
+        {
+          "date_text": "Open Practice Session: Friday, 6–9 pm, 9/18 $30.00;",
+          "start": "2026-09-18T18:00:00-04:00",
+          "end": "2026-09-18T21:00:00-04:00",
+          "status_text": "Registration closed",
+          "register_url": null
+        },
+        {
+          "date_text": "Open Practice Session: Friday, 6–9 pm, 9/25 $30.00;",
+          "start": "2026-09-25T18:00:00-04:00",
+          "end": "2026-09-25T21:00:00-04:00",
+          "status_text": "Registration closed",
+          "register_url": null
+        },
+        {
+          "date_text": "Open Practice Session: Friday, 6–9 pm, 10/2 $30.00;",
+          "start": "2026-10-02T18:00:00-04:00",
+          "end": "2026-10-02T21:00:00-04:00",
+          "status_text": "Registration closed",
+          "register_url": null
+        },
+        {
+          "date_text": "Open Practice Session: Friday, 6–9 pm, 10/9 $30.00;",
+          "start": "2026-10-09T18:00:00-04:00",
+          "end": "2026-10-09T21:00:00-04:00",
+          "status_text": "Registration closed",
+          "register_url": null
+        },
+        {
+          "date_text": "Open Practice Session: Friday, 6–9 pm, 10/16 $30.00;",
+          "start": "2026-10-16T18:00:00-04:00",
+          "end": "2026-10-16T21:00:00-04:00",
+          "status_text": "Registration closed",
+          "register_url": null
+        },
+        {
+          "date_text": "Open Practice Session: Friday, 6–9 pm, 10/23 $30.00;",
+          "start": "2026-10-23T18:00:00-04:00",
+          "end": "2026-10-23T21:00:00-04:00",
+          "status_text": "Registration closed",
+          "register_url": null
+        },
+        {
+          "date_text": "Open Practice Session: Friday, 6–9 pm, 10/30 $30.00;",
+          "start": "2026-10-30T18:00:00-04:00",
+          "end": "2026-10-30T21:00:00-04:00",
+          "status_text": "Register",
+          "register_url": "https://campscui.active.com/orgs/CreativeArtsWorkshop?season=3846734&session=71700334"
+        },
+        {
+          "date_text": "Open Practice Session: Friday, 6–9 pm, 11/6 $30.00;",
+          "start": "2026-11-06T18:00:00-05:00",
+          "end": "2026-11-06T21:00:00-05:00",
+          "status_text": "Register",
+          "register_url": "https://campscui.active.com/orgs/CreativeArtsWorkshop?season=3846734&session=71700334"
+        },
+        {
+          "date_text": "Open Practice Session: Friday, 6–9 pm, 11/13 $30.00;",
+          "start": "2026-11-13T18:00:00-05:00",
+          "end": "2026-11-13T21:00:00-05:00",
+          "status_text": "Register",
+          "register_url": "https://campscui.active.com/orgs/CreativeArtsWorkshop?season=3846734&session=71700334"
+        }
+      ],
+      "format": "in_person",
+      "format_text": "In person",
+      "location_text": "80 Audubon Street, New Haven, CT 06510",
+      "eligibility_texts": [
+        "This darkroom practice session is for students who have taken darkroom classes at CAW before and are comfortable working independently.",
+        "Suggested Ages: 18+"
+      ],
+      "cost_text": "Sessions are $30 each.",
+      "registration_url": "https://campscui.active.com/orgs/CreativeArtsWorkshop?season=3846734&session=71700334",
+      "registration_text": "To reserve a spot for a specific week, please contact the front desk at 203-562-4927.",
+      "capacity_text": null,
+      "topics": [
+        "Photography"
+      ],
+      "summary": "This darkroom practice session is for students who have taken darkroom classes at CAW before and are comfortable working independently.",
+      "evidence": [
+        {
+          "field": "format",
+          "quote": "In person",
+          "basis": "course header label"
+        },
+        {
+          "field": "topics",
+          "quote": "Photography Class: Beginner + Intermediate",
+          "basis": "course category line"
+        },
+        {
+          "field": "date_text",
+          "quote": "Term: Fall 2026",
+          "basis": "page text"
+        },
+        {
+          "field": "sessions",
+          "quote": "Open Practice Session: Friday, 6–9 pm, 9/11 $30.00; Registration closed",
+          "basis": "first of 10 session blocks"
+        },
+        {
+          "field": "eligibility_texts",
+          "quote": "This darkroom practice session is for students who have taken darkroom classes at CAW before and are comfortable working independently.",
+          "basis": "page text"
+        },
+        {
+          "field": "eligibility_texts",
+          "quote": "Suggested Ages: 18+",
+          "basis": "page text"
+        },
+        {
+          "field": "cost_text",
+          "quote": "Sessions are $30 each.",
+          "basis": "page text"
+        },
+        {
+          "field": "registration_text",
+          "quote": "To reserve a spot for a specific week, please contact the front desk at 203-562-4927.",
+          "basis": "page text"
+        },
+        {
+          "field": "registration_url",
+          "quote": "https://campscui.active.com/orgs/CreativeArtsWorkshop?season=3846734&session=71700334",
+          "basis": "session 'Register' link"
+        },
+        {
+          "field": "location_text",
+          "quote": "80 Audubon Street, New Haven, CT 06510",
+          "basis": "site footer 'Location' (organizer address)"
+        },
+        {
+          "field": "organizer",
+          "quote": "Creative Arts Workshop",
+          "basis": "publishing site (organizer's own course page)"
+        }
+      ],
+      "missing": [
+        "capacity_text"
+      ],
+      "warnings": [
+        "Session dates show month/day only; the year 2026 comes from the page's term line ('Fall 2026').",
+        "Location is the organizer's address from the site footer; the page does not name a course-specific room."
+      ]
+    }
+  ],
+  "reparsed_at": "2026-10-25T01:34:48+00:00",
+  "snapshot_note": "Fixed snapshot of a real automated collection. Shown as 'snapshot' with its collected_at date; not live data.",
+  "collection_outcome": "ok",
+  "requests": [
+    {
+      "url": "https://creativeartsworkshop.org/robots.txt",
+      "at": "2026-10-25T01:32:34+00:00",
+      "status": 200,
+      "bytes": 198,
+      "ms": 60
+    },
+    {
+      "url": "https://creativeartsworkshop.org/courses/department/photography/",
+      "at": "2026-10-25T01:32:44+00:00",
+      "status": 200,
+      "bytes": 110286,
+      "ms": 50
+    },
+    {
+      "url": "https://creativeartsworkshop.org/courses/no-term/photography-individual-coaching/",
+      "at": "2026-10-25T01:32:54+00:00",
+      "status": 200,
+      "bytes": 96880,
+      "ms": 85
+    },
+    {
+      "url": "https://creativeartsworkshop.org/courses/no-term/open-darkroom-session/",
+      "at": "2026-10-25T01:33:04+00:00",
+      "status": 200,
+      "bytes": 96681,
+      "ms": 195
+    }
+  ],
+  "robots": {
+    "creativeartsworkshop.org": "robots.txt read"
+  }
+}

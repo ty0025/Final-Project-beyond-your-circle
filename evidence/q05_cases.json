@@ -1,0 +1,509 @@
+[
+  {
+    "case": "C1",
+    "title": "Photography: meet people in person, no darkroom experience",
+    "request": "I'm an SOM MBA student. I love photography but have never done darkroom work. I want to meet people who shoot, in person.",
+    "baseline": [
+      "caw-photo-d1411fc392",
+      "caw-photo-dc1d381afb",
+      "case-nhcc-club"
+    ],
+    "rows": [
+      {
+        "id": "caw-photo-d1411fc392",
+        "title": "Photography Individual Coaching",
+        "kind": "program",
+        "status": "conditional",
+        "reasons": [],
+        "to_confirm": [
+          "You asked for in person; the page does not say whether it is in person or online.",
+          "Places are limited; availability is not shown here."
+        ],
+        "met": [],
+        "relevance": [
+          "photography",
+          "camera"
+        ],
+        "interaction": null
+      },
+      {
+        "id": "case-nhcc-club",
+        "title": "New Haven Camera Club",
+        "kind": "community",
+        "status": "excluded",
+        "reasons": [
+          "You asked for in person; the page says on Zoom."
+        ],
+        "to_confirm": [],
+        "met": [],
+        "relevance": [
+          "photography",
+          "photo",
+          "camera"
+        ],
+        "interaction": "Club"
+      },
+      {
+        "id": "caw-photo-dc1d381afb",
+        "title": "Open Darkroom Session",
+        "kind": "program",
+        "status": "excluded",
+        "reasons": [
+          "The page sets a prerequisite; you said “never done darkroom work”."
+        ],
+        "to_confirm": [],
+        "met": [
+          "You asked for in person; the page says In person."
+        ],
+        "relevance": [
+          "photography",
+          "darkroom"
+        ],
+        "interaction": null
+      }
+    ],
+    "counts": {
+      "match": 0,
+      "conditional": 1,
+      "excluded": 2
+    },
+    "test_time": "2026-10-25T09:00:00-04:00",
+    "sources": [
+      "snapshot",
+      "snapshot",
+      "snapshot"
+    ]
+  },
+  {
+    "case": "C2",
+    "title": "Photography: a club to share photos, online is fine",
+    "request": "I'd like a photography club where people share and discuss their photos. Online is fine.",
+    "baseline": [
+      "caw-photo-d1411fc392",
+      "caw-photo-dc1d381afb",
+      "case-nhcc-club"
+    ],
+    "rows": [
+      {
+        "id": "case-nhcc-club",
+        "title": "New Haven Camera Club",
+        "kind": "community",
+        "status": "match",
+        "reasons": [],
+        "to_confirm": [],
+        "met": [],
+        "relevance": [
+          "photography",
+          "photo",
+          "camera"
+        ],
+        "interaction": "Club"
+      },
+      {
+        "id": "caw-photo-dc1d381afb",
+        "title": "Open Darkroom Session",
+        "kind": "program",
+        "status": "conditional",
+        "reasons": [],
+        "to_confirm": [
+          "The page sets a prerequisite; you did not say whether you meet it."
+        ],
+        "met": [],
+        "relevance": [
+          "photography",
+          "darkroom"
+        ],
+        "interaction": null
+      },
+      {
+        "id": "caw-photo-d1411fc392",
+        "title": "Photography Individual Coaching",
+        "kind": "program",
+        "status": "conditional",
+        "reasons": [],
+        "to_confirm": [
+          "Places are limited; availability is not shown here."
+        ],
+        "met": [],
+        "relevance": [
+          "photography",
+          "camera"
+        ],
+        "interaction": null
+      }
+    ],
+    "counts": {
+      "match": 1,
+      "conditional": 2,
+      "excluded": 0
+    },
+    "test_time": "2026-10-25T09:00:00-04:00",
+    "sources": [
+      "snapshot",
+      "snapshot",
+      "snapshot"
+    ]
+  },
+  {
+    "case": "C3",
+    "title": "Sports: play casually as a beginner",
+    "request": "I'm an SOM student and a beginner. I'd like to play volleyball or basketball casually with other grad students.",
+    "baseline": [
+      "case-rec-volleyball-fall",
+      "case-rec-basketball-winter"
+    ],
+    "rows": [
+      {
+        "id": "case-rec-basketball-winter",
+        "title": "Grad/Pro Intramurals: Winter Basketball",
+        "kind": "program",
+        "status": "conditional",
+        "reasons": [],
+        "to_confirm": [
+          "The page requires a membership (“have a current PWG Membership”).",
+          "Places are limited; availability is not shown here."
+        ],
+        "met": [
+          "The page says it is open to “Current Yale Graduate Students”.",
+          "The page says no particular experience is needed.",
+          "You want to play; the page fits that."
+        ],
+        "relevance": [
+          "sports",
+          "basketball",
+          "intramural",
+          "intramurals"
+        ],
+        "interaction": "social"
+      },
+      {
+        "id": "case-rec-volleyball-fall",
+        "title": "Grad/Pro Intramurals: Fall Volleyball",
+        "kind": "program",
+        "status": "excluded",
+        "reasons": [
+          "Registration deadline passed (Registration Dates: September 2nd - September 16th)"
+        ],
+        "to_confirm": [],
+        "met": [],
+        "interaction": null
+      }
+    ],
+    "counts": {
+      "match": 0,
+      "conditional": 1,
+      "excluded": 1
+    },
+    "test_time": "2026-10-25T09:00:00-04:00",
+    "sources": [
+      "snapshot",
+      "snapshot",
+      "snapshot"
+    ]
+  },
+  {
+    "case": "C4",
+    "title": "Sports: watch games with others",
+    "request": "I don't want to play; I'd like to watch basketball games with other people.",
+    "baseline": [
+      "case-rec-volleyball-fall",
+      "case-rec-basketball-winter"
+    ],
+    "rows": [
+      {
+        "id": "case-rec-volleyball-fall",
+        "title": "Grad/Pro Intramurals: Fall Volleyball",
+        "kind": "program",
+        "status": "excluded",
+        "reasons": [
+          "Registration deadline passed (Registration Dates: September 2nd - September 16th)"
+        ],
+        "to_confirm": [],
+        "met": [],
+        "interaction": null
+      },
+      {
+        "id": "case-rec-basketball-winter",
+        "title": "Grad/Pro Intramurals: Winter Basketball",
+        "kind": "program",
+        "status": "excluded",
+        "reasons": [
+          "You want to watch; this listing is for playing."
+        ],
+        "to_confirm": [
+          "The page says it is open to “Current Yale Graduate Students”.",
+          "The page requires a membership (“have a current PWG Membership”).",
+          "Places are limited; availability is not shown here."
+        ],
+        "met": [
+          "The page says no particular experience is needed."
+        ],
+        "relevance": [
+          "sports",
+          "basketball",
+          "intramural",
+          "intramurals"
+        ],
+        "interaction": "social"
+      }
+    ],
+    "counts": {
+      "match": 0,
+      "conditional": 0,
+      "excluded": 2
+    },
+    "test_time": "2026-10-25T09:00:00-04:00",
+    "sources": [
+      "snapshot",
+      "snapshot",
+      "snapshot"
+    ]
+  },
+  {
+    "case": "C5",
+    "title": "AI introduction for a non-technical student, online fine",
+    "request": "I'm not technical. I want a beginner-friendly introduction to using AI tools. Online is fine.",
+    "baseline": [
+      "ycgs-events-5971125a69",
+      "ycgs-events-9d7a535869",
+      "ycgs-events-8d19c8ae70"
+    ],
+    "rows": [
+      {
+        "id": "ycgs-events-8d19c8ae70",
+        "title": "Hack My Life",
+        "kind": "event",
+        "status": "match",
+        "reasons": [],
+        "to_confirm": [],
+        "met": [],
+        "relevance": [
+          "ai"
+        ],
+        "interaction": "workshop"
+      },
+      {
+        "id": "ycgs-events-5971125a69",
+        "title": "Intro to GenAI Promptathon",
+        "kind": "event",
+        "status": "match",
+        "reasons": [],
+        "to_confirm": [],
+        "met": [
+          "The page says no particular experience is needed."
+        ],
+        "relevance": [
+          "ai",
+          "genai",
+          "generative ai"
+        ],
+        "interaction": "hands-on"
+      },
+      {
+        "id": "ycgs-events-9d7a535869",
+        "title": "Build A Bot Workshop",
+        "kind": "event",
+        "status": "conditional",
+        "reasons": [],
+        "to_confirm": [
+          "Places are limited; availability is not shown here."
+        ],
+        "met": [
+          "The page says no particular experience is needed."
+        ],
+        "relevance": [
+          "chatbot",
+          "bot"
+        ],
+        "interaction": "Workshop"
+      }
+    ],
+    "counts": {
+      "match": 2,
+      "conditional": 1,
+      "excluded": 0
+    },
+    "test_time": "2026-10-25T09:00:00-04:00",
+    "sources": [
+      "snapshot",
+      "snapshot",
+      "snapshot"
+    ]
+  },
+  {
+    "case": "C6",
+    "title": "AI or maps talk this week, in person",
+    "request": "Any hands-on AI or mapping session this week, in person?",
+    "baseline": [
+      "ycgs-events-5971125a69",
+      "ycgs-events-2602910e02",
+      "ycgs-events-f313121cad",
+      "ycgs-events-9d7a535869",
+      "ycgs-events-8d19c8ae70"
+    ],
+    "rows": [
+      {
+        "id": "ycgs-events-2602910e02",
+        "title": "Geospatial CoP: Narrative Cartography - How Journalists Turn Maps Into Stories",
+        "kind": "event",
+        "status": "conditional",
+        "reasons": [],
+        "to_confirm": [
+          "You asked for in person; the page does not say whether it is in person or online."
+        ],
+        "met": [
+          "You asked for something this week; the date is Wed Oct 28, 2026 · 4:00 PM–5:00 PM EDT."
+        ],
+        "relevance": [
+          "maps"
+        ],
+        "interaction": null
+      },
+      {
+        "id": "ycgs-events-f313121cad",
+        "title": "Telling Stories with Maps - Part II: Hands-On Map Making [in person]",
+        "kind": "event",
+        "status": "conditional",
+        "reasons": [],
+        "to_confirm": [
+          "Audience as written: “designed for instructors who want to help students use maps and map-based storytelling in the”. Check that it suits you.",
+          "The page sets a prerequisite; you did not say whether you meet it."
+        ],
+        "met": [
+          "You asked for in person; the page says In-person.",
+          "You asked for something this week; the date is Wed Oct 28, 2026 · 9:00 AM–12:30 PM EDT."
+        ],
+        "relevance": [
+          "maps"
+        ],
+        "interaction": "Hands-On"
+      },
+      {
+        "id": "ycgs-events-9d7a535869",
+        "title": "Build A Bot Workshop",
+        "kind": "event",
+        "status": "excluded",
+        "reasons": [
+          "You asked for something this week; the date is Fri Nov 20, 2026 · 12:00 PM–1:00 PM EST."
+        ],
+        "to_confirm": [
+          "You asked for in person; the page is contradictory about the format.",
+          "Places are limited; availability is not shown here."
+        ],
+        "met": [
+          "The page says no particular experience is needed."
+        ],
+        "relevance": [
+          "chatbot",
+          "bot"
+        ],
+        "interaction": "Workshop"
+      },
+      {
+        "id": "ycgs-events-8d19c8ae70",
+        "title": "Hack My Life",
+        "kind": "event",
+        "status": "excluded",
+        "reasons": [
+          "You asked for something this week; the date is Tue Dec 15, 2026 · 12:00 PM–1:00 PM EST."
+        ],
+        "to_confirm": [
+          "You asked for in person; the page is contradictory about the format."
+        ],
+        "met": [],
+        "relevance": [
+          "ai"
+        ],
+        "interaction": "workshop"
+      },
+      {
+        "id": "ycgs-events-5971125a69",
+        "title": "Intro to GenAI Promptathon",
+        "kind": "event",
+        "status": "excluded",
+        "reasons": [
+          "You asked for in person; the page says Online."
+        ],
+        "to_confirm": [],
+        "met": [
+          "You asked for something this week; the date is Tue Oct 27, 2026 · 12:00 PM–1:00 PM EDT.",
+          "The page says no particular experience is needed."
+        ],
+        "relevance": [
+          "ai",
+          "genai",
+          "generative ai"
+        ],
+        "interaction": "hands-on"
+      }
+    ],
+    "counts": {
+      "match": 0,
+      "conditional": 2,
+      "excluded": 3
+    },
+    "test_time": "2026-10-25T09:00:00-04:00",
+    "sources": [
+      "snapshot",
+      "snapshot",
+      "snapshot"
+    ]
+  },
+  {
+    "case": "C7",
+    "title": "Unknown eligibility: drone hobby meetup",
+    "request": "Is there a casual drone hobby meetup?",
+    "baseline": [
+      "ycgs-events-357e37a349"
+    ],
+    "rows": [
+      {
+        "id": "ycgs-events-357e37a349",
+        "title": "YCGS Drone Hobbyist Gathering II",
+        "kind": "event",
+        "status": "conditional",
+        "reasons": [],
+        "to_confirm": [
+          "The page sets an age limit; you did not state your age."
+        ],
+        "met": [
+          "The page says no particular experience is needed."
+        ],
+        "relevance": [
+          "drone",
+          "drones"
+        ],
+        "interaction": "Gathering"
+      }
+    ],
+    "counts": {
+      "match": 0,
+      "conditional": 1,
+      "excluded": 0
+    },
+    "test_time": "2026-10-25T09:00:00-04:00",
+    "sources": [
+      "snapshot",
+      "snapshot",
+      "snapshot"
+    ]
+  },
+  {
+    "case": "C8",
+    "title": "Empty result: pottery wheel class",
+    "request": "Is there a pottery wheel class?",
+    "baseline": [],
+    "rows": [],
+    "counts": {
+      "match": 0,
+      "conditional": 0,
+      "excluded": 0
+    },
+    "test_time": "2026-10-25T09:00:00-04:00",
+    "sources": [
+      "snapshot",
+      "snapshot",
+      "snapshot"
+    ]
+  }
+]

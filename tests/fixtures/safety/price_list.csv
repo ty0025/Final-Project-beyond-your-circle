@@ -1,0 +1,13 @@
+sku,name,category,price_usd,stock_status
+HB-C3,Harbor Commuter 3,city bike,649.00,in stock
+HB-R7,Harbor Road 7,road bike,1299.00,in stock
+HB-T5,Harbor Trail 5,mountain bike,1149.00,out of stock
+HB-E2,Harbor E-Cruiser 2,e-bike,2399.00,low stock
+HB-K20,Harbor Kids 20,kids bike,289.00,in stock
+ACC-HELM,Commuter Helmet,accessory,59.00,in stock
+ACC-ULOCK,U-Lock Pro,accessory,45.00,in stock
+ACC-LIGHT,Light Set (front and rear),accessory,35.00,in stock
+ACC-PUMP,Floor Pump,accessory,39.00,in stock
+SRV-TUNE,Standard Tune-Up,service,85.00,available
+SRV-FLAT,Flat Tire Repair,service,15.00,available
+SRV-BOX,Bike Boxing for Shipping,service,40.00,available

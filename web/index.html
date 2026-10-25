@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#1e3a8a">
+  <title>Beyond Your Circle</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231d4ed8'/%3E%3Cpath d='M10 21l6-10 6 10' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='16' cy='11' r='3' fill='white'/%3E%3Ccircle cx='10' cy='21' r='3' fill='%23bfdbfe'/%3E%3Ccircle cx='22' cy='21' r='3' fill='%23bfdbfe'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/static/styles.css">
+  <script src="/static/app.js" defer></script>
+  <script src="/static/discover.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="app-header">
+    <div class="app-header-inner">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" width="26" height="26">
+            <path d="M9 22l7-12 7 12" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="16" cy="10" r="3.4" fill="#fff"/>
+            <circle cx="9" cy="22" r="3.4" fill="#bfdbfe"/>
+            <circle cx="23" cy="22" r="3.4" fill="#bfdbfe"/>
+          </svg>
+        </span>
+        <div class="brand-text">
+          <h1 id="app-title">Beyond Your Circle</h1>
+          <p id="app-tagline" class="tagline">Loading…</p>
+        </div>
+      </div>
+      <details class="sys-status">
+        <summary>Model &amp; usage</summary>
+        <ul class="pills" aria-label="System status">
+          <li class="pill" id="pill-model" data-tone="neutral"><span class="pill-label">Model</span> <span class="pill-value">…</span></li>
+          <li class="pill" id="pill-key" data-tone="neutral"><span class="pill-label">API key</span> <span class="pill-value">…</span></li>
+          <li class="pill" id="pill-spend" data-tone="neutral"><span class="pill-label">Today</span> <span class="pill-value">…</span></li>
+        </ul>
+      </details>
+    </div>
+  </header>
+
+  <div id="banner" class="banner" role="status" hidden></div>
+
+  <div class="tabs-bar">
+    <div class="tabs" role="tablist" aria-label="Views">
+      <button type="button" class="tab" role="tab" id="tab-run" data-tab="run" aria-controls="panel-run" aria-selected="true">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l1.9 5.1 5.1 1.9-5.1 1.9-1.9 5.1-1.9-5.1-5.1-1.9 5.1-1.9z"/></svg>
+        Find
+      </button>
+      <button type="button" class="tab" role="tab" id="tab-discover" data-tab="discover" aria-controls="panel-discover" aria-selected="false" tabindex="-1">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/></svg>
+        Browse all
+      </button>
+      <button type="button" class="tab" role="tab" id="tab-usage" data-tab="usage" aria-controls="panel-usage" aria-selected="false" tabindex="-1">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20v-7M11 20V5M17 20v-10M3 20h18"/></svg>
+        Usage
+      </button>
+    </div>
+  </div>
+
+  <main id="main" tabindex="-1">
+    <!-- Find: describe what you want in a sentence; the AI matcher searches the stored listings -->
+    <section id="panel-run" class="find" role="tabpanel" aria-labelledby="tab-run">
+      <section class="card ask-card" aria-labelledby="ask-heading">
+        <h2 id="ask-heading">What are you looking for?</h2>
+        <p class="muted ask-note">Say it in a sentence: your interest, what you want out of it (meet people, learn, play or watch) and how you’d like to take part. The AI looks only at the public listings this app has collected; every result links to its source page.</p>
+        <form id="ask-form" novalidate>
+          <label class="field-label" for="input">Your request</label>
+          <textarea id="input" name="input" rows="3" spellcheck="true"
+                    placeholder="e.g. I shoot film and would like to meet other photographers in person"
+                    aria-describedby="char-count kbd-hint"></textarea>
+          <div class="input-meta">
+            <span id="kbd-hint" class="muted small"><kbd>Ctrl</kbd> + <kbd>Enter</kbd> to search</span>
+            <span id="char-count" class="char-count small">0 / 8,000</span>
+          </div>
+          <fieldset id="ask-options" class="ask-options">
+            <legend>Optional: set these only if they matter to you</legend>
+            <label class="opt-check"><input type="checkbox" id="opt-som"> I’m a Yale SOM graduate student</label>
+            <label class="dc-field"><span class="section-label">How you want to take part</span>
+              <select id="opt-mode"><option value="">Not set (use my words)</option><option value="in_person">In person</option><option value="online">Online</option><option value="either">Either is fine</option></select></label>
+            <label class="dc-field"><span class="section-label">When</span>
+              <select id="opt-when"><option value="">Not set (use my words)</option><option value="this_week">Next 7 days</option><option value="next_few_weeks">Next 4 weeks</option></select></label>
+          </fieldset>
+          <div class="actions">
+            <button type="submit" id="run-btn" class="btn btn-primary">Find</button>
+            <button type="button" id="stop-btn" class="btn btn-stop" hidden>Stop</button>
+            <button type="button" id="clear-btn" class="btn btn-ghost">Clear</button>
+          </div>
+        </form>
+        <div id="examples-wrap" class="examples" hidden>
+          <p class="section-label" id="examples-label">Or start from an example</p>
+          <ul id="examples" class="chips" aria-labelledby="examples-label"></ul>
+        </div>
+        <p id="status" class="status" role="status" aria-live="polite"></p>
+      </section>
+
+      <section class="card result-card" aria-labelledby="result-heading">
+        <div class="card-head">
+          <h2 id="result-heading">Results</h2>
+          <span id="result-badges" class="badge-row"></span>
+        </div>
+        <div id="result" class="result"></div>
+      </section>
+
+      <!-- Evidence view: model calls, tools and cost of the run on screen (collapsed by default) -->
+      <details id="run-details" class="card run-details">
+        <summary>
+          <span class="run-details-title">Run details: steps, tool calls, model calls and cost</span>
+          <span id="cost-state" class="badge badge-muted">Idle</span>
+        </summary>
+        <div class="run-details-body">
+          <section class="cost-card" aria-labelledby="cost-heading">
+            <div class="card-head">
+              <h3 id="cost-heading" class="card-title">Run cost</h3>
+              <span id="limits-note" class="muted small"></span>
+            </div>
+            <dl class="kpis">
+              <div class="kpi kpi-primary"><dt>Cost (USD)</dt><dd id="cost-usd">$0.000000</dd></div>
+              <div class="kpi"><dt>Model calls</dt><dd id="cost-calls">0</dd></div>
+              <div class="kpi"><dt>Cache hit</dt><dd id="cost-cache">–</dd></div>
+              <div class="kpi"><dt>Elapsed</dt><dd id="cost-elapsed">0.0 s</dd></div>
+            </dl>
+            <div class="mix">
+              <div class="mix-head">
+                <span class="small strong">Input token mix</span>
+                <span class="legend small"><span class="swatch seg-uncached" aria-hidden="true"></span>Uncached <b id="tok-uncached">0</b></span>
+              </div>
+              <div id="mix-bar" class="mix-bar" role="img" aria-label="No input tokens yet">
+                <span id="seg-cached" class="seg seg-cached"></span>
+                <span id="seg-write" class="seg seg-write"></span>
+                <span id="seg-uncached" class="seg seg-uncached"></span>
+              </div>
+            </div>
+            <dl class="tokens">
+              <div class="tok"><dt>Input</dt><dd id="tok-input">0</dd></div>
+              <div class="tok"><dt><span class="swatch seg-cached" aria-hidden="true"></span>Cached</dt><dd id="tok-cached">0</dd></div>
+              <div class="tok"><dt><span class="swatch seg-write" aria-hidden="true"></span>Cache write</dt><dd id="tok-write">0</dd></div>
+              <div class="tok"><dt>Output</dt><dd id="tok-output">0</dd></div>
+              <div class="tok"><dt title="Reasoning tokens are already included in output">Reasoning</dt><dd id="tok-reasoning">0</dd></div>
+            </dl>
+          </section>
+
+          <section class="timeline-card" aria-labelledby="timeline-heading">
+            <div class="card-head">
+              <h3 id="timeline-heading" class="card-title">How it worked</h3>
+              <div class="head-tools">
+                <span id="timeline-meta" class="badge-row"></span>
+                <button type="button" id="expand-btn" class="btn btn-ghost btn-sm" aria-pressed="false" hidden>Expand all</button>
+              </div>
+            </div>
+            <div id="timeline" class="timeline" role="region" tabindex="0" aria-label="Run timeline: agents, model calls, tools and safety events"></div>
+          </section>
+        </div>
+      </details>
+    </section>
+
+    <!-- Browse: deterministic browsing of collected public records (no model calls) -->
+    <section id="panel-discover" class="discover" role="tabpanel" aria-labelledby="tab-discover" hidden>
+      <div class="usage-head">
+        <div>
+          <h2 class="page-title">Browse all collected listings</h2>
+          <p class="muted small" id="dc-notice">Public events, programs and communities collected from the source pages listed below.</p>
+        </div>
+        <div class="head-tools">
+          <button type="button" id="go-ask" class="btn btn-secondary">Describe it in your own words</button>
+          <button type="button" id="dc-refresh" class="btn btn-secondary">Refresh sources</button>
+        </div>
+      </div>
+      <p id="dc-status" class="status" role="status" aria-live="polite"></p>
+      <div id="dc-sources" class="dc-sources" role="region" aria-label="Source status"></div>
+
+      <form id="dc-filters" class="card dc-filters" role="search" aria-label="Filters">
+        <div class="dc-filter-row">
+          <span class="section-label" id="dc-interest-label">Interest</span>
+          <div id="dc-interests" class="chips" role="group" aria-labelledby="dc-interest-label"></div>
+        </div>
+        <div class="dc-filter-row dc-filter-grid">
+          <label class="dc-field"><span class="section-label">Other interest or keyword</span>
+            <input id="dc-q" type="search" maxlength="100" placeholder="e.g. drone, darkroom, maps" autocomplete="off"></label>
+          <label class="dc-field"><span class="section-label">How you want to take part</span>
+            <select id="dc-mode"><option value="any">In person or online</option><option value="in_person">In person</option><option value="online">Online</option></select></label>
+          <label class="dc-field"><span class="section-label">When</span>
+            <select id="dc-when"><option value="all">Everything upcoming</option><option value="this_week">This week</option><option value="coming">Coming weeks</option><option value="ongoing">Ongoing programs &amp; communities</option></select></label>
+        </div>
+      </form>
+
+      <div id="dc-sections"></div>
+      <div id="dc-hidden" class="dc-hidden"></div>
+    </section>
+
+    <!-- Usage: ledger stats, projections and recent runs -->
+    <section id="panel-usage" class="usage" role="tabpanel" aria-labelledby="tab-usage" hidden>
+      <div class="usage-head">
+        <div>
+          <h2 class="page-title">Usage &amp; tokenomics</h2>
+          <p class="muted small">Every model call is logged with its tokens and cost. Numbers below come from runs on this server.</p>
+        </div>
+        <button type="button" id="refresh-usage" class="btn btn-secondary">Refresh</button>
+      </div>
+      <p id="usage-status" class="status" role="status" aria-live="polite"></p>
+      <div id="stats-tiles" class="tiles"></div>
+      <div class="usage-grid">
+        <section class="card" aria-labelledby="avg-heading">
+          <h3 id="avg-heading" class="card-title">Average per run</h3>
+          <div class="table-wrap"><table id="avg-table" class="data-table compact"></table></div>
+        </section>
+        <section class="card" aria-labelledby="dist-heading">
+          <h3 id="dist-heading" class="card-title">Cost per run</h3>
+          <div class="table-wrap"><table id="dist-table" class="data-table compact"></table></div>
+        </section>
+        <section class="card" aria-labelledby="proj-heading">
+          <h3 id="proj-heading" class="card-title">Projections</h3>
+          <div class="table-wrap"><table id="proj-table" class="data-table compact"></table></div>
+          <p id="assumptions" class="muted small assumptions"></p>
+        </section>
+      </div>
+      <section class="card" aria-labelledby="runs-heading">
+        <div class="card-head">
+          <h3 id="runs-heading" class="card-title">Recent runs</h3>
+          <span class="muted small">Select a run to replay its saved trace on the Find tab (no new model call).</span>
+        </div>
+        <div class="table-wrap"><table id="runs-table" class="data-table runs-table"></table></div>
+      </section>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <p>Runs, costs and traces are stored locally in <code>runs/</code>. API keys stay on the server and are never sent to this page.<span id="version"></span></p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,24 @@
+# Secrets: never commit real keys
+.env
+.env.*
+!.env.example
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# Runtime output (usage ledger, traces)
+runs/
+
+# Local tooling
+.claude/
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# evidence/ is committed on purpose (feeds the report)
