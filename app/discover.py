@@ -124,6 +124,18 @@ def ny_midnight(day: date) -> datetime:
     return datetime.combine(day, time(0), tzinfo=NY)
 
 
+def term_in(term: str, text: str) -> bool:
+    """True if an interest word occurs in ``text`` (shared by Browse, the search tool and the verifier).
+
+    A whole word, any case ("AI", "ai"). A short acronym (2-4 letters) also counts as the capitalised end
+    of a compound word: "GeoAI", "GenAI", "OpenAI", "ArcGIS", "AutoML" (G-18). That second check is
+    case-sensitive, so ordinary words such as "maintain", "said" or "Thai" never match "ai".
+    """
+    if re.search(rf"\b{re.escape(term)}\b", text, re.I):
+        return True
+    return bool(re.fullmatch(r"[A-Za-z]{2,4}", term)) and re.search(rf"(?<=[a-z]){term.upper()}\b", text) is not None
+
+
 @dataclass(frozen=True)
 class Windows:
     now: datetime
@@ -208,7 +220,7 @@ def _match_terms(record: Record, q: str, interest: str | None) -> tuple[bool, li
     words = [w for w in re.split(r"[\s,;]+", q.strip()) if len(w) >= 2]
     if not terms and not words:
         return True, []
-    hits = [t for t in terms + words if re.search(rf"\b{re.escape(t)}\b", haystack, re.I)]
+    hits = [t for t in terms + words if term_in(t, haystack)]
     interest_ok = not terms or any(t in hits for t in terms)  # any term of the chosen interest
     words_ok = all(w in hits for w in words)  # every typed word
     return interest_ok and words_ok, sorted(set(hits), key=str.lower)

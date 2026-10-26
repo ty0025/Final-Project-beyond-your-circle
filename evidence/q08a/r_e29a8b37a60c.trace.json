@@ -1,0 +1,667 @@
+{
+  "run_id": "r_e29a8b37a60c",
+  "started_at": "2026-10-26T10:48:23.202Z",
+  "events": [
+    {
+      "seq": 1,
+      "ts": "2026-10-26T10:48:23.202Z",
+      "run_id": "r_e29a8b37a60c",
+      "type": "run_started",
+      "agent": null,
+      "data": {
+        "input_preview": "I need AI related events",
+        "app_title": "Beyond Your Circle",
+        "options": {
+          "som_student": true,
+          "participation": "either",
+          "time_window": "next_few_weeks"
+        }
+      }
+    },
+    {
+      "seq": 2,
+      "ts": "2026-10-26T10:48:27.332Z",
+      "run_id": "r_e29a8b37a60c",
+      "type": "model_call",
+      "agent": "guard",
+      "data": {
+        "step": 0,
+        "attempt": 1,
+        "mode": "live",
+        "served_model": "gpt-6-luna-global",
+        "finish": "final",
+        "usage": {
+          "input_tokens": 370,
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "output_tokens": 35,
+          "reasoning_tokens": 0,
+          "uncached_input_tokens": 370,
+          "total_tokens": 405
+        },
+        "usage_missing": [],
+        "cost_usd": 5.45e-05,
+        "latency_ms": 4128,
+        "n_function_calls": 0,
+        "run_usage": {
+          "input_tokens": 370,
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "output_tokens": 35,
+          "reasoning_tokens": 0,
+          "uncached_input_tokens": 370,
+          "total_tokens": 405
+        },
+        "run_cost_usd": 5.45e-05,
+        "run_calls": 1
+      }
+    },
+    {
+      "seq": 3,
+      "ts": "2026-10-26T10:48:27.340Z",
+      "run_id": "r_e29a8b37a60c",
+      "type": "agent_started",
+      "agent": "matcher",
+      "data": {
+        "depth": 0,
+        "task_preview": "I need AI related events\n\nConditions the user set with the form (treat them exactly like the user's own words): the user is a Yale SOM graduate student; the user is fine with in person or online; the user wants something in the next few weeks.",
+        "tools": [
+          "search_listings",
+          "get_listing"
+        ]
+      }
+    },
+    {
+      "seq": 4,
+      "ts": "2026-10-26T10:48:29.951Z",
+      "run_id": "r_e29a8b37a60c",
+      "type": "model_call",
+      "agent": "matcher",
+      "data": {
+        "step": 1,
+        "attempt": 1,
+        "mode": "live",
+        "served_model": "gpt-6-luna-global",
+        "finish": "tool_calls",
+        "usage": {
+          "input_tokens": 2536,
+          "cached_tokens": 0,
+          "cache_write_tokens": 2533,
+          "output_tokens": 92,
+          "reasoning_tokens": 36,
+          "uncached_input_tokens": 3,
+          "total_tokens": 2628
+        },
+        "usage_missing": [],
+        "cost_usd": 0.000362925,
+        "latency_ms": 2606,
+        "n_function_calls": 1,
+        "run_usage": {
+          "input_tokens": 2906,
+          "cached_tokens": 0,
+          "cache_write_tokens": 2533,
+          "output_tokens": 127,
+          "reasoning_tokens": 36,
+          "uncached_input_tokens": 373,
+          "total_tokens": 3033
+        },
+        "run_cost_usd": 0.000417425,
+        "run_calls": 2
+      }
+    },
+    {
+      "seq": 5,
+      "ts": "2026-10-26T10:48:29.951Z",
+      "run_id": "r_e29a8b37a60c",
+      "type": "tool_call",
+      "agent": "matcher",
+      "data": {
+        "tool": "search_listings",
+        "call_id": "call_Ji4jaRUyeBZ6fRQcSYULUxop",
+        "arguments": {
+          "interests": [
+            "ai",
+            "artificial intelligence",
+            "genai",
+            "generative ai",
+            "chatbot",
+            "machine learning",
+            "prompt"
+          ],
+          "participation": "any",
+          "when": "coming",
+          "max_results": 8
+        }
+      }
+    },
+    {
+      "seq": 6,
+      "ts": "2026-10-26T10:48:29.956Z",
+      "run_id": "r_e29a8b37a60c",
+      "type": "tool_result",
+      "agent": "matcher",
+      "data": {
+        "tool": "search_listings",
+        "call_id": "call_Ji4jaRUyeBZ6fRQcSYULUxop",
+        "ok": true,
+        "preview": "{\"now\": \"Mon Oct 26, 6:48 AM EDT\", \"this_week_window\": \"Mon Oct 26 – Sun Nov 1\", \"data_sources\": [{\"source\": \"Creative Arts Workshop: photography classes\", \"data\": \"cached\", \"collected\": \"Sat Oct 24, 9:50 PM EDT\"}, {\"source\": \"Yale Center for Geospatial Solutions: events\", \"data\": \"cached\", \"collected\": \"Sat Oct 24, 9:50 PM EDT\"}], \"filters_used\": {\"interests\": [\"ai\", \"artificial intelligence\", \"genai\", \"generative ai\", \"chatbot\", \"machine learning\", \"prompt\"], \"participation\": \"any\", \"when\": \"…",
+        "duration_ms": 4,
+        "truncated": false
+      }
+    },
+    {
+      "seq": 7,
+      "ts": "2026-10-26T10:48:35.973Z",
+      "run_id": "r_e29a8b37a60c",
+      "type": "model_call",
+      "agent": "matcher",
+      "data": {
+        "step": 2,
+        "attempt": 1,
+        "mode": "live",
+        "served_model": "gpt-6-luna-global",
+        "finish": "tool_calls",
+        "usage": {
+          "input_tokens": 3394,
+          "cached_tokens": 2533,
+          "cache_write_tokens": 858,
+          "output_tokens": 288,
+          "reasoning_tokens": 219,
+          "uncached_input_tokens": 3,
+          "total_tokens": 3682
+        },
+        "usage_missing": [],
+        "cost_usd": 0.00027688,
+        "latency_ms": 6010,
+        "n_function_calls": 2,
+        "run_usage": {
+          "input_tokens": 6300,
+          "cached_tokens": 2533,
+          "cache_write_tokens": 3391,
+          "output_tokens": 415,
+          "reasoning_tokens": 255,
+          "uncached_input_tokens": 376,
+          "total_tokens": 6715
+        },
+        "run_cost_usd": 0.0006943050000000001,
+        "run_calls": 3
+      }
+    },
+    {
+      "seq": 8,
+      "ts": "2026-10-26T10:48:35.974Z",
+      "run_id": "r_e29a8b37a60c",
+      "type": "tool_call",
+      "agent": "matcher",
+      "data": {
+        "tool": "get_listing",
+        "call_id": "call_uBPKY44I0o9jEtfqXaATDdfo",
+        "arguments": {
+          "record_id": "ycgs-events-9d7a535869"
+        }
+      }
+    },
+    {
+      "seq": 9,
+      "ts": "2026-10-26T10:48:35.975Z",
+      "run_id": "r_e29a8b37a60c",
+      "type": "tool_result",
+      "agent": "matcher",
+      "data": {
+        "tool": "get_listing",
+        "call_id": "call_uBPKY44I0o9jEtfqXaATDdfo",
+        "ok": true,
+        "preview": "{\"record_id\": \"ycgs-events-9d7a535869\", \"title\": \"Build A Bot Workshop\", \"kind\": \"event\", \"section\": \"coming weeks\", \"when\": \"Fri Nov 20, 2026 · 12:00 PM–1:00 PM EST\", \"upcoming_sessions\": [], \"date_text\": \"Fri Nov 20, 2026 12:00 pm—1:00 pm\", \"format\": \"Online\", \"location\": \"not stated\", \"organizer\": \"Yale Center for Geospatial Solutions\", \"cost\": \"not stated\", \"registration\": \"REGISTER\", \"capacity\": \"Attendance will be capped at 50 people.\", \"conditions_stated\": [\"No coding experience is neces…",
+        "duration_ms": 2,
+        "truncated": false
+      }
+    },
+    {
+      "seq": 10,
+      "ts": "2026-10-26T10:48:35.977Z",
+      "run_id": "r_e29a8b37a60c",
+      "type": "tool_call",
+      "agent": "matcher",
+      "data": {
+        "tool": "get_listing",
+        "call_id": "call_6yualVG5iWryi3RBQaXMIRRj",
+        "arguments": {
+          "record_id": "ycgs-events-29f5227779"
+        }
+      }
+    },
+    {
+      "seq": 11,
+      "ts": "2026-10-26T10:48:35.978Z",
+      "run_id": "r_e29a8b37a60c",
+      "type": "tool_result",
+      "agent": "matcher",
+      "data": {
+        "tool": "get_listing",
+        "call_id": "call_6yualVG5iWryi3RBQaXMIRRj",
+        "ok": true,
+        "preview": "{\"record_id\": \"ycgs-events-29f5227779\", \"title\": \"Save the Date: GIS Day 2026\", \"kind\": \"event\", \"section\": \"coming weeks\", \"when\": \"Mon Nov 16, 2026 · 8:30 AM–5:00 PM EST\", \"upcoming_sessions\": [], \"date_text\": \"Mon Nov 16, 2026 8:30 am—5:00 pm\", \"format\": \"In-person\", \"location\": \"not stated\", \"organizer\": \"Yale Center for Geospatial Solutions\", \"cost\": \"not stated\", \"registration\": \"REGISTER\", \"capacity\": \"not stated\", \"conditions_stated\": [], \"not_stated\": [\"location\", \"who can join\", \"cost…",
+        "duration_ms": 1,
+        "truncated": false
+      }
+    },
+    {
+      "seq": 12,
+      "ts": "2026-10-26T10:48:47.495Z",
+      "run_id": "r_e29a8b37a60c",
+      "type": "model_call",
+      "agent": "matcher",
+      "data": {
+        "step": 3,
+        "attempt": 1,
+        "mode": "live",
+        "served_model": "gpt-6-luna-global",
+        "finish": "final",
+        "usage": {
+          "input_tokens": 4322,
+          "cached_tokens": 3391,
+          "cache_write_tokens": 928,
+          "output_tokens": 1087,
+          "reasoning_tokens": 608,
+          "uncached_input_tokens": 3,
+          "total_tokens": 5409
+        },
+        "usage_missing": [],
+        "cost_usd": 0.00069371,
+        "latency_ms": 11515,
+        "n_function_calls": 0,
+        "run_usage": {
+          "input_tokens": 10622,
+          "cached_tokens": 5924,
+          "cache_write_tokens": 4319,
+          "output_tokens": 1502,
+          "reasoning_tokens": 863,
+          "uncached_input_tokens": 379,
+          "total_tokens": 12124
+        },
+        "run_cost_usd": 0.0013880150000000003,
+        "run_calls": 4
+      }
+    },
+    {
+      "seq": 13,
+      "ts": "2026-10-26T10:48:47.496Z",
+      "run_id": "r_e29a8b37a60c",
+      "type": "agent_finished",
+      "agent": "matcher",
+      "data": {
+        "stopped_reason": "final",
+        "steps": 3,
+        "tool_calls": 3,
+        "usage": {
+          "input_tokens": 10252,
+          "cached_tokens": 5924,
+          "cache_write_tokens": 4319,
+          "output_tokens": 1467,
+          "reasoning_tokens": 863,
+          "uncached_input_tokens": 9,
+          "total_tokens": 11719
+        },
+        "cost_usd": 0.001333515,
+        "output_preview": "{\"understood\": {\"interests\": [\"AI\"], \"purpose\": null, \"purpose_type\": \"not_stated\", \"participation\": \"either\", \"play_or_watch\": \"not_applicable\", \"experience_level\": null, \"identity\": \"Yale SOM graduate student\", \"time_window\": \"next_few_weeks\", \"time_preference\": null, \"location_preference\": null,…"
+      }
+    },
+    {
+      "seq": 14,
+      "ts": "2026-10-26T10:48:47.498Z",
+      "run_id": "r_e29a8b37a60c",
+      "type": "verification",
+      "agent": "verifier",
+      "data": {
+        "kind": "code",
+        "checked": 2,
+        "kept": 1,
+        "excluded": 0,
+        "dropped": 1,
+        "quotes_total": 2,
+        "quotes_verified": 2,
+        "details_redacted": 0,
+        "summary_sentences_removed": [],
+        "listings_read": [
+          "ycgs-events-29f5227779",
+          "ycgs-events-9d7a535869"
+        ],
+        "note": "Deterministic check by code (no model call): IDs, availability, verbatim quotes, unsupported details, participation conditions against what you said, and counts stated in the AI summary against the final cards.",
+        "dropped_picks": [
+          {
+            "record_id": "ycgs-events-29f5227779",
+            "reason": "none of your interest words appear on the page and no verified link was given",
+            "title": "Save the Date: GIS Day 2026",
+            "url": "https://geospatial.yale.edu/events/2026-11-16-save-the-date-gis-day-2026",
+            "section": "coming",
+            "when": "Mon Nov 16, 2026 · 8:30 AM–5:00 PM EST"
+          }
+        ],
+        "excluded_picks": []
+      }
+    },
+    {
+      "seq": 15,
+      "ts": "2026-10-26T10:48:47.498Z",
+      "run_id": "r_e29a8b37a60c",
+      "type": "final",
+      "agent": null,
+      "data": {
+        "ok": true,
+        "stopped_reason": "final",
+        "output": {
+          "understood": {
+            "interests": [
+              "AI"
+            ],
+            "purpose": null,
+            "purpose_type": "not_stated",
+            "participation": "either",
+            "play_or_watch": "not_applicable",
+            "experience_level": null,
+            "identity": "Yale SOM graduate student",
+            "time_window": "next_few_weeks",
+            "time_preference": null,
+            "location_preference": null,
+            "not_stated": [
+              "purpose",
+              "experience_level",
+              "location_preference"
+            ],
+            "provenance": {
+              "identity": {
+                "source": "form",
+                "value": "Yale SOM graduate student"
+              },
+              "participation": {
+                "source": "form",
+                "value": "either"
+              },
+              "time_window": {
+                "source": "form",
+                "value": "next_few_weeks"
+              }
+            }
+          },
+          "summary": "I found a hands-on chatbot workshop and a broader geospatial event that includes GeoAI workshops. The chatbot workshop is labeled online, but its description also mentions in-person attendees, so its format is unclear.",
+          "headline": "After the code checks: 0 matches, 1 to check first, 0 exploratory.",
+          "counts": {
+            "match": 0,
+            "conditional": 1,
+            "exploratory": 0,
+            "excluded": 0,
+            "dropped": 1
+          },
+          "follow_up_question": "Are you mainly looking to learn hands-on, discuss AI, or meet people interested in it?",
+          "picks": [
+            {
+              "record_id": "ycgs-events-9d7a535869",
+              "status": "conditional",
+              "section": "coming",
+              "model_fit": "close",
+              "reasoning": {
+                "why": "This is directly about chatbots and gives participants a chance to design one, making it a hands-on way to explore AI.",
+                "interaction": "A workshop where participants can design a tailored chatbot.",
+                "interaction_quote": "provide participants the opportunity to design their own tailored chatbot.",
+                "interaction_grounded": true,
+                "exploration_link": null,
+                "link_quote": null,
+                "verified_quotes": [
+                  "This workshop will cover the fundamentals chatbots and provide participants the opportunity to design their own tailored chatbot."
+                ],
+                "unverified_quotes": [],
+                "rejected_details": [],
+                "author": "gpt-6-luna (matcher); quotes checked by code"
+              },
+              "relevance": [
+                {
+                  "term": "chatbot",
+                  "field": "summary"
+                }
+              ],
+              "conditions": [
+                {
+                  "kind": "time",
+                  "status": "met",
+                  "text": "You asked for something in the next few weeks; the date is Fri Nov 20, 2026 · 12:00 PM–1:00 PM EST.",
+                  "quote": null
+                },
+                {
+                  "kind": "prerequisite",
+                  "status": "met",
+                  "text": "The page says no particular experience is needed.",
+                  "quote": "No coding experience is necessary."
+                },
+                {
+                  "kind": "registration",
+                  "status": "info",
+                  "text": "Registration happens on the organizer's site; a link does not guarantee a spot.",
+                  "quote": "REGISTER"
+                },
+                {
+                  "kind": "capacity",
+                  "status": "to_confirm",
+                  "text": "Places are limited; availability is not shown here.",
+                  "quote": "Attendance will be capped at 50 people."
+                },
+                {
+                  "kind": "equipment",
+                  "status": "info",
+                  "text": "You need to bring a laptop to this workshop.",
+                  "quote": "bring a laptop to this workshop"
+                }
+              ],
+              "next_steps": [
+                "Read the original page: https://geospatial.yale.edu/events/2026-11-20-build-a-bot-workshop",
+                "Confirm before you plan on it: Places are limited; availability is not shown here.",
+                "Not stated on the page (ask the organizer if it matters): cost.",
+                "Registration is on the organizer's site (https://cglink.me/2dA/r2333101); a link does not guarantee a spot."
+              ],
+              "facts": [
+                {
+                  "field": "format",
+                  "value": "Online",
+                  "page_wording": "Online",
+                  "basis": "event format label",
+                  "source_url": "https://geospatial.yale.edu/events/2026-11-20-build-a-bot-workshop",
+                  "collected_at": "2026-10-25T01:50:59+00:00"
+                },
+                {
+                  "field": "when",
+                  "value": "Fri Nov 20, 2026 · 12:00 PM–1:00 PM EST",
+                  "page_wording": "datetime=\"2026-11-20T12:00:00-05:00\"; text \"Fri Nov 20, 2026 12:00 pm—1:00 pm\"",
+                  "basis": "time@datetime",
+                  "source_url": "https://geospatial.yale.edu/events/2026-11-20-build-a-bot-workshop",
+                  "collected_at": "2026-10-25T01:50:59+00:00"
+                },
+                {
+                  "field": "when",
+                  "value": "Fri Nov 20, 2026 · 12:00 PM–1:00 PM EST",
+                  "page_wording": "DTEND:20261120T180000Z",
+                  "basis": "'Add to Calendar' iCal data on the page",
+                  "source_url": "https://geospatial.yale.edu/events/2026-11-20-build-a-bot-workshop",
+                  "collected_at": "2026-10-25T01:50:59+00:00"
+                },
+                {
+                  "field": "registration",
+                  "value": "REGISTER",
+                  "page_wording": "REGISTER: https://cglink.me/2dA/r2333101",
+                  "basis": "event website / register button",
+                  "source_url": "https://geospatial.yale.edu/events/2026-11-20-build-a-bot-workshop",
+                  "collected_at": "2026-10-25T01:50:59+00:00"
+                },
+                {
+                  "field": "conditions",
+                  "value": "No coding experience is necessary.; Attendees are also required to bring a laptop to this workshop.",
+                  "page_wording": "No coding experience is necessary.",
+                  "basis": "event description",
+                  "source_url": "https://geospatial.yale.edu/events/2026-11-20-build-a-bot-workshop",
+                  "collected_at": "2026-10-25T01:50:59+00:00"
+                },
+                {
+                  "field": "conditions",
+                  "value": "No coding experience is necessary.; Attendees are also required to bring a laptop to this workshop.",
+                  "page_wording": "Attendees are also required to bring a laptop to this workshop.",
+                  "basis": "event description",
+                  "source_url": "https://geospatial.yale.edu/events/2026-11-20-build-a-bot-workshop",
+                  "collected_at": "2026-10-25T01:50:59+00:00"
+                },
+                {
+                  "field": "capacity",
+                  "value": "Attendance will be capped at 50 people.",
+                  "page_wording": "Attendance will be capped at 50 people.",
+                  "basis": "event description",
+                  "source_url": "https://geospatial.yale.edu/events/2026-11-20-build-a-bot-workshop",
+                  "collected_at": "2026-10-25T01:50:59+00:00"
+                },
+                {
+                  "field": "organizer",
+                  "value": "Yale Center for Geospatial Solutions",
+                  "page_wording": "Yale Center for Geospatial Solutions",
+                  "basis": "og:site_name (publishing site)",
+                  "source_url": "https://geospatial.yale.edu/events/2026-11-20-build-a-bot-workshop",
+                  "collected_at": "2026-10-25T01:50:59+00:00"
+                },
+                {
+                  "field": "cost",
+                  "value": null,
+                  "page_wording": null,
+                  "basis": "not stated on the page",
+                  "source_url": "https://geospatial.yale.edu/events/2026-11-20-build-a-bot-workshop",
+                  "collected_at": "2026-10-25T01:50:59+00:00"
+                }
+              ],
+              "grounded": true,
+              "card": {
+                "id": "ycgs-events-9d7a535869",
+                "kind": "event",
+                "kind_label": "Event",
+                "title": "Build A Bot Workshop",
+                "url": "https://geospatial.yale.edu/events/2026-11-20-build-a-bot-workshop",
+                "source_id": "ycgs-events",
+                "source_name": "Yale Center for Geospatial Solutions: events",
+                "publisher": "Yale Center for Geospatial Solutions",
+                "publisher_type": "Official Yale",
+                "organizer": "Yale Center for Geospatial Solutions",
+                "data_mode": "cached",
+                "collected_at": "2026-10-25T01:50:59+00:00",
+                "collected_at_text": "Sat Oct 24, 9:50 PM EDT",
+                "start": "2026-11-20T12:00:00-05:00",
+                "end": "2026-11-20T13:00:00-05:00",
+                "when_text": "Fri Nov 20, 2026 · 12:00 PM–1:00 PM EST",
+                "date_text": "Fri Nov 20, 2026 12:00 pm—1:00 pm",
+                "next_session": null,
+                "upcoming_sessions": [],
+                "undated_sessions": 0,
+                "session_this_week": false,
+                "format_label": "Online",
+                "location_label": "Online",
+                "cost_label": null,
+                "registration_url": "https://cglink.me/2dA/r2333101",
+                "registration_text": "REGISTER",
+                "registration_note": "A registration link does not guarantee a spot. Registration happens on the organizer's site.",
+                "deadline_text": null,
+                "deadline_at": null,
+                "eligibility_open": [
+                  "No coding experience is necessary."
+                ],
+                "eligibility_check": [
+                  "Attendees are also required to bring a laptop to this workshop.",
+                  "Attendance will be capped at 50 people."
+                ],
+                "not_stated": [
+                  "cost"
+                ],
+                "warnings": [
+                  "The page labels the format 'Online' but the description mentions in-person attendees; format to be confirmed."
+                ],
+                "summary": "This workshop will cover the fundamentals chatbots and provide participants the opportunity to design their own tailored chatbot.",
+                "topics": [],
+                "also_at": [],
+                "matched_terms": [],
+                "format_unknown_for_filter": false
+              }
+            }
+          ],
+          "excluded": [],
+          "dropped": [
+            {
+              "record_id": "ycgs-events-29f5227779",
+              "reason": "none of your interest words appear on the page and no verified link was given",
+              "title": "Save the Date: GIS Day 2026",
+              "url": "https://geospatial.yale.edu/events/2026-11-16-save-the-date-gis-day-2026",
+              "section": "coming",
+              "when": "Mon Nov 16, 2026 · 8:30 AM–5:00 PM EST"
+            }
+          ],
+          "also_read": [],
+          "windows": {
+            "now": "2026-10-26T06:48:27-04:00",
+            "now_text": "Mon Oct 26, 6:48 AM EDT",
+            "timezone": "America/New_York",
+            "this_week": {
+              "start": "2026-10-26T00:00:00-04:00",
+              "end": "2026-11-02T00:00:00-05:00",
+              "label": "Mon Oct 26 – Sun Nov 1"
+            },
+            "coming": {
+              "start": "2026-11-02T00:00:00-05:00",
+              "label": "From Mon Nov 2"
+            }
+          },
+          "sources": [
+            {
+              "name": "Creative Arts Workshop: photography classes",
+              "data_mode": "cached",
+              "collected_at_text": "Sat Oct 24, 9:50 PM EDT",
+              "n_records": 2,
+              "last_outcome": "ok",
+              "last_attempt_text": "Sat Oct 24, 9:50 PM EDT",
+              "simulated": false
+            },
+            {
+              "name": "Yale Center for Geospatial Solutions: events",
+              "data_mode": "cached",
+              "collected_at_text": "Sat Oct 24, 9:50 PM EDT",
+              "n_records": 9,
+              "last_outcome": "ok",
+              "last_attempt_text": "Sat Oct 24, 9:50 PM EDT",
+              "simulated": false
+            }
+          ],
+          "n_listings": 11,
+          "verification": {
+            "checked": 2,
+            "kept": 1,
+            "excluded": 0,
+            "dropped": 1,
+            "quotes_total": 2,
+            "quotes_verified": 2,
+            "details_redacted": 0,
+            "summary_sentences_removed": [],
+            "listings_read": [
+              "ycgs-events-29f5227779",
+              "ycgs-events-9d7a535869"
+            ],
+            "note": "Deterministic check by code (no model call): IDs, availability, verbatim quotes, unsupported details, participation conditions against what you said, and counts stated in the AI summary against the final cards."
+          }
+        },
+        "output_text": "I found a hands-on chatbot workshop and a broader geospatial event that includes GeoAI workshops. The chatbot workshop is labeled online, but its description also mentions in-person attendees, so its format is unclear.",
+        "usage": {
+          "input_tokens": 10622,
+          "cached_tokens": 5924,
+          "cache_write_tokens": 4319,
+          "output_tokens": 1502,
+          "reasoning_tokens": 863,
+          "uncached_input_tokens": 379,
+          "total_tokens": 12124
+        },
+        "cost_usd": 0.0013880150000000003,
+        "n_model_calls": 4,
+        "n_failed_attempts": 0,
+        "safety_findings": 0,
+        "duration_ms": 24296
+      }
+    }
+  ]
+}

@@ -21,7 +21,7 @@ from app.collect.records import Record
 from app.collect.sources import SOURCES
 from app.collect.store import SourceResult, load_source
 from app.config import Settings
-from app.discover import build_discovery, now_ny
+from app.discover import build_discovery, now_ny, term_in
 from app.tools import ToolRegistry, tool
 
 MAX_TERMS = 10
@@ -77,7 +77,7 @@ def _haystack(card: dict) -> str:
 
 
 def _matches(terms: list[str], text: str) -> list[str]:
-    return [t for t in terms if re.search(rf"\b{re.escape(t)}\b", text, re.IGNORECASE)]
+    return [t for t in terms if term_in(t, text)]
 
 
 def _when(card: dict) -> str | None:

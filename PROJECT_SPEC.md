@@ -9,7 +9,7 @@
 | Source | Location | Version/time | Use |
 |---|---|---|---|
 | The course's original text (highest priority) | https://zlisto.github.io/mgt_409_fa26/project_requirements.html | Downloaded 2026-10-25 01:10Z, HTML sha256 `a861edcd…a6`, page has no "last updated" info | Basis for course requirements `C-` |
-| Chinese-summary Word file | The user's local `MGT409_FinalProject_要求整理(1).docx` (Chinese summary of the requirements) (WeChat folder) | sha256 `dad97a8c…94`, document has no comment objects; body says "when writing the report and slides, the course website's original text prevails" | Cross-check; consistent with the original, differences in evidence/q01.md §2 |
+| Chinese-summary Word file | The user's local `MGT409_FinalProject_<"requirements summary" in Chinese>(1).docx` (Chinese summary of the requirements) (WeChat folder) | sha256 `dad97a8c…94`, document has no comment objects; body says "when writing the report and slides, the course website's original text prevails" | Cross-check; consistent with the original, differences in evidence/q01.md §2 |
 | Lecture 11 slides | https://zlisto.github.io/mgt_409_fa26/lectures/slides/lec11-slides.html | Read 2026-10-25 | gpt-6-luna unit prices |
 | The user's background brief | First message of this conversation (before Question 1) | 2026-10-25 | Product decisions `U-`, rules `M-` |
 | Project AGENTS.md | `../AGENTS.md` (one level above the repo) | 2026-10-25 | Only gpt-6-luna, no key leakage, blue visual style, creatures in HTML |
@@ -125,7 +125,7 @@ Detailed evidence: evidence/q01.md. Summary:
 | P-06 | Whether the final choice of the first two public sources needs the user's confirmation | Public collection | No (Question 2 already chose by measuring candidates, see I-12) |
 | P-07 | events.yale.edu's robots.txt is `Disallow: /`: keep not collecting automatically (default), or the user obtains permission separately | Source coverage | Decided: do not collect (confirmed by the user 2026-10-25) |
 | P-08 | Keep the G-15 design overhaul (commit) or roll back to the backup `my-app/handoff_tools/web_before_design/` | Look + feel | No (needed before the final commit) |
-| P-09 | Post-fix retest of the 8-A task (`evidence/real_use_log.md` §D.2) | Impact evidence | No (form prepared 2026-10-26) |
+| P-09 | Post-fix retest of the 8-A task (`evidence/real_use_log.md` §D.2) | Impact evidence | Done 2026-10-26 (`r_e29a8b37a60c`) |
 
 ## 8. Collaboration method
 

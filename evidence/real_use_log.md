@@ -25,8 +25,9 @@ The user also described: not wanting to check every day; often finding no useful
 | Sun Oct 25, 2026, 5:13 PM EDT | Tongyu David Chen (creator n=1) | Animation; find someone with the same interest; SOM checked, Online, Next 7 days | Saved from last refresh (collected Sat Oct 24, 9:50 PM EDT) | `r_80b535e6cc97` | Not measured | No verified match (there is no animation listing in the two connected sources) | — |
 | Sun Oct 25, 2026, 5:14 PM EDT | Tongyu David Chen (creator n=1) | Photography (typed "photograph"); same purpose and conditions | Same | `r_b8cd2f215d47` | Not measured | No verified match: the photography programs were filtered out by the search time filter (see §D.1) | — |
 | Sun Oct 25, 2026, 5:15 PM EDT | Tongyu David Chen (creator n=1) | Photography; find someone with the same interest; SOM checked, Either is fine, Next 4 weeks | Same | `r_117624a6bd8a` | Not measured (the AI run itself took 12.0 s) | No verified match; one listing read by the AI but not recommended (YCGS Drone Hobbyist Gathering II). Feedback in §D.1 | `screenshots/q08a_user_results_r_117624a6bd8a.webp`, `screenshots/q08a_user_run_details_r_117624a6bd8a.webp` |
+| Mon Oct 26, 2026, 6:48 AM EDT | Tongyu David Chen (creator n=1) | AI-related events; SOM checked, Either is fine, Next 4 weeks | Saved from last refresh (collected Sat Oct 24, 9:50 PM EDT) | `r_e29a8b37a60c` | Not measured (AI run 24.3 s) | 1 Check first: Build A Bot Workshop; not known before; wants to learn more (see D.2) | `screenshots/d2_retest_results_r_e29a8b37a60c.webp`, `screenshots/d2_retest_run_details_r_e29a8b37a60c.webp` |
 
-Status: **Verified** for "a real person used the app" (creator n=1, 3 searches, 2026-10-25). Task time was not measured. This is the app's creator, not an independent trial.
+Status: **Verified** for "a real person used the app" (creator n=1, 3 searches on 2026-10-25 and 1 post-fix retest on 2026-10-26). Task time was not measured. This is the app's creator, not an independent trial.
 
 ## C. Comparison measurement (if done)
 
@@ -87,26 +88,33 @@ Status: carried out on 2026-10-25; the filled record is in §D.1.
 
 Cost: 3 runs, 10 model calls, $0.00172422, in the normal ledger (`runs/usage.jsonl` 114 → 124 rows). Copies of the traces and ledger rows: `evidence/q08a/`.
 
-### D.2 Post-fix retest (prepared 2026-10-26; to be filled by the user after the final fixes)
+### D.2 Post-fix retest (prepared 2026-10-26; performed by the user 2026-10-26)
 
 **Why:** §D.1 shows a real person used the app and that a defect was found and fixed. It does not yet show the core value: finding an opportunity the person did not know about and wants to follow up. This retest checks exactly that, on the final version. A bad result is recorded as it is.
 
 **Operator and task:** the same as §D (creator n=1, not an independent trial). One real request of your own, on the version that will be submitted. Start a stopwatch when the Find page is open; stop it when you have written down your list (or decided nothing fits).
 
-| Field | Record (leave blank until performed) |
+| Field | Record |
 |---|---|
-| Date and time (America/New_York) | |
-| Device / browser | |
-| Request (as typed) | |
-| Conditions set (SOM / participation mode / time) | |
-| Data mode and collection time shown on the page | |
-| run_id (in Run details) | |
-| Measured time (mm:ss) | |
-| Item(s) you picked (title + link), or "none fits" | |
-| 1. Did you know about it before? (yes / no) | |
-| 2. Do you now want to learn more? (yes / no / maybe, and why) | |
-| 3. Your next step (e.g. open the page, email the organizer, register, nothing) | |
-| Anything the app got wrong or left unclear (your words) | |
-| Screenshot path | |
+| Date and time (America/New_York) | Monday, Oct 26, 2026, 6:48 AM EDT (run start 10:48:23 UTC, from the trace; the user wrote "early morning of 26 Oct 2026") |
+| Device / browser | Not stated by the user; the screenshots show a desktop browser window |
+| Request (as typed) | "I need AI related events" |
+| Conditions set (SOM / participation mode / time) | "I'm a Yale SOM graduate student" checked; How you want to take part = Either is fine; When = Next 4 weeks |
+| Data mode and collection time shown on the page | Both sources saved from the last refresh, collected Sat Oct 24, 9:50 PM EDT (11 stored listings searched); Refresh sources was not pressed |
+| run_id (in Run details) | `r_e29a8b37a60c` |
+| Measured time (mm:ss) | Not measured (left blank). The app's own run took 24.3 s; that is the AI run, not the task time |
+| Item(s) you picked (title + link), or "none fits" | Build A Bot Workshop (Yale Center for Geospatial Solutions), Fri Nov 20, 2026, 12:00-1:00 PM EST, https://geospatial.yale.edu/events/2026-11-20-build-a-bot-workshop. Shown as **Check first**: places are limited and availability is not shown; the page says no coding experience is needed. Results line: 0 matches, 1 to check first, 0 exploratory |
+| 1. Did you know about it before? (yes / no) | No |
+| 2. Do you now want to learn more? (yes / no / maybe, and why) | Yes. In the user's words (translated from Chinese): "It is fairly specific and interesting, and it fits my request." |
+| 3. Your next step (e.g. open the page, email the organizer, register, nothing) | "Look at this event's details" (translated from Chinese) |
+| Anything the app got wrong or left unclear (your words) | "Nothing I couldn't understand; the visuals are better than the previous version." (translated from Chinese) |
+| Screenshot path | `screenshots/d2_retest_results_r_e29a8b37a60c.webp` (results) and `screenshots/d2_retest_run_details_r_e29a8b37a60c.webp` (Run details), taken by the user. The anime figure and the floating toolbar at the right edge come from the user's browser extensions, not from the app |
 
-Status: **Not verified** (not yet performed).
+**Outcome: Verified** for the question this retest asks: on the fixed version, a real person (the creator, n=1; not an independent trial) found an opportunity they did not know about and wanted to learn more about it. Task time was not measured, so this record gives no timing or time-saved figure.
+
+**What the trace adds (Claude Code's reading of `r_e29a8b37a60c`, not the user's feedback):**
+- The app asked one question back: "Are you mainly looking to learn hands-on, discuss AI, or meet people interested in it?"
+- The matcher proposed 2 listings; the code kept 1 and removed "Save the Date: GIS Day 2026" with the reason "none of your interest words appear on the page and no verified link was given". That page does say "a day of geospatial talks, GeoAI workshops, a poster session". The interest word check matches "AI" only as a whole word, so it missed "GeoAI": a recall miss in the code check, recorded as G-18 in PROGRESS.md. **Fixed the same day** (PROGRESS.md section 6, "G-18 fix"): an offline replay of this run on the same data now keeps GIS Day 2026 as a Match next to Build A Bot Workshop (no model call; the user's own screen above shows the version before the fix).
+- The AI summary still mentions the removed event ("a broader geospatial event that includes GeoAI workshops"). The summary check (G-17) only compares stated counts with the cards, so a mention of a removed pick stays; the label on the page says the rest of the summary is not checked by code.
+
+Cost: 1 run, 4 model calls (guard 1 + matcher 3), $0.001388015, 12,124 tokens, in the normal ledger (`runs/usage.jsonl` 128 -> 132 rows). This run is after the cost cut-off of `evidence/q08_tokenomics.md` (2026-10-25T21:23:30Z), so it is not in those totals. Copies of the trace and ledger rows: `evidence/q08a/r_e29a8b37a60c.*`.

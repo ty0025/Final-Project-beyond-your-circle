@@ -3,6 +3,8 @@
 Describe in one plain-English sentence what you want to do outside Yale SOM, and the app finds public
 Yale and New Haven events and classes that fit, each checked against its source page.
 
+**Repository:** <https://github.com/ty0025/Final-Project-beyond-your-circle>
+
 ## What it is
 
 You type one request, for example "I'm curious about drones. Is there a casual meetup where I can meet
@@ -195,7 +197,7 @@ python -m pytest
 ```
 
 The suite runs fully offline: a fake model stands in for `gpt-6-luna`, so it never needs or reads
-your real key. Last run (26 October 2026): **572 passed** on Python 3.14 and on Python 3.11.
+your real key. Last run (26 October 2026): **594 passed** on Python 3.14 and on Python 3.11.
 
 ## Evidence map
 

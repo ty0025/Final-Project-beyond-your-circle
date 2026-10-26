@@ -116,3 +116,5 @@ The matcher cannot fetch the web; only the collector does, outside the model loo
 (every attempt, including guard and retries), `LLM_MAX_RETRIES=1`, matcher `max_steps=4`,
 `MAX_TOOL_CALLS_PER_RUN=30`, `MAX_OUTPUT_TOKENS=4000`, `RUN_TIMEOUT_S=180` (whole run, guard + agent),
 `LLM_TIMEOUT_S=90` (one model call).
+
+**Interest words (G-18, 2026-10-26).** Browse, the `search_listings` tool and the verifier's relevance check share `term_in` (`app/discover.py`): a whole word in any case, or a 2-4 letter word as the capitalised end of a compound ("GeoAI", "ArcGIS"), checked case-sensitively.

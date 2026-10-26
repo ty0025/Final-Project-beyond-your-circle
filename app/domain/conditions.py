@@ -19,7 +19,7 @@ from datetime import datetime, timedelta
 from typing import Any
 
 from app.collect.records import Record
-from app.discover import NOT_OPEN, OPEN_TO_ALL, OPEN_TO_ANYONE, ny_midnight
+from app.discover import NOT_OPEN, OPEN_TO_ALL, OPEN_TO_ANYONE, ny_midnight, term_in
 from app.domain.models import SOM_IDENTITY
 
 NY_TZ = "America/New_York"
@@ -388,7 +388,7 @@ def topic_matches(terms: list[str], record: Record) -> list[dict]:
     found = []
     for term in terms:
         for name, text in fields.items():
-            if re.search(rf"\b{re.escape(term)}\b", text, re.I):
+            if term_in(term, text):
                 found.append({"term": term, "field": name})
                 break
     return found

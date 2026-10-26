@@ -16,7 +16,7 @@ The user sent the project background (grading rubric and evidence rules, project
 
 > Reply requirements for now: read only this background; do not inspect directories, go online, run commands or models, create or modify files, or start analysing an implementation plan. Reply only: "Background read; waiting for the first question."
 
-(The key points of the background are captured in PROJECT_SPEC.md sections `U-`, `M-` and `I-`; the original requirements file is `<local Word path>/MGT409_FinalProject_要求整理(1).docx`, a Chinese summary of the course requirements.)
+(The key points of the background are captured in PROJECT_SPEC.md sections `U-`, `M-` and `I-`; the original requirements file is `<local Word path>/MGT409_FinalProject_<"requirements summary" in Chinese>(1).docx`, a Chinese summary of the course requirements.)
 
 ### Follow-up Prompt
 
@@ -45,7 +45,7 @@ Grading: global, especially "can run it" (5 points), "real app" (15 points) and 
 Prerequisite: the previous background message has been read. This question makes no model calls and builds no new pages; you may now inspect the actual project as follows.
 
 Please complete these tasks:
-1. First read the original Final Project Word file: <local Word path>/MGT409_FinalProject_要求整理(1).docx, and check the course's original text against its notes. Then read the existing README, DESIGN, domain models/tools/prompts, orchestration, server and web entry points, and check the Git status and how the app starts. List separately the existing code, what the documents claim, and what has actually been verified.
+1. First read the original Final Project Word file: <local Word path>/MGT409_FinalProject_<"requirements summary" in Chinese>(1).docx, and check the course's original text against its notes. Then read the existing README, DESIGN, domain models/tools/prompts, orchestration, server and web entry points, and check the Git status and how the app starts. List separately the existing code, what the documents claim, and what has actually been verified.
 2. Check and keep the model lock, the two-level .env, key isolation, usage mapping, budget/loop limits and traces. If foundations are missing, fix them first or flag them: no real model requests until they are fixed, but work that does not depend on the model may continue. If the domain is still the Harbor Bikes placeholder, list the places to replace without rewriting the domain yet.
 3. Turn the confirmed background and the original requirements checked here into a PROJECT_SPEC.md in the project, and create evidence/rubric_checklist.md listing the 100-point rubric and the final delivery requirements item by item. Distinguish course requirements from our implementation choices.
 4. Create PROGRESS.md and a real-interaction log. The rubric checklist uses the columns "rubric item, implementation location, verification method, evidence path/version/run_id, status". Record in advance the information the user must supply, such as the author name, the real repo URL and real-person use; do not stop independent work because these are missing. The user's time figures are only recalled estimates; do not add them up as measurements or claim time savings.
@@ -228,7 +228,7 @@ There was no user feedback at delivery, so no defects are recorded. Problems Cla
 
 ### Initial Prompt
 
-The previous conversation's context was full. In a new conversation the user pasted a handoff message (full text in section 2 of `my-app/新对话交接_MGT409.md`, the handoff note): read, read-only and in full, the planning and status files, the evidence for each question, the core code and the opening of the remaining files, then reply with a "reading confirmation" (reading list, 6 check questions, problems found, things needed from the user before Question 6); no file changes, no tests, no server starts and no model calls.
+The previous conversation's context was full. In a new conversation the user pasted a handoff message (full text in section 2 of `my-app/<"new-conversation handoff" in Chinese>_MGT409.md`, the handoff note): read, read-only and in full, the planning and status files, the evidence for each question, the core code and the opening of the remaining files, then reply with a "reading confirmation" (reading list, 6 check questions, problems found, things needed from the user before Question 6); no file changes, no tests, no server starts and no model calls.
 
 ### Follow-up Prompt
 
@@ -384,7 +384,7 @@ Claude Code backed up the 4 web files to `my-app/handoff_tools/web_before_design
 ### Follow-up Prompt
 
 1. "Please try again." (The first run stopped when the session usage limit was reached. Claude Code checked that no half-changed files were left and restarted the workflow.)
-2. The context window was nearly full, so the user asked for a short background and a prompt for a new conversation that would review the work against the assignment requirements (full handoff text: `my-app/新对话交接_MGT409.md`). The user pasted that conversation's read-only review back, then wrote: "Let the design workflow finish, and when it's done send me before/after comparison screenshots." (Claude Code sent them and deleted the workflow's intermediate screenshots.)
+2. The context window was nearly full, so the user asked for a short background and a prompt for a new conversation that would review the work against the assignment requirements (full handoff text: `my-app/<"new-conversation handoff" in Chinese>_MGT409.md`). The user pasted that conversation's read-only review back, then wrote: "Let the design workflow finish, and when it's done send me before/after comparison screenshots." (Claude Code sent them and deleted the workflow's intermediate screenshots.)
 
 ### What Was Lacking
 
@@ -454,6 +454,13 @@ No new prompt. These rounds continue the user's request in the previous section 
 ### Follow-up Prompt
 
 1. Round 3 stopped at 03:30 UTC when the session usage limit was reached. At 05:41 UTC the user wrote (in English, as sent): "I hit my usage limit while you were working, but it has reset now. Please continue from where you left off." Claude Code checked what the code agent had already changed and restarted round 3.
+2. After the fixes were reported, the user wrote (in English, as sent): "Make one local commit of all the Codex review fixes, including the new test files and screenshots. Do not push." Claude Code staged everything, re-ran the suite (572 passed) and the key scan (no hits), and made local commit `6d08bed` on `master`; nothing was pushed (the repo has no remote).
+3. The user then wrote (translated from Chinese): "Answer me in Chinese about the process: how far along are we, and what still needs to be done? When you add things to the prompt log, remember to translate them all into English." Claude Code checked the tracked files for untranslated Chinese: the only Chinese left in the docs was two local file names (the Word requirements summary and the handoff note), now written as English descriptions; the Chinese in `app/safety.py` and the tests is deliberate test input and stays. It then gave a status summary in Chinese (not copied here).
+4. The user wrote (translated from Chinese): "Codex is writing the report and slides; I'll tell you about them later. Let's do the real-use log retest first." Claude Code restarted the local server on the latest code (the one in the user's terminal was still running the old code) and gave step-by-step instructions in Chinese for the `real_use_log.md` D.2 retest, with a cost plan of 1-3 searches at about $0.001 each.
+5. The user wrote (translated from Chinese): "The address you gave me doesn't open; give me one that does." The server's terminal tab had closed, so nothing was listening on port 8000; Claude Code started `start.bat` again (it opens the default browser) and gave http://localhost:8000 and http://127.0.0.1:8000.
+6. The user sent the filled retest form (in Chinese) and two screenshots. Claude Code took the date, conditions, data mode, run_id, result and cost from the trace and ledger of `r_e29a8b37a60c`, translated the user's answers and feedback into English, and recorded them in `real_use_log.md` D.2 with the screenshots and trace copies. Reading the trace, it also found that the code had dropped "Save the Date: GIS Day 2026" although that page mentions "GeoAI workshops" (recorded as G-18, not fixed).
+7. The user wrote (translated from Chinese): "Fix G-18: make interest-word matching recognise words like GeoAI and GenAI, add tests, and verify offline with the saved run records, without spending on model calls." Claude Code added one shared rule (`term_in`) for Browse, the search tool and the verifier, 22 tests, an offline replay of `r_e29a8b37a60c`, a check of all 53 saved traces and a false-positive check on the stored listings (PROGRESS.md section 6, "G-18 fix").
+8. While that ran, the user asked (translated from Chinese): "I've just set up GitHub too. Should I just create a new repository, and what would be a good name?" Claude Code: a new empty public repository (no README, .gitignore or license, because the local history would conflict), suggested name `beyond-your-circle`. The user then sent a screenshot of the form ("Is this OK? I'll send you the link") and the link: "https://github.com/ty0025/Final-Project-beyond-your-circle - I changed the name; this is the link."
 
 ### What Was Lacking
 
