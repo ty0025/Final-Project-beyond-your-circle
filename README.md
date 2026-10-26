@@ -91,7 +91,9 @@ python run.py
   on the YCGS Drone Hobbyist Gathering II (9 November 2026) and the maps example on GIS Day 2026
   (16 November 2026). Past events drop off automatically, so if you run the app after those dates,
   first press **Refresh sources** on the **Browse all** tab (needs internet, no model call); the
-  examples may then find different listings.
+  examples may then find different listings. A live refresh on 26 October 2026 already returned 8
+  YCGS events instead of 9: the site no longer lists GIS Day 2026, so after a refresh the maps
+  example uses the remaining map events.
 
   Optional form fields (SOM graduate student, in person / online, next 7 days / next 4 weeks) are
   applied by code. Open **Run details** under the results to see every model call, tool call and
@@ -183,11 +185,11 @@ Run from the repo folder with the venv active (`source .venv/bin/activate` or `.
 |---|---|---|
 | `python scripts/collect.py sources\|status\|show\|refresh\|snapshot\|reparse [--source ID]` | Collector CLI: list sources, show stored records, live refresh (needs internet), copy the last success to `data/snapshots/`, re-parse saved pages | none |
 | `python scripts/compare_cases.py` | Keyword list vs this app's condition-aware handling on fixed cases; writes `evidence/q05_cases.{md,json}` | none |
-| `python scripts/tokenomics_q8.py` | Cost summary from the committed ledger copies in `evidence/`; writes `evidence/q08_tokenomics.{md,json}`. No options | none |
+| `python scripts/tokenomics_q8.py` | Cost summary from the committed ledger copies in `evidence/`; writes `evidence/q08_tokenomics.{md,json}`. No options. On a fresh clone (no local `runs/`) it rewrites row (iii) and the local ledger check as "not present"; figures (i) and (ii) stay the same. Run `git checkout -- evidence` afterwards to restore the committed files | none |
 | `python scripts/redteam_q7.py --dry-run` | Lists the 3 red-team cases; no key needed | none |
 | `python scripts/redteam_q7.py` | Runs the 3 cases for real (the script estimates about $0.004); separate ledger `runs/redteam_q7/usage.jsonl`; writes `evidence/q07_redteam.json` | live |
 | `python scripts/smoke_test.py` | One short live call to check the key and gateway; not written to the usage ledger | live |
-| `python scripts/inline_images.py report.html [out.html]` | Embeds local images so `report.html` / `slides.html` are self-contained | none |
+| `python scripts/inline_images.py report.html [out.html]` | Embeds local images so `report.html` / `slides.html` are self-contained (those two are the Canvas deliverables; they are not in this repo) | none |
 
 ## Tests
 
@@ -238,8 +240,7 @@ evidence/                     evidence for the report
 |---|---|
 | `address already in use` / port 8000 busy | `./start.sh --port 8001` (Mac / Linux) or `.\start.bat --port 8001` (Windows), then open <http://127.0.0.1:8001> |
 | `start.bat` "is not recognized" in PowerShell | PowerShell does not run scripts from the current folder by name. Type `.\start.bat`. |
-| "PORTKEY_API_KEY is not set" / the page says the key is missing | The file must be named exactly `.env`, not `.env.txt` (Windows hides extensions). It must sit in the repo folder or the folder one level up, and the line must start with `PORTKEY_API_KEY=`. Restart the app after editing. Browse all works meanwhile. |
-| "still has the placeholder value" | Replace `your_portkey_api_key_here` with the real key. |
+| "PORTKEY_API_KEY is not set" / "still has the placeholder value" / the page says the key is missing | The file must be named exactly `.env`, not `.env.txt` (Windows hides extensions). It must sit in the repo folder or the folder one level up, and the line must start with `PORTKEY_API_KEY=`. A template value such as `your_portkey_api_key_here` is treated as not set: replace it with the real key. Restart the app after editing. Browse all works meanwhile. |
 | 401 / "rejected the API key" | The key value is wrong or expired. Paste it again with no quotes or spaces. |
 | Python version error | Check `python3 --version` (Mac) or `py -3 --version` (Windows). You need 3.11+. Install it from <https://www.python.org/downloads/>, open a new terminal, and start again. |
 | `pip install` says `No matching distribution found for openai<4,>=3.26` | The `.venv` was made with Python 3.9. Delete the `.venv` folder and start again with Python 3.11+ (`start.sh` / `start.bat` do this for you). |
