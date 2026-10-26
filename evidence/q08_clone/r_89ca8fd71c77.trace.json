@@ -1,0 +1,593 @@
+{
+  "run_id": "r_89ca8fd71c77",
+  "started_at": "2026-10-26T11:08:51.399Z",
+  "events": [
+    {
+      "seq": 1,
+      "ts": "2026-10-26T11:08:51.415Z",
+      "run_id": "r_89ca8fd71c77",
+      "type": "run_started",
+      "agent": null,
+      "data": {
+        "input_preview": "I shoot film and want hands-on help getting better, in person. I've never worked in a darkroom.",
+        "app_title": "Beyond Your Circle"
+      }
+    },
+    {
+      "seq": 2,
+      "ts": "2026-10-26T11:08:54.643Z",
+      "run_id": "r_89ca8fd71c77",
+      "type": "model_call",
+      "agent": "guard",
+      "data": {
+        "step": 0,
+        "attempt": 1,
+        "mode": "live",
+        "served_model": "gpt-6-luna-global",
+        "finish": "final",
+        "usage": {
+          "input_tokens": 382,
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "output_tokens": 34,
+          "reasoning_tokens": 0,
+          "uncached_input_tokens": 382,
+          "total_tokens": 416
+        },
+        "usage_missing": [],
+        "cost_usd": 5.52e-05,
+        "latency_ms": 3229,
+        "n_function_calls": 0,
+        "run_usage": {
+          "input_tokens": 382,
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "output_tokens": 34,
+          "reasoning_tokens": 0,
+          "uncached_input_tokens": 382,
+          "total_tokens": 416
+        },
+        "run_cost_usd": 5.52e-05,
+        "run_calls": 1
+      }
+    },
+    {
+      "seq": 3,
+      "ts": "2026-10-26T11:08:54.657Z",
+      "run_id": "r_89ca8fd71c77",
+      "type": "agent_started",
+      "agent": "matcher",
+      "data": {
+        "depth": 0,
+        "task_preview": "I shoot film and want hands-on help getting better, in person. I've never worked in a darkroom.",
+        "tools": [
+          "search_listings",
+          "get_listing"
+        ]
+      }
+    },
+    {
+      "seq": 4,
+      "ts": "2026-10-26T11:08:57.203Z",
+      "run_id": "r_89ca8fd71c77",
+      "type": "model_call",
+      "agent": "matcher",
+      "data": {
+        "step": 1,
+        "attempt": 1,
+        "mode": "live",
+        "served_model": "gpt-6-luna-global",
+        "finish": "tool_calls",
+        "usage": {
+          "input_tokens": 2505,
+          "cached_tokens": 0,
+          "cache_write_tokens": 2502,
+          "output_tokens": 90,
+          "reasoning_tokens": 38,
+          "uncached_input_tokens": 3,
+          "total_tokens": 2595
+        },
+        "usage_missing": [],
+        "cost_usd": 0.00035805,
+        "latency_ms": 2545,
+        "n_function_calls": 1,
+        "run_usage": {
+          "input_tokens": 2887,
+          "cached_tokens": 0,
+          "cache_write_tokens": 2502,
+          "output_tokens": 124,
+          "reasoning_tokens": 38,
+          "uncached_input_tokens": 385,
+          "total_tokens": 3011
+        },
+        "run_cost_usd": 0.00041325,
+        "run_calls": 2
+      }
+    },
+    {
+      "seq": 5,
+      "ts": "2026-10-26T11:08:57.203Z",
+      "run_id": "r_89ca8fd71c77",
+      "type": "tool_call",
+      "agent": "matcher",
+      "data": {
+        "tool": "search_listings",
+        "call_id": "call_8DIu9bB6zOa6exgqfOmwIa1A",
+        "arguments": {
+          "interests": [
+            "film photography",
+            "photography",
+            "photo",
+            "darkroom",
+            "film developing",
+            "camera"
+          ],
+          "participation": "in_person",
+          "when": "all",
+          "max_results": 8
+        }
+      }
+    },
+    {
+      "seq": 6,
+      "ts": "2026-10-26T11:08:57.203Z",
+      "run_id": "r_89ca8fd71c77",
+      "type": "tool_result",
+      "agent": "matcher",
+      "data": {
+        "tool": "search_listings",
+        "call_id": "call_8DIu9bB6zOa6exgqfOmwIa1A",
+        "ok": true,
+        "preview": "{\"now\": \"Mon Oct 26, 7:08 AM EDT\", \"this_week_window\": \"Mon Oct 26 – Sun Nov 1\", \"data_sources\": [{\"source\": \"Creative Arts Workshop: photography classes\", \"data\": \"snapshot\", \"collected\": \"Sat Oct 24, 9:32 PM EDT\"}, {\"source\": \"Yale Center for Geospatial Solutions: events\", \"data\": \"snapshot\", \"collected\": \"Sat Oct 24, 9:33 PM EDT\"}], \"filters_used\": {\"interests\": [\"film photography\", \"photography\", \"photo\", \"darkroom\", \"film developing\", \"camera\"], \"participation\": \"in_person\", \"when\": \"all\"}…",
+        "duration_ms": 2,
+        "truncated": false
+      }
+    },
+    {
+      "seq": 7,
+      "ts": "2026-10-26T11:09:00.251Z",
+      "run_id": "r_89ca8fd71c77",
+      "type": "model_call",
+      "agent": "matcher",
+      "data": {
+        "step": 2,
+        "attempt": 1,
+        "mode": "live",
+        "served_model": "gpt-6-luna-global",
+        "finish": "tool_calls",
+        "usage": {
+          "input_tokens": 3382,
+          "cached_tokens": 2502,
+          "cache_write_tokens": 877,
+          "output_tokens": 110,
+          "reasoning_tokens": 82,
+          "uncached_input_tokens": 3,
+          "total_tokens": 3492
+        },
+        "usage_missing": [],
+        "cost_usd": 0.00018994499999999998,
+        "latency_ms": 3041,
+        "n_function_calls": 1,
+        "run_usage": {
+          "input_tokens": 6269,
+          "cached_tokens": 2502,
+          "cache_write_tokens": 3379,
+          "output_tokens": 234,
+          "reasoning_tokens": 120,
+          "uncached_input_tokens": 388,
+          "total_tokens": 6503
+        },
+        "run_cost_usd": 0.000603195,
+        "run_calls": 3
+      }
+    },
+    {
+      "seq": 8,
+      "ts": "2026-10-26T11:09:00.251Z",
+      "run_id": "r_89ca8fd71c77",
+      "type": "tool_call",
+      "agent": "matcher",
+      "data": {
+        "tool": "get_listing",
+        "call_id": "call_7vDUT4IwSrQ2tahHoPM6ywRs",
+        "arguments": {
+          "record_id": "caw-photo-d1411fc392"
+        }
+      }
+    },
+    {
+      "seq": 9,
+      "ts": "2026-10-26T11:09:00.251Z",
+      "run_id": "r_89ca8fd71c77",
+      "type": "tool_result",
+      "agent": "matcher",
+      "data": {
+        "tool": "get_listing",
+        "call_id": "call_7vDUT4IwSrQ2tahHoPM6ywRs",
+        "ok": true,
+        "preview": "{\"record_id\": \"caw-photo-d1411fc392\", \"title\": \"Photography Individual Coaching\", \"kind\": \"program\", \"section\": \"ongoing program or class\", \"when\": \"Term: Fall 2026\", \"upcoming_sessions\": [], \"date_text\": \"Term: Fall 2026\", \"format\": \"not stated\", \"location\": \"80 Audubon Street, New Haven, CT 06510\", \"organizer\": \"Creative Arts Workshop\", \"cost\": \"Tuition is $90 for each 1½ hour session.\", \"registration\": \"Reserve a single session or continue with multiple sessions as your skills and projects e…",
+        "duration_ms": 1,
+        "truncated": false
+      }
+    },
+    {
+      "seq": 10,
+      "ts": "2026-10-26T11:09:10.767Z",
+      "run_id": "r_89ca8fd71c77",
+      "type": "model_call",
+      "agent": "matcher",
+      "data": {
+        "step": 3,
+        "attempt": 1,
+        "mode": "live",
+        "served_model": "gpt-6-luna-global",
+        "finish": "final",
+        "usage": {
+          "input_tokens": 3870,
+          "cached_tokens": 3379,
+          "cache_write_tokens": 488,
+          "output_tokens": 851,
+          "reasoning_tokens": 513,
+          "uncached_input_tokens": 3,
+          "total_tokens": 4721
+        },
+        "usage_missing": [],
+        "cost_usd": 0.00052059,
+        "latency_ms": 10513,
+        "n_function_calls": 0,
+        "run_usage": {
+          "input_tokens": 10139,
+          "cached_tokens": 5881,
+          "cache_write_tokens": 3867,
+          "output_tokens": 1085,
+          "reasoning_tokens": 633,
+          "uncached_input_tokens": 391,
+          "total_tokens": 11224
+        },
+        "run_cost_usd": 0.001123785,
+        "run_calls": 4
+      }
+    },
+    {
+      "seq": 11,
+      "ts": "2026-10-26T11:09:10.768Z",
+      "run_id": "r_89ca8fd71c77",
+      "type": "agent_finished",
+      "agent": "matcher",
+      "data": {
+        "stopped_reason": "final",
+        "steps": 3,
+        "tool_calls": 2,
+        "usage": {
+          "input_tokens": 9757,
+          "cached_tokens": 5881,
+          "cache_write_tokens": 3867,
+          "output_tokens": 1051,
+          "reasoning_tokens": 633,
+          "uncached_input_tokens": 9,
+          "total_tokens": 10808
+        },
+        "cost_usd": 0.001068585,
+        "output_preview": "{\"understood\": {\"interests\": [\"film photography\"], \"purpose\": \"Get hands-on help improving my photography.\", \"purpose_type\": \"do_the_activity\", \"participation\": \"in_person\", \"play_or_watch\": \"not_applicable\", \"experience_level\": \"I've never worked in a darkroom.\", \"identity\": null, \"time_window\": \"…"
+      }
+    },
+    {
+      "seq": 12,
+      "ts": "2026-10-26T11:09:10.768Z",
+      "run_id": "r_89ca8fd71c77",
+      "type": "verification",
+      "agent": "verifier",
+      "data": {
+        "kind": "code",
+        "checked": 1,
+        "kept": 1,
+        "excluded": 0,
+        "dropped": 0,
+        "quotes_total": 1,
+        "quotes_verified": 1,
+        "details_redacted": 0,
+        "summary_sentences_removed": [],
+        "listings_read": [
+          "caw-photo-d1411fc392"
+        ],
+        "note": "Deterministic check by code (no model call): IDs, availability, verbatim quotes, unsupported details, participation conditions against what you said, and counts stated in the AI summary against the final cards.",
+        "dropped_picks": [],
+        "excluded_picks": []
+      }
+    },
+    {
+      "seq": 13,
+      "ts": "2026-10-26T11:09:10.768Z",
+      "run_id": "r_89ca8fd71c77",
+      "type": "final",
+      "agent": null,
+      "data": {
+        "ok": true,
+        "stopped_reason": "final",
+        "output": {
+          "understood": {
+            "interests": [
+              "film photography"
+            ],
+            "purpose": "Get hands-on help improving my photography.",
+            "purpose_type": "do_the_activity",
+            "participation": "in_person",
+            "play_or_watch": "not_applicable",
+            "experience_level": "I've never worked in a darkroom.",
+            "identity": null,
+            "time_window": "not_stated",
+            "time_preference": null,
+            "location_preference": null,
+            "not_stated": [
+              "identity",
+              "time_window",
+              "location_preference"
+            ],
+            "provenance": {}
+          },
+          "summary": "I found photography coaching that may offer hands-on, tailored instruction, but the page doesn’t say whether it covers film photography or takes place in person. The darkroom practice listing is for people who have already taken darkroom classes and can work independently.",
+          "headline": "After the code checks: 0 matches, 1 to check first, 0 exploratory.",
+          "counts": {
+            "match": 0,
+            "conditional": 1,
+            "exploratory": 0,
+            "excluded": 0,
+            "dropped": 0
+          },
+          "follow_up_question": null,
+          "picks": [
+            {
+              "record_id": "caw-photo-d1411fc392",
+              "status": "conditional",
+              "section": "ongoing",
+              "model_fit": "close",
+              "reasoning": {
+                "why": "One-on-one photography coaching could offer tailored help with your skills and goals. The listing doesn’t specify whether the coaching covers film photography.",
+                "interaction": "Personalized one-on-one coaching.",
+                "interaction_quote": "personalized one-on-one coaching provides instruction tailored to your goals and experience.",
+                "interaction_grounded": true,
+                "exploration_link": null,
+                "link_quote": null,
+                "verified_quotes": [
+                  "personalized one-on-one coaching provides instruction tailored to your goals and experience."
+                ],
+                "unverified_quotes": [],
+                "rejected_details": [],
+                "author": "gpt-6-luna (matcher); quotes checked by code"
+              },
+              "relevance": [
+                {
+                  "term": "camera",
+                  "field": "summary"
+                },
+                {
+                  "term": "photography",
+                  "field": "title"
+                }
+              ],
+              "conditions": [
+                {
+                  "kind": "format",
+                  "status": "to_confirm",
+                  "text": "You asked for in person; the page does not say whether it is in person or online.",
+                  "quote": null
+                },
+                {
+                  "kind": "registration",
+                  "status": "info",
+                  "text": "Registration happens on the organizer's site; a link does not guarantee a spot.",
+                  "quote": "Reserve a single session or continue with multiple sessions as your skills and projects evolve."
+                },
+                {
+                  "kind": "capacity",
+                  "status": "to_confirm",
+                  "text": "Places are limited; availability is not shown here.",
+                  "quote": "Capacity: 1"
+                }
+              ],
+              "next_steps": [
+                "Read the original page: https://creativeartsworkshop.org/courses/no-term/photography-individual-coaching/",
+                "Confirm before you plan on it: You asked for in person; the page does not say whether it is in person or online. Places are limited; availability is not shown here.",
+                "Not stated on the page (ask the organizer if it matters): date/time, in person or online.",
+                "How to register, as written: “Reserve a single session or continue with multiple sessions as your skills and projects evolve.”"
+              ],
+              "facts": [
+                {
+                  "field": "when",
+                  "value": "Term: Fall 2026",
+                  "page_wording": "Term: Fall 2026",
+                  "basis": "page text",
+                  "source_url": "https://creativeartsworkshop.org/courses/no-term/photography-individual-coaching/",
+                  "collected_at": "2026-10-25T01:32:54+00:00"
+                },
+                {
+                  "field": "when",
+                  "value": "Term: Fall 2026",
+                  "page_wording": "Dates & times are flexible: Monday, Tuesday, Wednesday, Thursday, Friday, 6–7:30 pm, 12/18 1 session: $90.00; Capacity: 1",
+                  "basis": "first of 1 session blocks",
+                  "source_url": "https://creativeartsworkshop.org/courses/no-term/photography-individual-coaching/",
+                  "collected_at": "2026-10-25T01:32:54+00:00"
+                },
+                {
+                  "field": "conditions",
+                  "value": "Suggested Ages: 15+",
+                  "page_wording": "Suggested Ages: 15+",
+                  "basis": "page text",
+                  "source_url": "https://creativeartsworkshop.org/courses/no-term/photography-individual-coaching/",
+                  "collected_at": "2026-10-25T01:32:54+00:00"
+                },
+                {
+                  "field": "cost",
+                  "value": "Tuition is $90 for each 1½ hour session.",
+                  "page_wording": "Tuition is $90 for each 1½ hour session.",
+                  "basis": "page text",
+                  "source_url": "https://creativeartsworkshop.org/courses/no-term/photography-individual-coaching/",
+                  "collected_at": "2026-10-25T01:32:54+00:00"
+                },
+                {
+                  "field": "registration",
+                  "value": "Reserve a single session or continue with multiple sessions as your skills and projects evolve.",
+                  "page_wording": "Reserve a single session or continue with multiple sessions as your skills and projects evolve.",
+                  "basis": "page text",
+                  "source_url": "https://creativeartsworkshop.org/courses/no-term/photography-individual-coaching/",
+                  "collected_at": "2026-10-25T01:32:54+00:00"
+                },
+                {
+                  "field": "capacity",
+                  "value": "Capacity: 1",
+                  "page_wording": "Capacity: 1",
+                  "basis": "page text / session block",
+                  "source_url": "https://creativeartsworkshop.org/courses/no-term/photography-individual-coaching/",
+                  "collected_at": "2026-10-25T01:32:54+00:00"
+                },
+                {
+                  "field": "location",
+                  "value": "80 Audubon Street, New Haven, CT 06510 (organizer's address)",
+                  "page_wording": "80 Audubon Street, New Haven, CT 06510",
+                  "basis": "site footer 'Location' (organizer address)",
+                  "source_url": "https://creativeartsworkshop.org/courses/no-term/photography-individual-coaching/",
+                  "collected_at": "2026-10-25T01:32:54+00:00"
+                },
+                {
+                  "field": "organizer",
+                  "value": "Creative Arts Workshop",
+                  "page_wording": "Creative Arts Workshop",
+                  "basis": "publishing site (organizer's own course page)",
+                  "source_url": "https://creativeartsworkshop.org/courses/no-term/photography-individual-coaching/",
+                  "collected_at": "2026-10-25T01:32:54+00:00"
+                },
+                {
+                  "field": "format",
+                  "value": null,
+                  "page_wording": null,
+                  "basis": "not stated on the page",
+                  "source_url": "https://creativeartsworkshop.org/courses/no-term/photography-individual-coaching/",
+                  "collected_at": "2026-10-25T01:32:54+00:00"
+                }
+              ],
+              "grounded": true,
+              "card": {
+                "id": "caw-photo-d1411fc392",
+                "kind": "program",
+                "kind_label": "Program / series",
+                "title": "Photography Individual Coaching",
+                "url": "https://creativeartsworkshop.org/courses/no-term/photography-individual-coaching/",
+                "source_id": "caw-photo",
+                "source_name": "Creative Arts Workshop: photography classes",
+                "publisher": "Creative Arts Workshop",
+                "publisher_type": "Community nonprofit",
+                "organizer": "Creative Arts Workshop",
+                "data_mode": "snapshot",
+                "collected_at": "2026-10-25T01:32:54+00:00",
+                "collected_at_text": "Sat Oct 24, 9:32 PM EDT",
+                "start": null,
+                "end": null,
+                "when_text": null,
+                "date_text": "Term: Fall 2026",
+                "next_session": null,
+                "upcoming_sessions": [],
+                "undated_sessions": 1,
+                "session_this_week": false,
+                "format_label": null,
+                "location_label": "80 Audubon Street, New Haven, CT 06510 (organizer's address)",
+                "cost_label": "Tuition is $90 for each 1½ hour session.",
+                "registration_url": null,
+                "registration_text": "Reserve a single session or continue with multiple sessions as your skills and projects evolve.",
+                "registration_note": "A registration link does not guarantee a spot. Registration happens on the organizer's site.",
+                "deadline_text": null,
+                "deadline_at": null,
+                "eligibility_open": [],
+                "eligibility_check": [
+                  "Suggested Ages: 15+",
+                  "Capacity: 1"
+                ],
+                "not_stated": [
+                  "date/time",
+                  "in person or online"
+                ],
+                "warnings": [
+                  "Session timing is flexible ('Dates & times are flexible: Monday, Tuesday, Wednesday, Thursday, Friday, 6–7:30 pm, 12/18'); not treated as a dated session.",
+                  "Location is the organizer's address from the site footer; the page does not name a course-specific room."
+                ],
+                "summary": "Whether you’re purchasing your first camera, exploring a new photographic technique, or refining an established practice, personalized one-on-one coaching provides instruction tailored to your goals and experience.",
+                "topics": [
+                  "Photography"
+                ],
+                "also_at": [],
+                "matched_terms": [],
+                "format_unknown_for_filter": false
+              }
+            }
+          ],
+          "excluded": [],
+          "dropped": [],
+          "also_read": [],
+          "windows": {
+            "now": "2026-10-26T07:08:54-04:00",
+            "now_text": "Mon Oct 26, 7:08 AM EDT",
+            "timezone": "America/New_York",
+            "this_week": {
+              "start": "2026-10-26T00:00:00-04:00",
+              "end": "2026-11-02T00:00:00-05:00",
+              "label": "Mon Oct 26 – Sun Nov 1"
+            },
+            "coming": {
+              "start": "2026-11-02T00:00:00-05:00",
+              "label": "From Mon Nov 2"
+            }
+          },
+          "sources": [
+            {
+              "name": "Creative Arts Workshop: photography classes",
+              "data_mode": "snapshot",
+              "collected_at_text": "Sat Oct 24, 9:32 PM EDT",
+              "n_records": 2,
+              "last_outcome": null,
+              "last_attempt_text": null,
+              "simulated": false
+            },
+            {
+              "name": "Yale Center for Geospatial Solutions: events",
+              "data_mode": "snapshot",
+              "collected_at_text": "Sat Oct 24, 9:33 PM EDT",
+              "n_records": 9,
+              "last_outcome": null,
+              "last_attempt_text": null,
+              "simulated": false
+            }
+          ],
+          "n_listings": 11,
+          "verification": {
+            "checked": 1,
+            "kept": 1,
+            "excluded": 0,
+            "dropped": 0,
+            "quotes_total": 1,
+            "quotes_verified": 1,
+            "details_redacted": 0,
+            "summary_sentences_removed": [],
+            "listings_read": [
+              "caw-photo-d1411fc392"
+            ],
+            "note": "Deterministic check by code (no model call): IDs, availability, verbatim quotes, unsupported details, participation conditions against what you said, and counts stated in the AI summary against the final cards."
+          }
+        },
+        "output_text": "I found photography coaching that may offer hands-on, tailored instruction, but the page doesn’t say whether it covers film photography or takes place in person. The darkroom practice listing is for people who have already taken darkroom classes and can work independently.",
+        "usage": {
+          "input_tokens": 10139,
+          "cached_tokens": 5881,
+          "cache_write_tokens": 3867,
+          "output_tokens": 1085,
+          "reasoning_tokens": 633,
+          "uncached_input_tokens": 391,
+          "total_tokens": 11224
+        },
+        "cost_usd": 0.001123785,
+        "n_model_calls": 4,
+        "n_failed_attempts": 0,
+        "safety_findings": 0,
+        "duration_ms": 19349
+      }
+    }
+  ]
+}

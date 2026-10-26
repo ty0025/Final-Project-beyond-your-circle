@@ -69,7 +69,7 @@ Last updated: 2026-10-26 (Codex review fixes, the follow-up review fixes of roun
 | ID | Content | Status |
 |---|---|---|
 | ~~P-01~~ | Authorship line for the report/slides | Provided by the user (2026-10-25): **Tongyu David Chen**. Report and slides not started yet |
-| P-02 | Real GitHub repo URL, public/private, `zlisto` access status | Awaiting human input (user: do last) |
+| P-02 | Real GitHub repo URL, public/private, `zlisto` access status | ~~Awaiting human input~~ Done 2026-10-26: https://github.com/ty0025/Final-Project-beyond-your-circle, Public (no collaborator needed); pushed and cloned without login |
 | ~~P-03~~ | Deadline time zone shown on Canvas | The user said it does not matter (2026-10-25); scheduled for 2026-10-26 18:00 |
 | ~~P-04~~ | Creator n=1 real-use record | Done 2026-10-25 (3 searches, feedback and screenshots; timing not measured): `real_use_log.md` §D.1 |
 | P-05 | Whether to add this repo to git `safe.directory` (or another way to fix `.git` ownership) | Awaiting human input (user: will update that configuration themselves later; Portkey key already available) |
@@ -91,6 +91,7 @@ Last updated: 2026-10-26 (Codex review fixes, the follow-up review fixes of roun
 | Q8-A | 10 (3 runs by the user) | `r_80b535e6cc97`, `r_b8cd2f215d47`, `r_117624a6bd8a`; $0.00172422; normal ledger 114 → 124 rows |
 | Q6 | 4 (1 run) | `r_ce638df7cf6e` $0.001309 (guard 1 + matcher 3); ledger 110 → 114 rows; demo server 0 rows |
 | Post-fix retest (P-09) | 4 (1 run by the user) | `r_e29a8b37a60c` $0.001388015 (guard 1 + matcher 3); normal ledger 128 -> 132 rows; after the `q08_tokenomics` cut-off, so not in those totals |
+| GitHub clone check | 4 (1 run in the clone, Python 3.11.17) | `r_89ca8fd71c77` $0.001123785 (guard 1 + matcher 3); recorded in the clone's own ledger (copy in `evidence/q08_clone/`); after the `q08_tokenomics` cut-off |
 | Q5 | 11 (3 runs) | `r_8aad4fe5a302` $0.000936, `r_c588d02ea0b5` $0.001075, `r_835194ffb88a` $0.000380; total $0.002390; ledger 99 → 110 rows |
 | Cleanup, Codex review fixes, round 3, G-15 design (2026-10-26) | 0 | Offline tests and read-only checks on saved traces only; the last row of `runs/usage.jsonl` is still `r_21eea8b51494` (2026-10-25T21:23:30Z; checked again after round 3: 128 lines, 33 with `mode`) |
 | History (before Question 1) | ledger 95 rows + red team 38 rows | Harbor Bikes placeholder domain, base-layer history only (I-08); excluded from every figure |
@@ -139,6 +140,9 @@ An independent read-only review of the fixes above (13 issues) and a consistency
 4. **Wording, issue 14.** Matcher role line, `search_listings` description, the "ongoing" section label and the blocked reply say events, classes and ongoing programs, not communities (old/new text in AI_prompts.md).
 5. **Screenshots.** `design_after_*` retaken without the "TEST MODE" banner (the earlier set came from a server started with `LLM_SIMULATE=error`).
 6. **Docs sync.** README (examples' event dates, test counts), `evidence/architecture.md`, q05 §9, q06 §10, q07 §3, q08, rubric checklist, this file, AI_prompts.md, PROJECT_SPEC.md I-17.
+
+#### GitHub push and clone check (2026-10-26, evening)
+The user created the public repository https://github.com/ty0025/Final-Project-beyond-your-circle and sent the link. Claude Code added it as `origin`, and the user's terminal ran `git push -u origin master` (7 commits, `1e537aa`). GitHub clone check (2026-10-26, commit `1e537aa`): the repository page answers HTTP 200 without login; an anonymous `git clone` (credential helper off) took 2 s into a new folder `my-app/fresh-clone-github` whose parent holds the `.env`; following the README's manual steps with Python 3.11.17 (venv + `pip install -r requirements.txt`) took 66 s on this machine (pip cache present, so a first install elsewhere can be slower); the offline suite in the clone: 594 passed; `run.py` started, `/api/health` OK (`.env (parent)`, key configured), page 200, both sources in snapshot mode (11 listings). Real AI search in the clone (user-approved paid call, 2026-10-26 7:08 AM EDT, Python 3.11.17): run `r_89ca8fd71c77`, request = example 1 ("I shoot film and want hands-on help getting better, in person. I've never worked in a darkroom."), no form options; finished normally in 19 s; 4 model calls (guard 1 + matcher 3), 11,224 tokens, $0.001123785, served model `gpt-6-luna-global`; result 0 Match, 1 Check first (Photography Individual Coaching: format and places to confirm), 0 dropped, 1 of 1 quotes found word for word; the AI summary says the darkroom listing is for people who have already taken darkroom classes; data shown as the committed snapshot. Copies: `evidence/q08_clone/r_89ca8fd71c77.*`; screenshot (replay, no model call): `evidence/screenshots/q08_github_clone_run_r_89ca8fd71c77.png`. The user approved the AI search; result above. This run is after the `q08_tokenomics` cut-off, so it is not in those totals.
 
 #### G-18 fix (2026-10-26, evening)
 The user's post-fix retest (`r_e29a8b37a60c`, `real_use_log.md` D.2) showed the code dropping "Save the Date: GIS Day 2026" for the interest "AI", although the page says "GeoAI workshops". The user asked for a fix verified offline on saved runs, with no model calls (AI_prompts.md). 0 model calls.
