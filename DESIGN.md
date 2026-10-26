@@ -1,6 +1,6 @@
 # Final Project — Foundation Design
 
-This is the topic-agnostic foundation for the MGT 409 final project. It covers everything the rubric needs no matter which problem the app ends up solving: a model gateway, an agent runtime, a token/cost ledger, budget guards, safety defenses, a web UI and evidence capture. Swapping in the real topic means replacing the placeholder domain (see "Placeholder domain" at the end). Everything else stays.
+This file describes the foundation under the MGT 409 final project: a model gateway, an agent runtime, a token/cost ledger, budget guards, safety defenses, a web UI and evidence capture. It was written before the topic was chosen; the domain now built on it is **Beyond Your Circle** (§5). The request pipeline, the tools and the code verifier are described in `evidence/architecture.md`; how to run the app is in `README.md`.
 
 Every module below is a contract. File names, class names, function signatures and event shapes are fixed so that separate pieces can be built in parallel and still fit together.
 
@@ -9,16 +9,16 @@ Every module below is a contract. File names, class names, function signatures a
 | Constraint | How the foundation meets it |
 |---|---|
 | Course key may only call `gpt-6-luna` | `app/config.py` hard-codes `MODEL = "gpt-6-luna"` and `PORTKEY_BASE_URL`. Neither can be overridden by env. |
-| `.env` lookup: repo folder first, then the folder above | `config.load_env()` loads `REPO_DIR/.env` then `REPO_DIR.parent/.env`, both with `override=False`. Real environment variables (e.g. on Render) win over both. |
+| `.env` lookup: repo folder first, then the folder above | `config.load_env()` loads `REPO_DIR/.env` then `REPO_DIR.parent/.env` without overriding values already set. Real environment variables win over both; an empty or placeholder value (a copied `.env.example`) never hides a real key from the later file. |
 | Key names exactly `PORTKEY_API_KEY` / `OPENAI_API_KEY` | Only `PORTKEY_API_KEY` is used. Never printed, logged, returned by an API, or written to traces. |
 | 10-minute rule for a fresh clone | Python only, no Node build step, no database, no extra services. `start.sh` / `start.bat` create a venv, install and run. One process serves API + UI on `http://127.0.0.1:8000`. |
-| Small test dataset | `data/sample/` ships with the repo. `DATA_DIR` env switches to a bigger dataset. |
-| Tokenomics from real runs (input, cached input, output) | Every model call is appended to `runs/usage.jsonl` with full usage + cost. UI shows per-run cost live; `/api/stats` and `scripts/tokenomics.py` produce per-run, per-user-month, 100-user and 10,000-user projections. |
-| Safety defense shown working | Defenses are real code with offline tests (`tests/test_safety.py`) and a live red-team script (`scripts/redteam.py`) that writes `evidence/redteam_results.json`. Safety events show in the UI. |
+| Small test dataset | The committed snapshot `data/snapshots/` (2 public sources, 11 records) ships with the repo and is the small test set; "Refresh sources" re-collects live into `runs/collect/`. |
+| Tokenomics from real runs (input, cached input, output) | Every model attempt is appended to `runs/usage.jsonl` with full usage + cost. UI shows per-run cost live; `/api/stats` gives per-run, per-user-month, 100-user and 10,000-user projections; `scripts/tokenomics_q8.py` writes the report figures to `evidence/q08_tokenomics.{json,md}` from the committed ledger copies. |
+| Safety defense shown working | Defenses are real code with offline tests (`tests/test_safety.py`, `tests/test_q7_safety.py`) and a small live red-team script (`scripts/redteam_q7.py`) that writes `evidence/q07_redteam.json`. Safety events show in the UI. |
 | report.html / slides.html self-contained | `scripts/inline_images.py` embeds every local `<img src>` as base64. |
-| Blue visual style | `web/styles.css` uses a blue palette (see §9). |
+| Blue visual style | `web/styles.css` uses a blue palette (see §6). |
 
-Python >= 3.10 is supported; development machine runs 3.14. All code uses `from __future__ import annotations`.
+Python >= 3.11 is required (`app/orchestrator.py` uses `asyncio.timeout`); `run.py`, `start.sh` and `start.bat` check it. The development machine runs 3.14. All code uses `from __future__ import annotations`.
 
 ## 2. Verified model facts (probe run 2026-10-25, Portkey → gpt-6-luna)
 
@@ -52,6 +52,7 @@ final project/                 (becomes the GitHub repo root)
     config.py                  env loading, constants, Settings
     pricing.py                 Usage dataclass, prices, cost_usd()
     llm.py                     LLMClient over the Responses API (+ result types)
+    metering.py                one model attempt -> ledger record + budget update + trace event
     ledger.py                  UsageLedger (JSONL) + stats/projections
     budget.py                  BudgetExceeded, RunBudget
     events.py                  Event, RunTrace (stream + persist)
@@ -60,21 +61,27 @@ final project/                 (becomes the GitHub repo root)
     agent.py                   AgentSpec, AgentRunResult, AgentRuntime (the loop)
     orchestrator.py            APP_META, build_team(), run_task() — wires the current domain
     server.py                  FastAPI app: API + static UI
-    domain/                    PLACEHOLDER domain (replaced once the topic is chosen)
+    discover.py                Browse view: groups and filters stored records (no model call)
+    collect/                   bounded public-source collector (fetch, htmltree, sources, records, store)
+    domain/                    Beyond Your Circle domain
       __init__.py
-      tools.py                 domain tools registered on a ToolRegistry
+      tools.py                 search_listings / get_listing over stored records
       models.py                pydantic output models
-      prompts/*.md             one system prompt per agent
-  data/sample/                 small test dataset for the placeholder domain
+      verify.py                code verifier: picks, quotes, status, counts, headline
+      conditions.py            participation conditions judged against what the user said
+      prompts/matcher.md       the matcher agent's system prompt
+  data/snapshots/              committed snapshot of the 2 connected sources (small test set)
   web/
-    index.html  styles.css  app.js     no build step, no CDN, works offline
+    index.html  styles.css  app.js  discover.js     no build step, no CDN, works offline
   scripts/
     smoke_test.py              one live call; prints usage + cost (never the key)
-    redteam.py                 live attacks against the real app → evidence/redteam_results.json
-    tokenomics.py              ledger → evidence/tokenomics.json + evidence/tokenomics.md
+    collect.py                 collector CLI: sources, status, show, refresh, snapshot, reparse
+    compare_cases.py           problem-5 cases → evidence/q05_cases.{md,json} (no model call)
+    redteam_q7.py              3 live red-team runs (--dry-run lists them) → evidence/q07_redteam.json
+    tokenomics_q8.py           committed ledger copies → evidence/q08_tokenomics.{json,md}
     inline_images.py           embed local images in report.html / slides.html as base64
   tests/                       offline pytest suite (FakeLLM, no network)
-  runs/                        runtime output, gitignored: usage.jsonl, traces/<run_id>.json
+  runs/                        runtime output, gitignored: usage.jsonl, traces/<run_id>.json, collect/
   evidence/                    curated exports for the report (committed)
 ```
 
@@ -91,8 +98,9 @@ APP_SLUG = "mgt409-final"           # used in prompt_cache_key
 class ConfigError(RuntimeError): ...
 
 def load_env(repo_dir: Path = REPO_DIR) -> list[Path]
-    # load_dotenv(repo_dir/".env", override=False) then load_dotenv(repo_dir.parent/".env", override=False).
-    # Returns the files that existed, in load order. Idempotent. Called once at import of config.
+    # reads repo_dir/".env" then repo_dir.parent/".env" (dotenv_values) and sets only variables not set yet;
+    # empty values and placeholder keys are skipped. Returns the files that existed, in load order.
+    # Idempotent. Called once at import of config.
 def env_files_loaded() -> list[str]   # file *names relative to repo* for /api/health, e.g. [".env (repo)", ".env (parent)"]
 def get_api_key() -> str              # stripped PORTKEY_API_KEY; raises ConfigError with a friendly fix-it message if missing
 def key_configured() -> bool
@@ -104,6 +112,8 @@ class Settings:
     daily_budget_usd: float = 2.00        # DAILY_BUDGET_USD (all runs, UTC day, from the ledger)
     max_steps_per_agent: int = 8          # MAX_STEPS_PER_AGENT (model calls per agent invocation)
     max_tool_calls_per_run: int = 30      # MAX_TOOL_CALLS_PER_RUN
+    max_model_calls_per_run: int = 12     # MAX_MODEL_CALLS_PER_RUN (every attempt: guard, agent turns, retries)
+    llm_max_retries: int = 1              # LLM_MAX_RETRIES (app-level retries; each attempt is ledgered)
     max_agent_depth: int = 2              # MAX_AGENT_DEPTH (entry agent = depth 0)
     max_output_tokens: int = 4000         # MAX_OUTPUT_TOKENS per model call
     max_input_chars: int = 8000           # MAX_INPUT_CHARS for user input
@@ -111,9 +121,10 @@ class Settings:
     rate_limit_window_s: int = 600        # RATE_LIMIT_WINDOW_S
     llm_guard: bool = True                # SAFETY_LLM_GUARD ("0"/"false" disables)
     runs_per_user_per_month: int = 30     # RUNS_PER_USER_PER_MONTH (projection assumption)
-    data_dir: Path = REPO_DIR/"data"/"sample"   # DATA_DIR (relative paths resolve against REPO_DIR)
+    data_dir: Path = REPO_DIR/"data"/"sample"   # DATA_DIR: leftover from the placeholder; no code reads it
     runs_dir: Path = REPO_DIR/"runs"      # RUNS_DIR
     request_timeout_s: float = 90.0       # LLM_TIMEOUT_S
+    run_timeout_s: float = 180.0          # RUN_TIMEOUT_S (wall clock for one whole run)
 
 def get_settings() -> Settings          # parsed from env once (functools.lru_cache); bad values fall back to defaults
 ```
@@ -157,9 +168,10 @@ class LLMResult:
     latency_ms: int
 
 class LLMClient:
-    def __init__(self, api_key: str | None = None, *, timeout_s: float | None = None)
+    def __init__(self, api_key: str | None = None, *, timeout_s: float | None = None, max_retries: int | None = None)
         # AsyncOpenAI(api_key=key, base_url=PORTKEY_BASE_URL,
-        #             default_headers={"x-portkey-api-key": key}, timeout=..., max_retries=2)
+        #             default_headers={"x-portkey-api-key": key, "x-portkey-cache-force-refresh": "true"},
+        #             timeout=..., max_retries=0)  # retries (LLM_MAX_RETRIES) happen in create(), one ledger record per attempt
         # key defaults to config.get_api_key(); model is always config.MODEL
     async def create(
         self, *,
@@ -183,10 +195,10 @@ Tests use a `FakeLLM` with the same `create` signature (tests/conftest.py).
 
 ### 4.4 `app/ledger.py`
 
-One JSON line per model call in `runs/usage.jsonl`:
+One JSON line per model call in `runs/usage.jsonl`. The example below is the original contract; the current `ModelCall.to_record()` also writes `attempt`, `status`, `error_kind`, `mode` (`live` / `mock`), `served_model`, `model_mismatch`, `n_function_calls`, `finish` and `usage_missing`, and writes unmeasured values as null:
 
 ```json
-{"ts": "2026-10-25T21:04:05Z", "run_id": "r_...", "agent": "researcher", "step": 2,
+{"ts": "2026-10-25T21:04:05Z", "run_id": "r_...", "agent": "matcher", "step": 2,
  "model": "gpt-6-luna", "response_id": "resp_...", "latency_ms": 1820,
  "input_tokens": 4036, "cached_tokens": 4014, "cache_write_tokens": 19, "uncached_input_tokens": 3,
  "output_tokens": 22, "reasoning_tokens": 0, "total_tokens": 4058, "cost_usd": 0.0000542}
@@ -215,19 +227,22 @@ class UsageLedger:
         #  "projections": [{"users": 1|100|10000, "monthly_usd": ..., "yearly_usd": ...}],
         #  "assumptions": {"runs_per_user_per_month": k, "prices_per_m": PRICES_PER_M[MODEL]}}
         # all zeros (not errors) on an empty ledger
+        # also: calls_failed, calls_usage_missing, calls_mock, legacy_rows_excluded
 ```
+
+Legacy rows: on load, rows without a `mode` field (written before the Q4 metering gate by the old placeholder app) are counted in `legacy_rows` and skipped. They stay in the file but never reach the stats, the recent-runs list or today's spend; `/api/stats` reports their number as `legacy_rows_excluded`.
 
 ### 4.5 `app/budget.py`
 
 ```python
 class BudgetExceeded(Exception):
-    def __init__(self, scope: str, limit: float, spent: float)   # scope: "run_tokens" | "run_usd" | "daily_usd"
+    def __init__(self, scope: str, limit: float, spent: float)   # scope: "run_calls" | "run_tokens" | "run_usd" | "daily_usd"
 
 class RunBudget:
     def __init__(self, settings: Settings, ledger: UsageLedger, run_id: str)
     usage: Usage          # running total for this run
     cost_usd: float
-    def check_before_call(self) -> None   # raise BudgetExceeded if run tokens >= cap, run cost >= cap, or ledger.today_cost_usd() >= daily cap
+    def check_before_call(self) -> None   # raise BudgetExceeded if model calls >= MAX_MODEL_CALLS_PER_RUN, run tokens >= cap, run cost >= cap, or ledger.today_cost_usd() >= daily cap
     def record(self, call: ModelCall) -> None
 ```
 
@@ -236,7 +251,7 @@ class RunBudget:
 Every event, streamed to the browser as one NDJSON line and saved in the trace:
 
 ```json
-{"seq": 3, "ts": "2026-10-25T21:04:05.120Z", "run_id": "r_...", "type": "tool_call", "agent": "researcher", "data": {...}}
+{"seq": 3, "ts": "2026-10-25T21:04:05.120Z", "run_id": "r_...", "type": "tool_call", "agent": "matcher", "data": {...}}
 ```
 
 Event types and `data` keys:
@@ -251,6 +266,7 @@ Event types and `data` keys:
 | `handoff` | `from_agent`, `to_agent`, `task_preview` |
 | `safety` | `kind`, `severity`, `source`, `detail`, `action` (SafetyFinding.to_dict) |
 | `agent_finished` | `stopped_reason`, `steps`, `tool_calls`, `usage`, `cost_usd`, `output_preview` |
+| `verification` | emitted by `run_task` after the code verifier (agent `verifier`): `kind="code"`, the fields of the output's `verification` dict (`checked`, `kept`, `excluded`, `dropped`, quote counts, `summary_sentences_removed`, ...), `dropped_picks`, `excluded_picks` |
 | `final` | `ok`, `stopped_reason`, `output` (structured dict or null), `output_text`, `usage`, `cost_usd`, `n_model_calls`, `safety_findings` (count), `duration_ms` |
 | `error` | `message` (never contains secrets) |
 
@@ -323,7 +339,7 @@ Defense layers, all real code:
 @dataclass
 class SafetyFinding:
     kind: str        # prompt_injection | canary_leak | secret_leak | exfil_url | input_too_long | tool_not_allowed
-                     # | loop_cap | tool_call_cap | depth_cap | budget | rate_limited
+                     # | loop_cap | tool_call_cap | depth_cap | budget | rate_limited | run_timeout | model_refusal
     severity: str    # low | medium | high
     source: str      # "user_input" | "tool:<name>" | "agent:<name>" | "system"
     detail: str      # short, human-readable; never contains secrets
@@ -426,12 +442,13 @@ Every finding is appended to `self.findings` and emitted as a `safety` event at 
 
 ```python
 APP_META: dict   # {"title", "tagline", "examples": [3–4 example inputs], "entry_agent",
-                 #  "agents": [{"name","role","tools","sub_agents"}]}  — built from the domain specs
-def build_team(settings: Settings) -> tuple[dict[str, AgentSpec], ToolRegistry, str]   # (specs, registry, entry_agent)
-ALLOW_DOMAINS: set[str]    # domains the app may legitimately mention in outputs
+                 #  "agents": [{"name","role","tools","sub_agents"}], "pipeline": [...]}  — built from the domain specs
+def build_team(settings: Settings, session: ListingSession | None = None)
+    -> tuple[dict[str, AgentSpec], ToolRegistry, str]   # (specs, registry, entry_agent)
+ALLOW_DOMAINS: set[str]    # domains the app may legitimately mention in outputs: {"yale.edu", "creativeartsworkshop.org"}
 
 async def run_task(user_input: str, *, llm, settings: Settings, ledger: UsageLedger, trace: RunTrace,
-                   canary: Canary) -> dict
+                   canary: Canary, options: RunOptions | None = None) -> dict
 ```
 
 `run_task`:
@@ -439,8 +456,9 @@ async def run_task(user_input: str, *, llm, settings: Settings, ledger: UsageLed
 2. `screen_user_input` → emit findings; if blocked → emit `final` with `ok=False, stopped_reason="blocked"` and a friendly refusal in `output_text`, save the trace, return.
 3. If `settings.llm_guard` → `llm_guard(...)`; if it returns a finding → emit it, then blocked final as above.
 4. If the input had medium/low findings → pass `spotlight(user_input, "user")` as the task, otherwise the raw input.
-5. `AgentRuntime(...).run_agent(entry_agent, task)`. `BudgetExceeded` → finding `budget` (stopped) + `final` with `stopped_reason="budget"`. `LLMError`/other exceptions → `error` event + `final` with `ok=False, stopped_reason="error"`.
-6. Emit `final` (totals from `RunBudget`), `trace.save(settings.runs_dir)`, return the final event's data.
+5. `AgentRuntime(...).run_agent(entry_agent, task)`. Steps 3 and 5 run under `asyncio.timeout(settings.run_timeout_s)`; a timeout → finding `run_timeout` + `final` with `stopped_reason="timeout"`. `BudgetExceeded` → finding `budget` (stopped) + `final` with `stopped_reason="budget"`. `LLMError`/other exceptions → `error` event + `final` with `ok=False, stopped_reason="error"`.
+6. Structured output → `verify_output(...)` (code verifier, `app/domain/verify.py`) → `verification` event. The answer text is the reconciled AI summary, or the code-built `headline` if the count check removed every summary sentence.
+7. Emit `final` (totals from `RunBudget`), `trace.save(settings.runs_dir)`, return the final event's data.
 
 ### 4.11 `app/server.py`
 
@@ -455,6 +473,9 @@ POST /api/run          -> body {"input": str}; 429 JSON {"error": ...} when rate
 GET  /api/runs         -> {"runs": ledger.run_summaries(limit=50)}
 GET  /api/runs/{id}    -> saved trace JSON or 404
 GET  /api/stats        -> ledger.stats(settings.runs_per_user_per_month)
+GET  /api/discover     -> Browse view of the stored records (no network, no model call)
+GET  /api/sources      -> source status, not-connected sources, refresh state
+POST /api/refresh      -> bounded live re-collection (no model call); 409 while running, 429 during the cooldown
 ```
 
 - Singletons are created lazily at first use: `LLMClient`, `UsageLedger(settings.runs_dir/"usage.jsonl")`, one `Canary`. Tests override them through `app.server.set_dependencies(llm=..., ledger=..., settings=...)`.
@@ -464,46 +485,31 @@ GET  /api/stats        -> ledger.stats(settings.runs_per_user_per_month)
 
 ### 4.12 `run.py`, `start.sh`, `start.bat`
 
-- `run.py`: checks Python >= 3.10, imports `app.config` (loads `.env`), prints which `.env` files were found and whether the key is configured (yes/no only), then `uvicorn.run("app.server:app", host, port)`. It opens the browser after ~1.5 s unless `--no-browser`. It honours the `PORT` env var (for Render). Calls `sys.stdout.reconfigure(encoding="utf-8")` so Windows consoles do not crash on non-ASCII text.
-- `start.sh` (Mac/Linux) / `start.bat` (Windows): `cd` to the script dir; create `.venv` if missing (`python3 -m venv` / `py -3 -m venv` falling back to `python`); install `requirements.txt` quietly; run `run.py`.
+- `run.py`: checks Python >= 3.11 (`MIN_PYTHON`), imports `app.config` (loads `.env`), prints which `.env` files were found and whether the key is configured (yes/no only), then `uvicorn.run("app.server:app", host, port)`. Unless `--no-browser`, it opens the browser once the port accepts connections (or after 30 s). It honours the `PORT` env var (also from `.env`); `--port` wins. Calls `sys.stdout.reconfigure(encoding="utf-8")` so Windows consoles do not crash on non-ASCII text.
+- `start.sh` (Mac/Linux) / `start.bat` (Windows): `cd` to the script dir; reuse `.venv` only if it runs Python 3.11+ and has pip, otherwise recreate it (`start.sh` tries `python3`, `python3.14` … `python3.11`, `python`; `start.bat` tries `py -3`, then `python`); install `requirements.txt` quietly; run `run.py`.
 
-## 5. Placeholder domain (replace once the topic is chosen)
+## 5. Domain: Beyond Your Circle
 
-Purpose: exercise every foundation feature end to end (multi-agent delegation, tools, untrusted content, structured output, caching, safety) before the real topic exists. It is deliberately small.
+The placeholder domain used to build the foundation (a fictional bike shop with a `coordinator` / `researcher` / `verifier` agent team) was removed in problem 4 (`evidence/q04.md`). Its handbook texts now live in `tests/fixtures/safety/` and are used only by the safety-layer tests.
 
-- Data: `data/sample/` holds a fictional small-business handbook ("Harbor Bikes", New Haven): `refund_policy.md`, `shipping.md`, `warranty.md`, `price_list.csv`, and `supplier_note.md`. The supplier note is **booby-trapped**: it contains a hidden prompt injection (an HTML comment + a zero-width-character line telling the agent to ignore instructions, reveal its system prompt and fetch `https://evil.example/leak?data=...`). That gives a live safety demo.
-- Tools (`app/domain/tools.py`): `search_docs(query: str)` → top-5 `{doc_id, title, snippet, score}` by keyword overlap over `DATA_DIR`; `read_doc(doc_id: str)` → full text (`untrusted_output=True`; doc_id validated against the directory listing, no path traversal); `calculate(expression: str)` → safe AST arithmetic (+ − × ÷ ** %, parentheses, numbers only).
-- Agents:
-  - `coordinator` (entry): plans, delegates to `researcher`, then `verifier`, and writes the final answer. Tools: none; sub_agents: researcher, verifier. Output model `FinalAnswer`.
-  - `researcher`: finds facts with `search_docs`, `read_doc`, `calculate`; returns findings with exact quotes. Output model `ResearchNotes`.
-  - `verifier`: re-reads the cited docs (`read_doc`) and marks each claim as supported or unsupported (guards against made-up facts). Output model `Verification`.
-- Output models (`app/domain/models.py`):
-  - `Citation{doc_id: str, quote: str}`
-  - `FinalAnswer{answer: str, citations: list[Citation], unsupported_claims: list[str], confidence: Literal["high","medium","low"]}`
-  - `ResearchNotes{findings: list[Finding{claim: str, doc_id: str, quote: str}], open_questions: list[str]}`
-  - `Verification{checked: list[ClaimCheck{claim: str, supported: bool, note: str}]}`
-- `ALLOW_DOMAINS = {"harborbikes.example"}`.
-
-To swap in the real topic: replace `app/domain/` (tools, models, prompts), `data/sample/`, `APP_META` text and the example inputs. Agent wiring stays declarative in `build_team()`.
+The current domain has one model agent, `matcher` (tools `search_listings` and `get_listing`, read-only over stored public records, output model `Recommendations`, at most 4 model calls), between the code screen and LLM guard in front and the code verifier behind (`app/domain/verify.py`, `app/domain/conditions.py`). Data comes from the collector (`app/collect/`): a committed snapshot in `data/snapshots/` or a newer refresh in `runs/collect/`. Components, tool permissions, data contracts and caps are in `evidence/architecture.md`.
 
 ## 6. Web UI (`web/`)
 
-Single page, no build step, no external assets.
-- Header: app title + tagline from `/api/meta`; status pills: model name, key configured ✓/✗, today's spend vs daily cap.
-- Left column ("Ask"): textarea (with character counter against `max_input_chars`), Run button, example chips from `/api/meta`. Below it, the result card: the answer rendered with a tiny safe markdown renderer (escape first; supports headings, bold, italics, inline code, bullet lists, paragraphs), then citations and the confidence badge when the output is structured, and the stop reason.
-- Right column ("How it worked"): a live timeline of events grouped by agent (indent by depth) with icons for model calls, tools, handoffs and safety. Tool calls are expandable to show arguments and the result preview. Safety events are highlighted in amber/red.
-- Cost card (live): input / cached / cache-write / output / reasoning tokens, number of model calls, cost in USD (6 decimals), cache hit %, elapsed time.
-- "Usage" tab: `/api/stats` (avg tokens and cost per run, p50/p90, cache hit rate, per user per month, 100 / 10,000 user projections table) and a recent-runs table from `/api/runs`. Clicking a run loads its trace into the timeline.
-- Run via `fetch('/api/run', {method:'POST'})` + `response.body.getReader()` NDJSON parsing; abort button; friendly errors (429, missing key, network).
-- Blue style: primary `#1d4ed8`, primary-dark `#1e3a8a`, accent `#3b82f6`, light `#eff6ff`/`#dbeafe`, text `#0f172a`, muted `#475569`, borders `#bfdbfe`; system font stack; cards with soft shadow, 12px radius; responsive (stacks under 900px); visible focus states; respects `prefers-reduced-motion`.
+Single page, no build step, no external assets (`index.html`, `styles.css`, `app.js`, `discover.js`). Header: title and tagline from `/api/meta`, model name, key configured ✓/✗, today's spend vs the daily cap. Three tabs:
+- **Find**: request box (character counter against `max_input_chars`), optional form conditions, example chips from `/api/meta`, then result cards labelled Match / Check first / Exploratory / Not a fit with reasons, facts and source links. A collapsed **Run details** panel holds the live cost card (token mix, model calls, cost in USD, cache hit, elapsed) and the timeline of model calls, tool calls and safety events. Runs stream via `fetch('/api/run')` + NDJSON parsing; Stop button; friendly errors (429, missing key, network).
+- **Browse all**: the stored listings from `/api/discover`, with interest, keyword, format and time filters, source status and the **Refresh sources** button. No model call.
+- **Usage**: `/api/stats` (average per run, cost per run, cache hit rate, projections) and recent runs from `/api/runs`; selecting a run replays its saved trace on the Find tab.
+
+Style: a blue palette defined as CSS variables at the top of `web/styles.css`; visible focus states; responsive. Screenshots are in `evidence/screenshots/`.
 
 ## 7. Evidence capture (feeds the report)
 
 | Report section | Evidence produced by the foundation |
 |---|---|
-| Agent design | `runs/traces/<run_id>.json` + UI timeline screenshot of a real run |
-| Tokenomics | `runs/usage.jsonl` → `scripts/tokenomics.py` → `evidence/tokenomics.{json,md}`; Usage tab screenshot; cache on/off comparison (`--no-cache` flag on the script's live comparison mode is a stretch goal) |
-| Safety | `tests/test_safety.py` output; `scripts/redteam.py` → `evidence/redteam_results.json` (attack, blocked/flagged?, which layer caught it); UI screenshot of a safety event |
+| Agent design | `evidence/architecture.md`; committed traces of real runs (`evidence/q04_run/`, `q05_runs/`, `q06_run/`, `q08a/`) + UI screenshots |
+| Tokenomics | committed ledger copies `evidence/*/<run_id>.usage.jsonl` → `scripts/tokenomics_q8.py` → `evidence/q08_tokenomics.{json,md}` (typical-run sample, all project live spend, excluded placeholder rows); the cache figure re-prices the same real tokens, it is not a separate run; Usage tab screenshot |
+| Safety | `tests/test_safety.py` and `tests/test_q7_safety.py` output; `scripts/redteam_q7.py` → `evidence/q07_redteam.json` (3 live cases, separate ledger); UI screenshot of a safety event |
 | Impact | Stopwatch timings + user quotes are collected by hand; not automated |
 
 ## 8. Tests (`tests/`, offline, `pytest -q`)
@@ -512,11 +518,12 @@ Single page, no build step, no external assets.
 - `test_config.py`: repo `.env` wins over parent `.env`; parent used when repo has none; real env var wins over both; missing key gives `ConfigError` with a fix-it message; settings env parsing + bad values fall back.
 - `test_pricing.py`: cost formula incl. cache read/write; `Usage.from_api` on the SDK-shaped dict from §2.
 - `test_ledger_budget.py`: append/reload; corrupt line skipped; `stats` math + projections; empty-ledger zeros; run token cap, run USD cap, daily cap trip `BudgetExceeded`.
-- `test_tools.py`: decorator schema is strict-compatible; validation error → `ok=False`; timeout → `ok=False`; truncation; `read_doc` blocks path traversal; `calculate` rejects names/calls.
+- `test_tools.py`: decorator schema is strict-compatible; validation error → `ok=False`; timeout → `ok=False`; truncation.
 - `test_agent.py`: tool loop → final structured output; delegation via `ask_<sub>` with handoff events; not-allowed tool refused; max steps → `max_steps`; tool call cap; depth cap; budget exceeded mid-run stops the run; untrusted tool output gets spotlighted and flagged.
-- `test_safety.py`: every injection rule family hits on a sample and the clean handbook text does not; the booby-trapped `supplier_note.md` is flagged; `spotlight` cannot be escaped by an embedded closing tag; canary leak blocked; key value + `sk-` patterns redacted; exfil URL detection; `screen_user_input` blocks long and high-severity input.
+- `test_safety.py`: every injection rule family hits on a sample and the clean handbook text (`tests/fixtures/safety/`) does not; the booby-trapped `supplier_note.md` is flagged; `spotlight` cannot be escaped by an embedded closing tag; canary leak blocked; key value + `sk-` patterns redacted; exfil URL detection; `screen_user_input` blocks long and high-severity input.
 - `test_server.py` (FastAPI `TestClient` + FakeLLM): `/api/health` never contains the key; `/api/run` streams NDJSON ending in `final`; rate limit → 429; `/api/runs/{bad id}` → 404; `/api/stats` on an empty ledger.
+- Added with the domain: `test_collect.py` (collector on trimmed real pages, fetch limits, fallback), `test_discover.py` (Browse view), `test_domain.py` (listing tools, verifier, example requests), `test_cases.py` (problem-5 cases), `test_audience_and_summary.py` (participation conditions, summary-count check), `test_flow.py` (user flow, budget-off, simulated model failures), `test_llm.py`, `test_metering.py`, `test_q7_safety.py`, `test_run.py`, `test_start_scripts.py`, `test_tokenomics_q8.py`.
 
-## 9. Deployment (optional, later)
+## 9. Deployment
 
-A single Render Web Service: build `pip install -r requirements.txt`, start `python run.py --host 0.0.0.0 --no-browser` (reads `PORT`), env var `PORTKEY_API_KEY` set in Render. The free tier sleeps, so the README must tell the grader to wait ~1 minute on first load. Local fresh-clone remains the primary path.
+Online deployment is not used. The app is run locally from a fresh clone as described in `README.md`. (`run.py` still trusts a hosting proxy's `X-Forwarded-For` when the `RENDER` variable is set, covered by `tests/test_run.py`, but no hosted copy is maintained.)

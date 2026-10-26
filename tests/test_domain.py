@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+import re
 from datetime import datetime
 from pathlib import Path
 
@@ -15,7 +16,7 @@ import pytest
 
 from app.collect.sources import SOURCES
 from app.collect.store import load_source
-from app.discover import NY
+from app.discover import INTERESTS, NY
 from app.domain import ListingSession, Recommendations, verify_output
 from app.domain.tools import detail, search
 from app.events import RunTrace
@@ -237,3 +238,31 @@ def test_run_task_end_to_end_with_mock_model(make_settings):
     assert verification.agent == "verifier" and verification.data["kind"] == "code"
     assert {r["mode"] for r in ledger.records()} == {"mock"}  # FakeLLM calls are never labelled live
     assert json.dumps(final)
+
+
+# --------------------------------------------------------------------------- APP_META promises only what the data holds
+
+EXAMPLE_TERMS = [  # interest words each APP_META example names, in order
+    ["film", "darkroom", "photography"],
+    ["ai"],
+    ["drones", "drone"],
+    ["maps", "gis", "geospatial"],
+]
+
+
+def test_every_example_finds_stored_listings_at_the_test_time():
+    s = session()
+    assert len(APP_META["examples"]) == len(EXAMPLE_TERMS)
+    for example, terms in zip(APP_META["examples"], EXAMPLE_TERMS):
+        assert any(re.search(rf"\b{re.escape(t)}\b", example, re.I) for t in terms), example
+        assert search(s, terms, "any", "all", 8)["n_matching"] >= 1, example
+
+
+def test_header_copy_promises_nothing_the_connected_sources_lack():
+    records = [r for res in session().results for r in res.records]
+    text = " ".join([APP_META["tagline"], *APP_META["examples"]])
+    if not any(r.kind == "community" for r in records):
+        assert not re.search(r"\b(communit\w*|clubs?)\b", text, re.I), text
+    page = " ".join(" ".join([r.title, r.summary or "", *r.topics]) for r in records)
+    if not any(re.search(rf"\b{re.escape(t)}\b", page, re.I) for t in INTERESTS["sports"]["terms"]):
+        assert not re.search(r"\b(sports?|league|intramurals?|game-watching)\b", text, re.I), text

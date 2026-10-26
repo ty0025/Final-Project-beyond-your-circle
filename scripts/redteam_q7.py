@@ -145,7 +145,8 @@ async def main(dry_run: bool) -> int:
                   f"{sorted({f['layer'] for f in rows[-1]['findings']}) or '-'} | ${rows[-1]['calls']['cost_usd']:.6f}")
     finally:
         await llm.aclose()
-    normal = UsageLedger(REPO / "runs" / "usage.jsonl").records()
+    normal_ledger = UsageLedger(REPO / "runs" / "usage.jsonl")
+    normal = normal_ledger.records()  # UsageLedger skips legacy rows (no "mode" field): counted separately below
     red = ledger.records()
     report = {
         "note": "Small live red-team for problem 7. The malicious listing is synthetic and existed only in memory.",
@@ -154,7 +155,9 @@ async def main(dry_run: bool) -> int:
         "totals": {
             "redteam_q7_ledger": {"rows": len(red), "cost_usd": round(sum(r.get("cost_usd") or 0 for r in red), 9)},
             "normal_ledger_runs_usage_jsonl": {"rows": len(normal), "cost_usd": round(sum(r.get("cost_usd") or 0 for r in normal), 9),
-                                               "note": "first 95 rows are the old Harbor Bikes placeholder history"},
+                                               "legacy_rows_not_counted": normal_ledger.legacy_rows,
+                                               "note": "rows and cost exclude legacy rows (no 'mode' field: the old Harbor "
+                                                       "Bikes placeholder history), which are only counted"},
         },
     }
     report = redact_data(report)

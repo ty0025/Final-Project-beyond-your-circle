@@ -64,12 +64,24 @@ MISSING_LABELS = {
 REGISTRATION_NOTE = "A registration link does not guarantee a spot. Registration happens on the organizer's site."
 
 _CLOSED = re.compile(r"\b(registration (is )?closed|sold out|fully booked|at capacity|event is full|waitlist only)\b", re.I)
+# "Open to all" names nobody only when the phrase ends there or goes on with ages, levels, comers or "(who are)
+# interested": "open to all SOM students / New Haven residents" names a group. Shared with the Find checks
+# (app/domain/conditions.py), so Browse and Find read the same wording the same way.
+OPEN_TO_ALL = (r"open to all(?=\s*(?:[.,;:!?)–—-]|$)|\s+(?:ages|levels|skill levels|experience levels|comers)\b|"
+               r"\s+(?:who are )?interested(?:\s+in\b|\s*(?:[.,;:!?)]|$)))")
+# "Open to everyone / anyone" names nobody only when it ends there or goes on with "interested", ages or
+# "regardless": "open to anyone with a valid Yale ID / affiliated with Yale / at Yale" names a group.
+OPEN_TO_ANYONE = (r"open to (?:everyone|anyone)(?=\s*(?:[.,;:!?)–—-]|$)|"
+                  r"\s+(?:who (?:is |are )?)?interested\b|\s+(?:of all ages|regardless)\b)")
+# Wording that turns the public away ("not open to the public", "..., not the general public"): never read as open.
+NOT_OPEN = r"\bnot (?:be )?open to\b|\bclosed to the public\b|\bnot (?:to |for )?the (?:general )?public\b"
 _OPEN = re.compile(
     r"\b(no [a-z ]*experience (is )?(necessary|needed|required)|all (experience|skill) levels|beginners? (are )?welcome|"
-    r"open to (all|everyone|the public|the yale community|all yale|yale students|graduate students)|"
+    rf"{OPEN_TO_ALL}|{OPEN_TO_ANYONE}|open to the public|"
     r"everyone is welcome|all are welcome|free and open to the public)\b",
     re.I,
 )
+_NOT_OPEN = re.compile(NOT_OPEN, re.I)
 # Explicit restrictions that rule out a Yale SOM graduate student.
 _EXCLUDES = re.compile(
     r"\b(undergraduates? only|undergraduate students only|for undergraduates only|faculty only|staff only|"
@@ -384,7 +396,7 @@ def _card(it: _Item, win: Windows) -> dict:
     ref = start or _parse((next_session or {}).get("start")) or win.now
     deadline_text, deadline_at = _deadline(r, ref.year)
 
-    open_signals = [t for t in r.eligibility_texts if _OPEN.search(t)]
+    open_signals = [t for t in r.eligibility_texts if _OPEN.search(t) and not _NOT_OPEN.search(t)]
     to_check = [t for t in r.eligibility_texts if t not in open_signals]
     if r.capacity_text:
         to_check.append(r.capacity_text)

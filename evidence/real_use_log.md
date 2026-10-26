@@ -86,3 +86,27 @@ Status: carried out on 2026-10-25; the filled record is in §D.1.
 **What this session shows:** a real person used the delivered flow (creator n=1, not an independent trial); the function was judged simple and clear; the visual design was judged plain, with a request for more Yale branding; and a recall failure appeared in the main photography scenario.
 
 Cost: 3 runs, 10 model calls, $0.00172422, in the normal ledger (`runs/usage.jsonl` 114 → 124 rows). Copies of the traces and ledger rows: `evidence/q08a/`.
+
+### D.2 Post-fix retest (prepared 2026-10-26; to be filled by the user after the final fixes)
+
+**Why:** §D.1 shows a real person used the app and that a defect was found and fixed. It does not yet show the core value: finding an opportunity the person did not know about and wants to follow up. This retest checks exactly that, on the final version. A bad result is recorded as it is.
+
+**Operator and task:** the same as §D (creator n=1, not an independent trial). One real request of your own, on the version that will be submitted. Start a stopwatch when the Find page is open; stop it when you have written down your list (or decided nothing fits).
+
+| Field | Record (leave blank until performed) |
+|---|---|
+| Date and time (America/New_York) | |
+| Device / browser | |
+| Request (as typed) | |
+| Conditions set (SOM / participation mode / time) | |
+| Data mode and collection time shown on the page | |
+| run_id (in Run details) | |
+| Measured time (mm:ss) | |
+| Item(s) you picked (title + link), or "none fits" | |
+| 1. Did you know about it before? (yes / no) | |
+| 2. Do you now want to learn more? (yes / no / maybe, and why) | |
+| 3. Your next step (e.g. open the page, email the organizer, register, nothing) | |
+| Anything the app got wrong or left unclear (your words) | |
+| Screenshot path | |
+
+Status: **Not verified** (not yet performed).

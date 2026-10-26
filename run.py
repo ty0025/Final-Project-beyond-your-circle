@@ -17,7 +17,7 @@ import webbrowser
 from pathlib import Path
 from typing import Callable
 
-MIN_PYTHON = (3, 10)
+MIN_PYTHON = (3, 11)  # keep in step with start.sh, start.bat and README.md
 REPO_DIR = Path(__file__).resolve().parent
 BROWSER_WAIT_S = 30.0
 
@@ -103,7 +103,8 @@ def main(argv: list[str] | None = None) -> int:
     _utf8_console()
     if sys.version_info < MIN_PYTHON:
         print(
-            f"Python {MIN_PYTHON[0]}.{MIN_PYTHON[1]} or newer is required (this is {sys.version.split()[0]}).",
+            f"Python {MIN_PYTHON[0]}.{MIN_PYTHON[1]} or newer is required (this is {sys.version.split()[0]}). "
+            "Install it from https://www.python.org/downloads/, then use start.sh / start.bat again.",
             file=sys.stderr,
         )
         return 1

@@ -19,7 +19,7 @@ from datetime import datetime, timedelta
 from typing import Any
 
 from app.collect.records import Record
-from app.discover import ny_midnight
+from app.discover import NOT_OPEN, OPEN_TO_ALL, OPEN_TO_ANYONE, ny_midnight
 from app.domain.models import SOM_IDENTITY
 
 NY_TZ = "America/New_York"
@@ -27,9 +27,34 @@ NY_TZ = "America/New_York"
 _ONLY_RESTRICTION = re.compile(
     r"\b(undergraduates? only|undergraduate students only|faculty only|staff only|faculty and staff only|"
     r"employees only|members only|high school students only|children only|kids only)\b", re.I)
-_OPEN_AUDIENCE = re.compile(
-    r"\b(open to (all|everyone|the public|the yale community|all yale|yale students|graduate students)|"
-    r"everyone is welcome|all are welcome|free and open to the public|current yale graduate students)\b", re.I)
+# Anyone may come: no group is named ("open to all Yale ..." names a group, so it is NOT matched here).
+_PUBLIC_AUDIENCE = re.compile(
+    r"\b(free and open to the public|open to the (general )?public|"
+    rf"{OPEN_TO_ANYONE}|{OPEN_TO_ALL}|everyone is welcome|anyone is welcome|all are welcome)\b", re.I)
+_NOT_PUBLIC = re.compile(NOT_OPEN, re.I)  # "not open to the public": checked before any open wording
+# A named group (the Yale community, Yale / graduate students ...): met only if the user's own words put them in it.
+_GROUP_AUDIENCE = re.compile(
+    r"\b(open to (?:(?:all|current|the|members of|interested)\s+)*(?:yale community|yale (?:graduate |professional )?students|"
+    r"yale affiliates|graduate (?:and professional )?students)\b[^.;:!?]{0,80}|open to all yale\b[^.;:!?]{0,80}|"
+    r"current yale graduate students)", re.I)
+_YALE_IDENTITY = re.compile(r"\b(yale|som)\b", re.I)
+_GRAD_IDENTITY = re.compile(r"\b(graduate|grad|mba|emba|som|phd|master'?s|professional)\b", re.I)
+_GROUP_ROLES = ("faculty", "staff", "employees", "alumni", "postdoc")
+# Eligibility wording none of the checks below models: shown as "to confirm", never judged. Not a condition on
+# who may come: "eligible for 1.5 CME credits", "limited to twelve participants" (a size), "Speakers are
+# affiliated with ...", "Hosted by the Yale-affiliated Center ...".
+_NUMBER_WORD = r"(?:one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|\w+teen|twenty|thirty|forty|fifty)"
+_ELIGIBILITY_HINT = re.compile(
+    r"\b(eligib\w*\b(?!\s+for\s+(?:[\w.-]+\s+){0,6}?credits?\b)|restricted to|"
+    rf"limited to (?!\d|{_NUMBER_WORD}\b|the first\b|approximately\b|about\b)|reserved for|only for|"
+    r"for [a-z][a-z ,'-]{2,60} only|must (be (a|an|at least|over|enrolled|registered|affiliated|current(ly)?|part of)|"
+    r"have (a |an )?(valid|current)|hold|show|present)\b|by (invitation|application|nomination)|"
+    r"invit(ation|e)[- ]only|application (is )?required|members of (?!the (general )?public)|"
+    r"(yale|university)[- ]affiliat\w* (only|individuals|members|with a valid id)|affiliates only|"
+    r"open to [^.;:]{0,40}\baffiliat\w*|(id|netid) (card )?(is )?required|currently enrolled|"
+    r"(?:[a-z]+ ){0,3}(?:students|affiliates|members|residents|alumni|postdocs|undergraduates) only|"
+    r"only (?:[a-z]+ ){0,3}(?:students|affiliates|members|residents|alumni)\b(?= (?:may|can|are|will))|"
+    r"all (?:[a-z]+ ){0,3}students are welcome)", re.I)
 _DESIGNED_FOR = re.compile(r"\b(designed for|intended for|geared toward[s]?|open to)\s+([^.;:]{3,80})", re.I)
 _PREREQ = re.compile(
     r"\b(for students who have taken|prerequisite|must have (taken|completed)|previous experience required|"
@@ -38,7 +63,8 @@ _PREREQ = re.compile(
 _NO_EXPERIENCE = re.compile(
     r"\b(no [a-z ]*experience (is )?(necessary|needed|required)|all (experience|skill) levels|beginners? (are )?welcome|"
     r"level of skill may vary)\b", re.I)
-_AGE = re.compile(r"(\+\s*(18|21)\b|\b(18|21)\s*\+|\bages?\s*\d+\s*\+|\b(18|21) (years|and older|or older))", re.I)
+_AGE = re.compile(r"(\+\s*(18|21)\b|\b(18|21)\s*\+|\bages?\s*\d+\s*\+|\b(18|21) (years|and older|or older)|"
+                  r"\b(18|21) (and|or) (over|up)\b|\bover (18|21)\b)", re.I)
 _SUGGESTED_AGE = re.compile(r"suggested ages?", re.I)
 _MEMBERSHIP = re.compile(r"\b(current [A-Z]{2,5} (household )?membership|membership required|members only|must be a member|"
                          r"have a current [a-z ]*membership)\b", re.I)
@@ -46,7 +72,7 @@ _EQUIPMENT = re.compile(r"\b(bring (a|your) [a-z ]{2,30})", re.I)
 _PLAY = re.compile(r"\b(league|leagues|team|teams|tournament|pickup|play|players|scrimmage|intramurals?)\b", re.I)
 _WATCH = re.compile(r"\b(watch party|watch parties|viewing party|screening|spectat\w*|game[- ]watching|cheer)\b", re.I)
 _BEGINNER = re.compile(r"\b(beginner|new to|never|no experience|first time|just started|just starting|novice)\b", re.I)
-_STUDENT_IDENTITY = re.compile(r"\b(student|mba|som|graduate|grad|phd|master'?s)\b", re.I)
+_STUDENT_IDENTITY = re.compile(r"\b(student|mba|som|graduate|grad|phd|master'?s|undergrad\w*)\b", re.I)
 _UNDERGRAD_IDENTITY = re.compile(r"\bundergrad", re.I)
 
 # Facts the model must not introduce in free text unless the page states them.
@@ -158,12 +184,67 @@ def effective_understood(understood: dict | None, user_text: str, options: Any =
     return u
 
 
+# A narrower unit than "Yale" or "students": undergraduates, Yale College, a school, program or department.
+_UNIT = re.compile(r"\bundergrad\w*|\bcollege\b|\b(?:[a-z]+ )?school\b(?: of(?: the)? [a-z]+)?|"
+                   r"\b[a-z]+ (?:program|department)\b|\bdepartment of [a-z]+", re.I)
+_UNIT_GENERIC = {"yale", "school", "program", "department"}
+_UNIT_ALIASES = {"management": "management|som|mba|emba"}  # Yale SOM is the School of Management
+
+
+def _names_unit(unit: str, identity: str) -> bool:
+    """True if the identity names the unit too: "Law School" needs "law", "undergraduates" needs "undergrad"."""
+    if unit.startswith("undergrad"):
+        return bool(_UNDERGRAD_IDENTITY.search(identity))
+    words = set(_WORD.findall(unit)) - _UNIT_GENERIC - _STOPWORDS
+    return all(re.search(rf"\b({_UNIT_ALIASES.get(w, w)})\b", identity, re.I) for w in words)
+
+
+def _in_group(phrase: str, identity: str) -> bool:
+    """True only if the user's own identity words place them in the group the page names.
+
+    "yale" in the group needs Yale/SOM in the identity; a narrower unit (undergraduates, Yale College,
+    a school, program or department) must be named by the identity too; "graduate" needs a graduate
+    word (and no "undergrad"); "students" needs a student word; faculty/staff/... need that word. A
+    group listing several roles ("faculty, staff and students") is met by any one of them.
+    """
+    p = phrase.casefold()
+    if "yale" in p and not _YALE_IDENTITY.search(identity):
+        return False
+    # "undergraduate and graduate students" names both levels: the graduate rule below decides.
+    units = [u for u in _UNIT.findall(p) if not (u.startswith("undergrad") and re.search(r"\bgraduate", p))]
+    if not all(_names_unit(u, identity) for u in units):
+        return False
+    roles = []
+    if re.search(r"\bgraduate", p):
+        if _UNDERGRAD_IDENTITY.search(identity):
+            return False
+        roles.append(_GRAD_IDENTITY)
+    elif re.search(r"\bstudents?\b", p):
+        roles.append(_STUDENT_IDENTITY)
+    roles += [re.compile(rf"\b{w}", re.I) for w in _GROUP_ROLES if w in p]
+    return not roles or any(r.search(identity) for r in roles)
+
+
+def _first(pattern: re.Pattern, texts: list[str]) -> re.Match | None:
+    """First match inside ONE eligibility text: a quote never runs from one text into the next."""
+    return next((m for t in texts if (m := pattern.search(t))), None)
+
+
+def _covered(hint: str, text: str, quotes: list[str]) -> bool:
+    """True if a condition already quotes this eligibility hint.
+
+    Covered when a quote is the whole text, or comes from this text and contains the hint ("open to
+    members of the Yale community" / "members of") or lies inside it ("members only" / "for members only").
+    """
+    h, t = norm(hint), norm(text)
+    return any(q and (t in q or (q in t and (h in q or q in h))) for q in quotes)
+
+
 def evaluate(record: Record, card: dict, understood: dict | None, windows: dict) -> list[Condition]:
     """Hard conditions for one listing, judged only against what the user said."""
     u = understood or {}
     out: list[Condition] = []
     texts = list(record.eligibility_texts)
-    joined = " ".join(texts)
 
     # format (in person / online)
     want = u.get("participation")
@@ -197,7 +278,7 @@ def evaluate(record: Record, card: dict, understood: dict | None, windows: dict)
 
     # audience / identity
     identity = u.get("identity") or ""
-    only = _ONLY_RESTRICTION.search(joined)
+    only = _first(_ONLY_RESTRICTION, texts)
     if only:
         phrase = only.group(0)
         if not identity:
@@ -209,13 +290,24 @@ def evaluate(record: Record, card: dict, understood: dict | None, windows: dict)
         else:
             out.append(Condition("audience", "to_confirm", f"The page says “{phrase}”; check that this includes you.", phrase))
     else:
-        designed = _DESIGNED_FOR.search(joined)
-        open_aud = _OPEN_AUDIENCE.search(joined)
-        if open_aud and re.search(r"graduate", open_aud.group(0), re.I):
-            status = "met" if re.search(r"graduate|mba|som|phd|master", identity, re.I) else "to_confirm"
-            out.append(Condition("audience", status, f"The page says it is open to “{open_aud.group(0)}”.", open_aud.group(0)))
-        elif open_aud:
-            out.append(Condition("audience", "met", f"The page says “{open_aud.group(0)}”.", open_aud.group(0)))
+        designed = _first(_DESIGNED_FOR, texts)
+        group = _first(_GROUP_AUDIENCE, texts)
+        public = _first(_PUBLIC_AUDIENCE, texts)
+        closed = next((t for t in texts if _NOT_PUBLIC.search(t)), None)
+        if closed:  # first, so "open to the public" inside "not open to the public" is never read as open
+            out.append(Condition("audience", "to_confirm", f"The page limits who can take part (“{closed}”); "
+                                 "check that this includes you.", closed))
+        elif group and not re.search(r"\b(public|everyone|anyone)\b", group.group(0), re.I):
+            phrase = group.group(0).strip()
+            if not identity:
+                out.append(Condition("audience", "to_confirm", f"The page says “{phrase}”; you did not say who you are.", phrase))
+            elif _in_group(phrase, identity):
+                out.append(Condition("audience", "met", f"The page says “{phrase}”; you told us “{identity}”.", phrase))
+            else:  # "open to X" includes X; it does not say others are turned away, so this is not an exclusion
+                out.append(Condition("audience", "to_confirm", f"The page says “{phrase}”; you told us “{identity}”, which does not show that you are included.", phrase))
+        elif public or group:
+            phrase = (public or group).group(0).strip()
+            out.append(Condition("audience", "met", f"The page says “{phrase}”.", phrase))
         elif designed:
             out.append(Condition("audience", "to_confirm", f"Audience as written: “{designed.group(0).strip()}”. Check that it suits you.", designed.group(0).strip()))
 
@@ -234,7 +326,7 @@ def evaluate(record: Record, card: dict, understood: dict | None, windows: dict)
             out.append(Condition("prerequisite", "met", "The page says no particular experience is needed.", open_exp))
 
     # membership
-    member = _MEMBERSHIP.search(joined)
+    member = _first(_MEMBERSHIP, texts)
     if member:
         out.append(Condition("membership", "to_confirm", f"The page requires a membership (“{member.group(0)}”).", member.group(0)))
 
@@ -245,6 +337,18 @@ def evaluate(record: Record, card: dict, understood: dict | None, windows: dict)
             out.append(Condition("age", "info", f"Suggested age on the page: {age_text}.", age_text))
         else:
             out.append(Condition("age", "to_confirm", "The page sets an age limit; you did not state your age.", age_text))
+
+    # any other eligibility wording on the page that no check above already quotes: to confirm, never judged.
+    # Every hint in the text is checked, and only who-may-take-part quotes can cover one (_covered): a short
+    # quote such as "in-person", "open to all" or "open to members of the Yale community" must not hide
+    # "restricted to ..." in the same sentence.
+    claimed = [norm(c.quote) for c in out if c.quote and c.kind in ("audience", "prerequisite", "age", "membership")]
+    for t in texts:
+        hint = next((m for m in _ELIGIBILITY_HINT.finditer(t) if not _covered(m.group(0), t, claimed)), None)
+        if hint:
+            out.append(Condition("audience", "to_confirm", f"The page sets a condition on who can take part (“{hint.group(0).strip()}”) "
+                                 "that this app does not check; confirm that it includes you.", t))
+            claimed.append(norm(t))
 
     # play or watch
     pw = u.get("play_or_watch")
@@ -271,7 +375,7 @@ def evaluate(record: Record, card: dict, understood: dict | None, windows: dict)
         out.append(Condition("capacity", "to_confirm", "Places are limited; availability is not shown here.", record.capacity_text))
 
     # equipment the user must bring
-    equip = _EQUIPMENT.search(joined)
+    equip = _first(_EQUIPMENT, texts)
     if equip:
         out.append(Condition("equipment", "info", f"You need to {equip.group(0).lower()}.", equip.group(0)))
     return out

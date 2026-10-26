@@ -361,7 +361,136 @@ After Question 8 was handed over (translated):
 6. The filled record form for 8-A plus two screenshots, and: "Translate all of it into English for me and expand the wording a little." (Claude Code recorded the session in English, kept the user's feedback as a faithful translation without expanding it because it is evidence, and wrote the descriptive parts in fuller sentences.)
 7. "Fix G-12 now: a search with a time window must not miss ongoing programs. Minimal change, add tests, and list a plan before the real verification." (Claude Code changed `search_listings` in `app/domain/tools.py`, added 2 regression tests, listed a 1-run plan, then ran it: `r_21eea8b51494`.)
 8. "Then I'd like you to make the page look better: add things like the Yale logo and a cartoon of the Yale mascot, the bulldog. You can search online for images. Change the main colour to SOM blue." (Claude Code checked Yale's brand guidelines: Yale Blue #00356b and High Intensity Blue #286dc0; use of Yale's name and marks needs approval from Yale's Marketing and Trademark Licensing office. So it used the Yale Blue palette and drew an original cartoon bulldog in HTML/SVG instead of downloading the official logo or mascot images, and added a note that the app is an independent student project.)
+9. "Make one local commit of the G-12 fix, the English documents and the 8-A record; don't push." (commit `0621a52`)
+10. "The new look is fine. Make one local commit; don't push." (commit `8568893`)
+11. "Send me the new look and I'll tell you what to improve. A small question: does the look affect the grade?" and "Why doesn't the page run across in one row on a wide screen? It doesn't look good enough." (Claude Code added a wide-screen two-column layout, screenshots `g13_two_column_*`; not committed.)
 
 ### What Was Lacking
 
 No user feedback on the deliverables. The first fresh-clone attempt failed (`requirements.txt` was missing `httpx`), a gap left by the earlier questions only starting the app in the development venv; this question fixed it and verified with a new clone. The user asked for this log to be in English for grading; it had been written in Chinese.
+
+---
+
+## Design overhaul (2026-10-26)
+
+### Initial Prompt
+
+Sent right after follow-up 11 of Question 8 (translated):
+
+> Improve the whole thing from a design point of view. Imagine you are a master web designer; don't settle for just the basic functions.
+
+Claude Code backed up the 4 web files to `my-app/handoff_tools/web_before_design/` and ran a workflow of 9 agents: 3 designers each proposed a full direction (Yale classic collegiate, modern product clarity, warm student community), 2 reviewers scored them (a stranger's understanding and the rubric; visual quality, brand consistency and accessibility), a final spec was written, 1 agent implemented it, then a visual check and one fix round. Hard limits: no change to functions, IDs or honesty labels; no external fonts or images (CSP); tests must pass; no official Yale marks.
+
+### Follow-up Prompt
+
+1. "Please try again." (The first run stopped when the session usage limit was reached. Claude Code checked that no half-changed files were left and restarted the workflow.)
+2. The context window was nearly full, so the user asked for a short background and a prompt for a new conversation that would review the work against the assignment requirements (full handoff text: `my-app/新对话交接_MGT409.md`). The user pasted that conversation's read-only review back, then wrote: "Let the design workflow finish, and when it's done send me before/after comparison screenshots." (Claude Code sent them and deleted the workflow's intermediate screenshots.)
+
+### What Was Lacking
+
+- The first run ended at the usage limit without changing `web/` (the new conversation found the files identical to the backup).
+- The design spec and the `web/styles.css` comments call the overhaul "G-14", a number PROGRESS.md already uses for the Usage-tab fix; it is recorded as G-15.
+- The "after" screenshots (`design_after_*`) were taken before the same day's copy and ledger fixes, so they show the old tagline and Usage-tab figures that still included 95 placeholder rows (18 runs, 128 calls, $503.51 for 10,000 users). Codex's review below pointed at that screenshot. (Retaken later on 2026-10-26: first after the fixes but still with the "TEST MODE" banner of a server started with `LLM_SIMULATE=error`, then again without the banner; see the last section.)
+- Keep or roll back: no decision recorded yet (PROGRESS.md P-08). The overhaul is not committed.
+
+---
+
+## File cleanup, rubric review and Codex review fixes (2026-10-26)
+
+### Initial Prompt
+
+Translated:
+
+> Now I need you to do two things. First, delete the redundant and process documents that are no longer useful, keeping only the latest version of the content. Second, check what I have done so far strictly against the assignment's grading rubric. Don't look at the report or the presentation slides yet; I'll do those later. Only look at whether what you have already done can get a high score, and if not, which points need to change. Our remaining time and tokens are limited, so problems must be solved in order of priority within that time. I hope you understand and can help me accurately.
+
+Claude Code removed the Harbor Bikes placeholder files (`evidence/tokenomics.*`, `evidence/redteam_results.json`, `scripts/redteam.py`, `scripts/tokenomics.py`), a duplicate screenshot and the failed clone folder `my-app/fresh-clone-q8`, and gave a rubric review with priorities.
+
+### Follow-up Prompt
+
+The user pasted a review written by Codex (another coding agent), with this line (translated): "I also asked Codex, and it gave the following suggestions. Please focus on fixing these first, and then we'll continue discussing optimisation." Summary of the review (not verbatim; Codex said it changed no files and ran no tests or course API calls):
+1. README said Python 3.10+, but `app/orchestrator.py` uses `asyncio.timeout` (3.11+); the README opening still described the placeholder domain. Unify version and steps, then fresh-clone the final commit.
+2. The Usage screenshot (18 runs, 128 calls, $503.51 for 10,000 users) mixed in 95 Harbor Bikes rows, while the report draft used a 5-run baseline. Separate a typical-run sample, the development and safety-testing total, and historical records; describe the cache saving as a re-pricing of the same real tokens, with no evidence that quality is unchanged.
+3. Impact: the user's real session had 3 searches, none chosen, no timing and no retest after the fix. Suggested one post-fix real task recording whether the user knew the item before, wants to learn more, and the next step, reported honestly.
+4. The copy and examples promised communities, photography peers and sports, but the data had 2 sources, 11 records, no community records and no sports source. Narrow the promise or add one fitting community source; test-only cases must not be described as product data.
+5. Participation conditions (G-11): "open to Yale students" was met with an unknown identity, and unrecognised eligibility wording did not become "to confirm"; a page showed 1 Match + 2 Check first under a summary saying three matches; the verbatim quote check does not prove the reasons or the social purpose. Fix these, or, if the rules stay frozen, the report must keep the defect.
+6. Use the real Q5 run `r_8aad4fe5a302` (darkroom prerequisite vs one-on-one coaching) as the concrete example of what is new; keep the honest comparison limits.
+7. In the report, follow one real run step by step (request → understanding → tools → evidence → kept or excluded → what the user sees) with an architecture diagram and screenshots.
+8. Make the key facts on result cards easy to scan, especially on mobile; examples should match the real coverage.
+
+### What Was Lacking
+
+- Claude Code's own rubric review, written just before, had missed the Python 3.10/3.11 mismatch, the placeholder rows inside the Usage-tab figures, and the summary-vs-cards count contradiction as a defect to fix. Like the earlier review in the new conversation, it had suggested keeping G-11 only as a documented limitation. After Codex's review the user asked for fixes, so G-11 was reopened.
+- Fixed with 0 model calls: Python 3.11 minimum (G-16), cost categories and the Usage-tab filter (G-14), participation conditions (G-11), summary vs cards (G-17), narrowed promise and examples (G-05), plus the §D.2 retest form; details in PROGRESS.md §6. Points 6–7 (report) and the mobile reading-order part of point 8 were not part of these fixes. The retest (point 3) is Awaiting human input.
+- A check after the fixes found that 1 of 474 tests fails on Python 3.11.17 (float rounding in the cost-evidence test, PROGRESS.md §2). Fixed later the same day (next section).
+
+### App prompt change recorded: matcher (`app/domain/prompts/matcher.md`, 2026-10-26)
+
+This is the app's runtime prompt for gpt-6-luna, not a development prompt. One line of the output section changed (from `git diff`).
+
+Old:
+
+```text
+- summary: two or three sentences: what you found, how many close and exploratory picks, and any honest gap (for example "No sports listings are in the current sources").
+```
+
+New:
+
+```text
+- summary: two or three sentences: what you found and any honest gap (for example "No sports listings are in the current sources"). Do not state how many picks you made and do not call them "matches": the app checks every pick after you answer, labels it Match, Check first or Exploratory, and shows the counts itself.
+```
+
+Reason: the model writes its summary before the code checks, so its counts could disagree with the final cards (G-17). All saved Q4–Q8 traces (including the red-team runs, the fresh-clone run, the user's 8-A runs and the G-12 re-check) used the earlier prompt; no real run has used the new prompt yet.
+
+---
+
+## Codex review fixes, later rounds: independent review and fix round 3 (2026-10-26)
+
+### Initial Prompt
+
+No new prompt. These rounds continue the user's request in the previous section ("Please focus on fixing these first…"). Claude Code ran two more workflows after the first fixes (times UTC, from the session log):
+- 02:42, "apply" workflow: rewrote README, DESIGN.md, `.env.example` and `evidence/architecture.md`; compacted the results header in `web/`; updated the evidence and progress records; an independent read-only code review of the new code (13 issues confirmed with throwaway probes, none high severity); a read-only consistency check (the Python 3.11 test failure, untracked files that the final commit must include, examples that depend on dated events, out-of-date statements in the docs, the "TEST MODE" banner on the screenshots).
+- 03:18, "round 3" workflow: fix the review's issues with tests on both Pythons, retake the screenshots without the banner, sync the docs, then a final read-only check.
+
+### Follow-up Prompt
+
+1. Round 3 stopped at 03:30 UTC when the session usage limit was reached. At 05:41 UTC the user wrote (in English, as sent): "I hit my usage limit while you were working, but it has reset now. Please continue from where you left off." Claude Code checked what the code agent had already changed and restarted round 3.
+
+### What Was Lacking
+
+- The first fix round's own code still had gaps, found by the independent review rather than by its tests: participation rules issues 1–7 (a short quote from another check hid a restriction in the same sentence; "open to all Yale undergraduates" was met for an SOM identity; "open to all <group>" and "not open to the public" read as public; a quote could run into the next eligibility text; the catch-all flagged credits and speaker affiliation; Browse and Find disagreed on "open to all"), summary-check issues 8–12 ("match" as a verb, the size of the searched pool, counts behind commas or several describing words, abbreviations splitting sentences, a whitespace-only summary showing raw JSON), issue 13 (cost and red-team scripts: a half-written ledger line, a fixed "first 95 rows" note) and issue 14 (wording that still promised communities). All were fixed with 0 model calls; none changes an outcome on the 11 stored listings or on the saved real runs (q05 §9, q06 §10). Full suite after round 3: **555 passed** on Python 3.14.7 and on Python 3.11.17 (the 3.11 float-rounding failure was fixed with `math.fsum` in `scripts/tokenomics_q8.py`).
+- The `design_after_*` screenshots retaken after the first fixes still showed the "TEST MODE: AI failures are simulated" banner, because the screenshot server was started with `LLM_SIMULATE=error`; round 3 retook them without it.
+- A final checker in round 3 still found out-of-date statements in PROGRESS.md, `evidence/q08.md`, `evidence/rubric_checklist.md` and the README examples (dates); they were corrected in the docs sync.
+
+- The round-3 final check (54 eligibility and 35 summary probe sentences) found one regression from round 3 ("open to anyone with a valid Yale ID" read as public) and three older gaps (group-only wording such as "Graduate students only.", age limits in words, a correct Check-first count removed from the summary). Claude Code applied the checker's scratch patch, added 17 regression test cases, and re-checked: 572 passed on Python 3.14.7 and 3.11.17; verdicts for all 11 stored listings byte-identical to the committed code (PROGRESS.md §6 "Final-check fixes").
+
+### App wording change recorded: matcher role and `search_listings` (issue 14, 2026-10-26)
+
+Model-facing text changed in round 3 (from `git diff`); both are read by gpt-6-luna at run time.
+
+`app/domain/prompts/matcher.md`, role line. Old:
+
+```text
+... find public events, ongoing programs and communities at Yale and in New Haven that fit what they want ...
+```
+
+New:
+
+```text
+... find public events, classes and ongoing programs at Yale and in New Haven that fit what they want ...
+```
+
+`app/domain/tools.py`, `search_listings` description. Old:
+
+```text
+Search the stored public listings (Yale and New Haven events, programs and communities). ... when: 'this_week' (next 7 days), 'coming' (later single-date events), 'ongoing' (programs and communities) or 'all'; 'this_week' and 'coming' also return ongoing programs and communities, whose sessions the app checks against the window.
+```
+
+New:
+
+```text
+Search the stored public listings (Yale and New Haven events, classes and ongoing programs). ... when: 'this_week' (next 7 days), 'coming' (later single-date events), 'ongoing' (recurring programs and classes) or 'all'; 'this_week' and 'coming' also return ongoing programs and classes, whose sessions the app checks against the window.
+```
+
+`app/domain/tools.py`, section label that the tools return for ongoing listings: "ongoing program or community" → "ongoing program or class". The user-facing blocked reply in `app/orchestrator.py` changed the same way ("event or community" → "event or class").
+
+Reason: the data holds events, classes and ongoing programs, no community listings (G-05). All saved traces (Q4–Q8, the red-team runs, the fresh-clone run, the user's 8-A runs and the G-12 re-check) used the earlier text; for example the `get_listing` result in `r_21eea8b51494` says "ongoing program or community". No real run has used the new text yet.

@@ -464,7 +464,13 @@ SOURCES: dict[str, Source] = {s.id: s for s in (CAW_PHOTO, YCGS_EVENTS)}
 NOT_CONNECTED: dict[str, str] = {
     "https://events.yale.edu/": "Public Localist JSON API answers (HTTP 200), but robots.txt is 'User-agent: * / Disallow: /'; not auto-collected.",
     "https://yaleconnect.yale.edu/ycyalephotographysociety/home/": "Page is a template shell ('[CONTENT-EVENTS_NAME_FEATURED]', 'There are no upcoming events'); undergraduate society.",
-    "https://recreation.yale.edu/gradproims": "Readable and robots-permitted; deferred until the two-source path has evidence.",
-    "https://nhccphotoblog.blogspot.com/": "Readable (Atom feed) and robots-permitted; deferred until the two-source path has evidence.",
+    "https://recreation.yale.edu/gradproims": (
+        "Readable and robots-permitted (one 10-row league table, checked 2026-10-26): weekly in-person Sunday leagues "
+        "for Yale graduate students with a PWG membership. Not connected in this version, so the app has no sports listings."
+    ),
+    "https://nhccphotoblog.blogspot.com/": (
+        "Readable Atom feed, robots-permitted (checked 2026-10-26). Not connected: the club's regular meetings are on Zoom, "
+        "its main site answers only over plain HTTP (this collector is HTTPS-only), and posts include members' personal contact details."
+    ),
     "https://poorvucenter.yale.edu/": "Home page only; no event listing identified in the probe; deferred.",
 }

@@ -31,7 +31,7 @@ const STOP_EXPLANATIONS = {
   max_steps: 'The AI used all of its allowed steps before finishing, so nothing is shown as a recommendation.',
   budget: 'A spending limit stopped this request, so no recommendation is shown. Nothing you entered was lost.',
   timeout: 'The whole search took longer than this app allows, so it was stopped and no recommendation is shown. Nothing you entered was lost.',
-  blocked: 'The safety layer stopped this request. Please describe the kind of event or community you are looking for. Details are under “Run details”.',
+  blocked: 'The safety layer stopped this request. Please describe the kind of event or class you are looking for. Details are under “Run details”.',
   error: 'The AI step failed, so no recommendation is shown. Nothing you entered was lost. Details are under “Run details”.',
 };
 // When a run does not finish, the user can try again (same words and conditions) unless retrying cannot help.
@@ -579,7 +579,7 @@ function renderMeta() {
   const title = meta.title || 'Beyond Your Circle';
   document.title = title;
   dom.appTitle.textContent = title;
-  dom.appTagline.textContent = meta.tagline || 'Public Yale and New Haven events, programs and communities, with sources.';
+  dom.appTagline.textContent = meta.tagline || 'Public Yale and New Haven events and classes, with sources.';
   (Array.isArray(meta.agents) ? meta.agents : []).forEach((a) => isObj(a) && agentSlot(a.name));
 
   const examples = Array.isArray(meta.examples) ? meta.examples.filter((x) => typeof x === 'string' && x.trim()) : [];
@@ -710,7 +710,7 @@ function onOptionsChanged() {
   if (state.running || !run || !run.live || !run.final) return;
   const now = JSON.stringify(readOptions());
   const then = JSON.stringify(run.options || null);
-  if (now !== then) setStatus(dom.status, 'Conditions changed. The results below still use the earlier ones; press Find to search again (a new AI run).', 'warn');
+  if (now !== then) setStatus(dom.status, 'Conditions changed. The results shown still use the earlier ones; press Find to search again (a new AI run).', 'warn');
   else setStatus(dom.status, '');
 }
 
@@ -1342,7 +1342,7 @@ function renderResultEmpty() {
       el('div', { class: 'empty-mascot' }, bulldog(108),
         el('p', { class: 'mascot-bubble', text: 'Woof! Tell me what you’re into, and I’ll sniff through the public listings.' })),
       el('h3', { text: 'Your matches will appear here' }),
-      el('p', { text: 'Describe what you want in a sentence, or start from an example, and press Find. Results are grouped into this week, coming weeks and ongoing programs & communities, and each one links to its source page.' }),
+      el('p', { text: 'Describe what you want in a sentence, or start from an example, and press Find. Results are grouped into this week, coming weeks and ongoing classes, and each one links to its source page.' }),
       el('div', { class: 'actions recovery center' }, browseButton())
     )
   );
@@ -1358,10 +1358,12 @@ function renderResultLoading() {
     ['Checking conditions against the source pages (code, no AI)', p.checked],
   ];
   const long = elapsedMs(run) > LONG_WAIT_MS;
+  const dog = bulldog(44);
+  dog.classList.add('mascot-sniff');
   return el(
     'div',
     { class: 'loading' },
-    el('div', { class: 'loading-head' }, spinner(), 'Searching for you…'),
+    el('div', { class: 'loading-head' }, dog, spinner(), 'Searching for you…'),
     el('ol', { class: 'progress-steps small' }, steps.map(([text, done]) => el('li', { class: done ? 'is-done' : null }, el('span', { 'aria-hidden': 'true', text: done ? '✓ ' : '· ' }), text, el('span', { class: 'sr-only', text: done ? ' (done)' : ' (pending)' })))),
     el('p', {
       class: long ? 'small long-wait' : 'muted small',
@@ -1422,7 +1424,7 @@ function condList(conditions) {
 }
 
 /** What the code checked against: the AI's reading of the user's words, plus the form choices (marked). */
-function requestPanel(u) {
+function requestRows(u) {
   if (!isObj(u)) return null;
   const prov = isObj(u.provenance) ? u.provenance : {};
   const notStated = (v) => v == null || v === '' || v === 'not_stated';
@@ -1445,19 +1447,40 @@ function requestPanel(u) {
     ['Experience', show('experience_level', u.experience_level)],
     ['Play or watch', [notStated(u.play_or_watch) || u.play_or_watch === 'not_applicable' ? 'not stated' : humanize(u.play_or_watch), '']],
   ];
-  return el('details', { class: 'request-panel' },
-    el('summary', null, 'Your request as the code checked it ', el('span', { class: 'muted small', text: '(AI reading of your words, plus conditions you set)' })),
-    el('dl', { class: 'understood-dl' }, rows.map(([k, [v, note]]) => el('div', null, el('dt', { text: k }),
-      el('dd', { class: v === 'not stated' ? 'muted' : null }, v, note ? el('span', { class: 'muted small', text: note }) : null)))));
+  return el('dl', { class: 'understood-dl' }, rows.map(([k, [v, note]]) => el('div', null, el('dt', { text: k }),
+    el('dd', { class: v === 'not stated' ? 'muted' : null }, v, note ? el('span', { class: 'muted small', text: note }) : null))));
 }
 
-function dataLine(out) {
+const resultSources = (out) => (Array.isArray(out.sources) ? out.sources : []).filter(isObj);
+const sourceWarn = (s) => (s.data_mode !== 'cached' && s.data_mode !== 'live') || s.last_outcome === 'failed';
+
+/** Always visible, one line where it fits: what was searched (source names) and when it was collected. */
+function sourceLine(out) {
   const BYC = window.BYC || {};
   const modes = BYC.MODE_TEXT || {};
-  const sources = (Array.isArray(out.sources) ? out.sources : []).filter(isObj);
+  const sources = resultSources(out);
   if (!sources.length) return null;
-  const warn = sources.some((s) => s.data_mode !== 'cached' && s.data_mode !== 'live') || sources.some((s) => s.last_outcome === 'failed');
-  return el('p', { class: `small data-line${warn ? ' dc-warn' : ' muted'}` },
+  const dates = [...new Set(sources.map((s) => s.collected_at_text).filter(Boolean))];
+  const oneDate = dates.length === 1 && sources.every((s) => s.collected_at_text);
+  return el('p', { class: `small data-line${sources.some(sourceWarn) ? ' dc-warn' : ''}` },
+    el('span', { class: 'data-line-label', text: `Searched ${out.n_listings != null ? plural(out.n_listings, 'stored listing') : 'the stored listings'} from ${plural(sources.length, 'source')} only: ` }),
+    sources.map((s, i) => [
+      i ? ' · ' : '',
+      s.name,
+      s.data_mode !== 'cached' && s.data_mode !== 'live' ? ` (${(modes[s.data_mode] || [humanize(s.data_mode)])[0].toLowerCase()})` : '',
+      s.last_outcome === 'failed' ? ` (last refresh failed${s.simulated ? ', simulated' : ''}; earlier data)` : '',
+      !oneDate && s.collected_at_text ? `, collected ${s.collected_at_text}` : '',
+    ]),
+    oneDate ? ` · collected ${dates[0]}` : '');
+}
+
+/** The full provenance sentence (inside "How these results were checked"). */
+function dataDetail(out) {
+  const BYC = window.BYC || {};
+  const modes = BYC.MODE_TEXT || {};
+  const sources = resultSources(out);
+  if (!sources.length) return null;
+  return el('p', { class: sources.some(sourceWarn) ? 'dc-warn' : null },
     `Searched ${out.n_listings != null ? plural(out.n_listings, 'stored listing') : 'the stored listings'} from ${plural(sources.length, 'public source')}: `,
     sources.map((s, i) => [
       i ? '; ' : '',
@@ -1465,6 +1488,61 @@ function dataLine(out) {
       s.last_outcome === 'failed' ? ` (last refresh failed ${s.last_attempt_text || ''}${s.simulated ? ', simulated' : ''}; showing earlier data)` : '',
     ]),
     '. Only these sources are connected, so other campus activities will not appear here.');
+}
+
+// [status label, one-line legend, full meaning]
+const STATUS_MEANING = [
+  ['Match', 'no open condition', 'no open condition'],
+  ['Check first', 'confirm something first', 'something on the page must be confirmed for you'],
+  ['Exploratory', 'related topic', 'a different topic with a quoted link to your interest'],
+];
+
+/** Status rules, full provenance and the request the code checked: one disclosure instead of three blocks above the cards. */
+function checkDetails(out, proposed) {
+  const rows = requestRows(out.understood);
+  return el('details', { class: 'check-details' },
+    el('summary', null, 'How these results were checked ', el('span', { class: 'summary-sub', text: '(status rules, sources, your request as the code read it)' })),
+    el('div', { class: 'check-details-body' },
+      el('p', { text: `Status is set by code: it checks the source pages against your request as the AI read it, plus any conditions you set; the AI cannot override it.${proposed}` }),
+      el('ul', { class: 'status-meanings' }, STATUS_MEANING.map(([k, , full]) => el('li', null, el('b', { text: `${k}: ` }), `${full}.`))),
+      dataDetail(out),
+      rows ? el('p', { class: 'check-details-sub', text: 'Your request as the code checked it (AI reading of your words, plus conditions you set)' }) : null,
+      rows));
+}
+
+/**
+ * The AI's own summary, after the server's count check (verify.reconcile_summary). Saved runs from before that check
+ * have no verification.summary_sentences_removed: they keep the older "not checked by code" label.
+ */
+function summaryBlock(out, v) {
+  const text = typeof out.summary === 'string' ? out.summary.trim() : '';
+  const removed = v && Array.isArray(v.summary_sentences_removed)
+    ? v.summary_sentences_removed.filter((s) => typeof s === 'string' && s.trim()) : null;
+  if (!text && !(removed && removed.length)) return null;
+  const label = removed
+    ? 'AI summary (gpt-6-luna). Code removed count claims that disagreed with the cards; the rest is not checked. The cards below are authoritative.'
+    : 'AI summary (gpt-6-luna; not checked by code, the cards below are authoritative)';
+  const n = removed ? removed.length : 0;
+  // Two lines by default (the cards come first); "Show all" appears only if the text is actually cut.
+  const body = text ? el('p', { class: 'ai-summary-text is-clamped', text }) : null;
+  const more = body ? el('button', { type: 'button', class: 'link-btn ai-more', 'aria-expanded': 'false', hidden: true }, 'Show all') : null;
+  if (body) {
+    more.addEventListener('click', () => {
+      const open = body.classList.toggle('is-clamped') === false;
+      more.setAttribute('aria-expanded', String(open));
+      more.textContent = open ? 'Show less' : 'Show all';
+    });
+    window.requestAnimationFrame(() => {
+      if (body.isConnected && body.scrollHeight > body.clientHeight + 1) more.hidden = false;
+      else body.classList.remove('is-clamped'); // not cut (or not measurable while hidden): show it whole
+    });
+  }
+  return el('div', { class: 'ai-summary' },
+    el('div', { class: 'ai-summary-head' }, el('p', { class: 'match-label', text: label }), more),
+    body || el('p', { class: 'small muted', text: 'Every sentence of the AI summary stated a count that disagreed with the cards, so none is shown.' }),
+    n ? el('details', { class: 'summary-removed' },
+      el('summary', null, `${plural(n, 'sentence')} removed because ${n === 1 ? 'it' : 'they'} stated a count that disagreed with the cards`),
+      el('ul', { class: 'small' }, removed.map((s) => el('li', { text: `“${s.trim()}”` })))) : null);
 }
 
 function linkList(title, rows) {
@@ -1506,10 +1584,12 @@ function pickCard(p) {
     r.interaction_grounded
       ? el('p', null, el('b', { text: 'How people take part: ' }), r.interaction)
       : el('p', { class: 'small muted', text: r.interaction || '' }));
-  const checks = el('div', { class: 'pick-checks' },
-    byStatus('to_confirm').length ? el('div', null, el('p', { class: 'match-label dc-warn', text: 'Not confirmed for you yet: check before you go' }), condList(byStatus('to_confirm'))) : null,
+  // What to confirm sits right under the date, next to the buttons (decision-relevant); the rest follows the AI reason.
+  const toConfirm = byStatus('to_confirm').length
+    ? el('div', { class: 'pick-checks pick-confirm' }, el('p', { class: 'match-label dc-warn', text: 'Not confirmed for you yet: check before you go' }), condList(byStatus('to_confirm'))) : null;
+  const checks = byStatus('met').length || byStatus('info').length ? el('div', { class: 'pick-checks' },
     byStatus('met').length ? el('div', null, el('p', { class: 'match-label', text: 'Checked against the page (code)' }), condList(byStatus('met'))) : null,
-    byStatus('info').length ? el('div', null, el('p', { class: 'match-label', text: 'Good to know' }), condList(byStatus('info'))) : null);
+    byStatus('info').length ? el('div', null, el('p', { class: 'match-label', text: 'Good to know' }), condList(byStatus('info'))) : null) : null;
   const facts = (p.facts || []).filter(isObj);
   const evidence = detailsBlock('Evidence: AI quotes checked word for word, and page wording behind each fact', [
     quotes.length ? el('ul', { class: 'match-quotes small' }, quotes) : el('p', { class: 'small muted', text: 'The AI gave no quote for this pick.' }),
@@ -1518,11 +1598,12 @@ function pickCard(p) {
     facts.length ? factsTable(facts) : null,
   ], 'pick-evidence');
   const status = badge(label, tone);
+  status.classList.add('badge-status');
   if (!BYC.renderCard) {
-    return el('div', { class: 'pick card' }, status, BYC.extLink ? BYC.extLink(p.card.url, p.card.title) : el('b', { text: p.card.title }), why, checks, evidence);
+    return el('div', { class: `pick pick-${p.status} card` }, status, BYC.extLink ? BYC.extLink(p.card.url, p.card.title) : el('b', { text: p.card.title }), toConfirm, why, checks, evidence);
   }
-  return el('div', { class: 'pick' },
-    BYC.renderCard(p.card, { compact: true, headingLevel: 'h4', badges: [status], slot: [why, checks], after: [evidence] }));
+  return el('div', { class: `pick pick-${p.status}` },
+    BYC.renderCard(p.card, { compact: true, headingLevel: 'h4', badges: [status], top: [toConfirm], slot: [why, checks], after: [evidence] }));
 }
 
 /** Matcher output after the code verifier, grouped by the server's own date windows. */
@@ -1537,31 +1618,31 @@ function renderMatches(out) {
   const dropped = Array.isArray(out.dropped) ? out.dropped.filter(isObj) : [];
   const v = isObj(out.verification) ? out.verification : null;
 
-  if (!run.live) {
-    nodes.push(el('p', { class: 'small replay-note', text: `Saved run${run.savedAt ? ` from ${fmtDateTime(run.savedAt)}` : ''} (no new AI call): listings, dates and the “this week” window are as of that run. Check Browse all for current listings.` }));
-  }
-
+  // Above the first card: counts, a one-line status legend, a one-line source/date line and the AI summary.
+  // The longer explanations are one click away under "How these results were checked", after the cards.
   const n = (s) => picks.filter((p) => p.status === s).length;
   const proposed = v && num(v.checked) > picks.length
     ? ` The AI proposed ${fmtInt(v.checked)}; ${fmtInt(picks.length)} shown after the checks (${fmtInt(excluded.length)} not a fit, ${fmtInt(dropped.length)} removed).` : '';
   nodes.push(el('div', { class: 'headline' },
     el('p', { class: 'headline-main' }, picks.length
-      ? `${plural(n('match'), 'match', 'matches')} · ${fmtInt(n('conditional'))} to check first · ${fmtInt(n('exploratory'))} exploratory`
+      // each count stays with its noun when the line wraps on phones
+      ? [el('span', { class: 'hl-seg', text: `${plural(n('match'), 'match', 'matches')} ·` }), ' ',
+        el('span', { class: 'hl-seg', text: `${fmtInt(n('conditional'))} to check first ·` }), ' ',
+        el('span', { class: 'hl-seg', text: `${fmtInt(n('exploratory'))} exploratory` })]
       : 'No verified match in the stored listings'),
-    el('p', { class: 'small muted', text: `Status is set by code: it checks the source pages against your request as the AI read it, plus any conditions you set; the AI cannot override it.${proposed}` }),
-    picks.length ? el('p', { class: 'small muted legend-line', text: 'Match: no open condition. Check first: something on the page must be confirmed for you. Exploratory: a different topic with a quoted link to your interest.' }) : null));
-  const data = dataLine(out);
+    picks.length ? el('p', { class: 'small legend-line' }, 'Status set by code: ',
+      STATUS_MEANING.map(([k, short], i) => [i ? ' · ' : '', el('b', { text: k }), ` = ${short}`])) : null));
+  const data = sourceLine(out);
   if (data) nodes.push(data);
-  const request = requestPanel(out.understood);
-  if (request) nodes.push(request);
-  if (typeof out.summary === 'string' && out.summary.trim()) {
-    nodes.push(el('div', { class: 'ai-summary' },
-      el('p', { class: 'match-label', text: 'AI summary (gpt-6-luna; not checked by code, the cards below are authoritative)' }),
-      el('p', { text: out.summary })));
-  }
+  const summary = summaryBlock(out, v);
+  if (summary) nodes.push(summary);
   if (typeof out.follow_up_question === 'string' && out.follow_up_question.trim()) {
-    nodes.push(callout('info', 'One question back', out.follow_up_question,
-      'The app does not keep a conversation: add your answer to your request above and press Find again.', run.live ? el('div', { class: 'actions recovery' }, editButton()) : null));
+    // compact: the label runs into the question, so the cards start one line higher
+    nodes.push(el('div', { class: 'callout callout-info follow-up' }, icon('info'),
+      el('div', null,
+        el('p', { class: 'follow-up-q' }, el('b', { class: 'callout-title', text: 'One question back: ' }), out.follow_up_question),
+        el('p', { class: 'callout-hint', text: 'The app does not keep a conversation: add your answer to your request and press Find again.' }),
+        run.live ? el('div', { class: 'actions recovery' }, editButton()) : null)));
   }
 
   if (picks.length) {
@@ -1595,15 +1676,21 @@ function renderMatches(out) {
   if (alsoRead.length) nodes.push(linkList(`Read by the AI but not recommended (${alsoRead.length})`, alsoRead.map((a) => [a.url, a.title, alsoReadText(a)])));
   const removed = dropped.filter((d) => typeof d.url === 'string' && /^https?:\/\//i.test(d.url));
   if (removed.length) nodes.push(linkList(`Suggested by the AI but removed by the code check (${removed.length})`, removed.map((d) => [d.url, d.title || d.record_id, `Removed: ${d.reason}`])));
+  nodes.push(checkDetails(out, proposed));
   if (v) {
     nodes.push(el('p', { class: 'small muted verification', text: `Checked by code (no model call): ${fmtInt(v.quotes_verified)} of ${fmtInt(v.quotes_total)} AI quotes found word for word on the pages; ${fmtInt(v.details_redacted || 0)} unsupported details removed. Steps and cost are under “Run details”.` }));
   }
   return nodes;
 }
 
+const replayNote = (run) => `Saved run${run.savedAt ? ` from ${fmtDateTime(run.savedAt)}` : ''} (no new AI call): listings, dates and “this week” are as of that run.`;
+
+/** A replay's request, with the saved-run notice as its last line (always visible on a replay). */
 function questionBlock(run) {
+  if (!run.inputPreview && !run.options) return el('p', { class: 'small replay-note', text: replayNote(run) });
   return el('p', { class: 'question' }, el('b', { text: 'Request' }), run.inputPreview || '',
-    run.options ? el('span', { class: 'q-opts', text: `Conditions set with the form: ${describeOptions(run.options)}` }) : null);
+    run.options ? el('span', { class: 'q-opts', text: `Conditions set with the form: ${describeOptions(run.options)}` }) : null,
+    el('span', { class: 'q-saved replay-note', text: replayNote(run) }));
 }
 
 function previousResult() {
@@ -1621,7 +1708,7 @@ function renderResult() {
     return;
   }
   const nodes = [];
-  if (!run.live && (run.inputPreview || run.options)) nodes.push(questionBlock(run));
+  if (!run.live) nodes.push(questionBlock(run));
   if (run.warnings.length && !(run.live && state.running)) {
     const sim = run.warnings.some((w) => w.includes('SIMULATED'));
     nodes.push(el('p', { class: 'small muted warn-note', text: `Note: the extra AI safety check was unavailable for this request${sim ? ' (SIMULATED, test mode: no real model call was made)' : ''}; the rule-based screening still ran.` }));
@@ -1758,7 +1845,7 @@ function announceFinal(data) {
     const out = isObj(data.output) ? data.output : {};
     const n = Array.isArray(out.picks) ? out.picks.length : 0;
     const secs = fmtSeconds(data.duration_ms != null ? data.duration_ms : elapsedMs(state.run));
-    setStatus(dom.status, `Done in ${secs}: ${n ? `${plural(n, 'result')} below` : 'no verified match'}. Steps and cost are under “Run details”.`, 'ok');
+    setStatus(dom.status, `Done in ${secs}: ${n ? `${plural(n, 'result')} shown` : 'no verified match'}. Steps and cost are under “Run details”.`, 'ok');
   } else {
     const info = stopReasonInfo(reason);
     setStatus(dom.status, `${info.label}.`, info.tone === 'danger' ? 'error' : 'warn');
@@ -1853,8 +1940,49 @@ function finishRun() {
   renderCost();
   if (isGoodRun(run)) state.lastGood = null; // the new results are on screen
   renderResult();
+  if (run.final) revealResults();
   refreshSpend();
   if (run.error && (run.error.kind === 'setup' || run.error.kind === 'network')) refreshHealth();
+}
+
+/**
+ * Below 1100px the Find tab is one column and the results start under the whole form (about two phone
+ * screens down), so a finished search or a replay scrolls the results into view. Wide screens show
+ * both columns side by side and never scroll.
+ * With picks, the scroll starts at the saved-run notice (a replay) or the counts line (a live search), so
+ * the source/date line and the AI-text label stay on screen, and goes further only as far as needed for
+ * the first card's status stamp, title and date to be fully visible (390x844: the whole run-up fits).
+ */
+function revealResults() {
+  if (!window.matchMedia || window.matchMedia('(min-width: 1100px)').matches || dom.panelRun.hidden) return;
+  // Measure in the next frame: the AI summary's "Show all" check (also a frame callback, queued first) can
+  // add a line to its label and push the cards down.
+  window.requestAnimationFrame(scrollToResults);
+}
+
+function scrollToResults() {
+  if (dom.panelRun.hidden) return;
+  const card = dom.result.closest('.result-card');
+  if (!card) return;
+  const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+  const pick = dom.result.querySelector('.pick');
+  const head = pick ? ['.badge-status', '.dc-title', '.dc-when'].map((s) => pick.querySelector(s)).filter(Boolean) : [];
+  if (!head.length) {
+    const top = card.getBoundingClientRect().top;
+    if (top >= 0 && top < window.innerHeight / 3) return; // already in view
+    card.scrollIntoView({ behavior, block: 'start' });
+    return;
+  }
+  const gap = 12;
+  const boxes = head.map((n) => n.getBoundingClientRect());
+  const headTop = Math.min(...boxes.map((b) => b.top));
+  const headBottom = Math.max(...boxes.map((b) => b.bottom));
+  if (headTop >= 0 && headBottom <= window.innerHeight) return; // the first card's head is already on screen
+  const lead = dom.result.querySelector('.replay-note') || dom.result.querySelector('.headline') || card;
+  let top = lead.getBoundingClientRect().top - gap;
+  top = Math.max(top, headBottom + gap - window.innerHeight); // far enough for the stamp, title and date
+  top = Math.min(top, headTop - gap); // never past the status stamp
+  window.scrollTo({ top: Math.max(0, Math.round(window.scrollY + top)), behavior });
 }
 
 function stopRun() {
@@ -1963,6 +2091,9 @@ function renderStats(raw) {
   const prices = isObj(assumptions.prices_per_m) ? assumptions.prices_per_m : null;
   const parts = [];
   if (runsPerUser) parts.push(`Assumes ${fmtInt(runsPerUser)} runs per user per month at the current average cost per run.`);
+  if (num(stats.legacy_rows_excluded) > 0) {
+    parts.push(`Not counted: ${plural(stats.legacy_rows_excluded, 'older ledger row')} from before this project's metering (no run mode recorded), kept in the file but excluded from every figure here.`);
+  }
   if (prices) {
     const model = state.health && state.health.model ? ` (${state.health.model})` : '';
     parts.push(
@@ -2082,6 +2213,7 @@ async function replayRun(runId) {
   dom.timeline.scrollTop = 0;
   const started = isObj(trace) && trace.started_at ? ` from ${fmtDateTime(trace.started_at)}` : '';
   setStatus(dom.status, `Showing saved run ${state.run.runId}${started}.`, 'ok');
+  revealResults();
   dom.runsTable.querySelectorAll('tbody tr').forEach((tr) => {
     const btn = tr.querySelector('.link-btn');
     tr.classList.toggle('is-current', Boolean(btn && btn.textContent === state.run.runId));

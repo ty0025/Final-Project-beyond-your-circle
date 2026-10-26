@@ -1,51 +1,66 @@
-# MGT 409 Final Project: Multi-Agent Assistant
+# Beyond Your Circle
 
-> **TODO: the project topic has not been chosen yet.**
-> This repo currently runs a *placeholder* domain: a support assistant for "Harbor Bikes", a
-> fictional bike shop in New Haven. It exists so that every part of the foundation (agents, tools,
-> cost tracking, safety) can be shown working end to end. Once the topic is chosen, rewrite this
-> section and follow [Swapping in the real topic](#swapping-in-the-real-topic).
+Describe in one plain-English sentence what you want to do outside Yale SOM, and the app finds public
+Yale and New Haven events and classes that fit, each checked against its source page.
 
 ## What it is
 
-A small web app where a team of AI agents answers questions over a document collection, running on
-`gpt-6-luna` through Portkey.
+You type one request, for example "I'm curious about drones. Is there a casual meetup where I can meet
+hobbyists outside SOM?". A `gpt-6-luna` agent turns it into explicit conditions and searches the
+stored public listings with two read-only tools. Code (no model call) then checks every pick against
+the stored page: the listing must exist, still be available and have been read by the agent, and its
+quotes are checked word for word. Each card is labelled **Match**, **Check first** (a condition such
+as "open to Yale students" cannot be confirmed from what you said), **Exploratory** (a related idea,
+shown only with a verified quote) or **Not a fit** (the page rules it out for what you said, for
+example online only when you want in person), with the reasons, the source link, the dates and who
+can join, as the page states them.
 
-- **Multi-agent flow:** a `coordinator` plans and delegates to a `researcher` (search, read and
-  calculate tools) and a `verifier` (checks every claim against the source documents).
-- **Live timeline:** every model call, tool call, hand-off and safety event streams to the browser.
-- **Tokenomics:** each model call is logged with input, cached-input, cache-write, output and
-  reasoning tokens plus its USD cost. The app shows cost per run and cache hit rate, and projects
-  costs for 100 and 10,000 users. Every call bypasses Portkey's response cache
-  (`x-portkey-cache-force-refresh`), so logged usage is always from a real model call; the
-  provider's prompt cache still makes the repeated system-prompt prefix cheap.
-- **Safety:** layered prompt-injection defenses, tool allowlists, output screening, and spend and
-  loop caps. Offline tests and a live red-team script show the defenses working.
-- **Simple to run:** one Python process, no database, no Node build step. Only the model calls need
-  the internet.
+Coverage is small and honest. The app holds **2 public sources and 11 listings**: Creative Arts
+Workshop photography classes (Photography Individual Coaching, Open Darkroom Session) and 9 events of
+the Yale Center for Geospatial Solutions (AI, mapping and drone events). It has **no sports, clubs or
+standing communities yet**. The Yale Recreation graduate and professional intramurals page was checked
+but is not connected; `python scripts/collect.py sources` lists every source that was checked and why it
+is or is not connected.
 
 ## Quick start
 
-You need **Python 3.10 or newer** and a **Portkey API key**.
+You need **Python 3.11 or newer**, an internet connection for the first install, and a Portkey API
+key. Check with `python3 --version` (Mac / Linux) or `py -3 --version` (Windows). The `python3` that
+comes with macOS is 3.9, which is too old: install a current Python from
+<https://www.python.org/downloads/> first. The start scripts check the version and stop with a clear
+message if no suitable Python is found.
 
-1. Put your key in a file named `.env` (see [API key](#api-key)).
-2. Start the app:
-   - **Mac / Linux:** `./start.sh` (if you get "permission denied", run `chmod +x start.sh` once)
+1. **Key.** Create a file named `.env` that contains one line (the name must be exactly `PORTKEY_API_KEY`):
+
+   ```
+   PORTKEY_API_KEY=your_portkey_api_key_here
+   ```
+
+   Put it in the repo folder (next to `run.py`) **or** in the folder one level above the repo. The
+   app looks in the repo folder first, then one level up; if both have a key, the repo file wins (a
+   `PORTKEY_API_KEY` already set in the environment wins over both).
+   Nothing else is required: every other setting has a default (see
+   [Limits and settings](#limits-and-settings)). `.env.example` is a template you can copy.
+2. **Start.**
+   - **Mac / Linux:** `./start.sh` (if you get "permission denied", run `chmod +x start.sh` once, or use `bash start.sh`)
    - **Windows:** double-click `start.bat`, or run it in a terminal opened in the repo folder:
      `start.bat` in cmd, `.\start.bat` in PowerShell
-3. Your browser opens <http://127.0.0.1:8000>. Click an example question and press **Run**.
+3. **Open** <http://127.0.0.1:8000>. The browser opens by itself once the server is ready.
 
-On the first run the start scripts create a `.venv` folder and install `requirements.txt` (about
-1–2 minutes). Later runs start in seconds.
+The first start creates a `.venv` folder and installs `requirements.txt`; later starts skip the
+creation step. On the development machine (with a pip cache) a fresh clone was usable in about 49
+seconds (`evidence/q08.md`). The terminal should show `Model: gpt-6-luna via Portkey`, which `.env`
+files were found, and `PORTKEY_API_KEY configured: yes` (never the key itself). Press Ctrl+C to stop.
 
-Both start scripts pass their options on to `run.py`, for example
-`./start.sh --port 8001 --no-browser` or `.\start.bat --port 8001 --no-browser`.
+Both start scripts pass options on to `run.py`: `--port 8001`, `--host 0.0.0.0`, `--no-browser`
+(for example `./start.sh --port 8001` or `.\start.bat --port 8001`).
 
 ### Manual steps
 
 Mac / Linux:
 
 ```bash
+python3 --version              # must be 3.11 or newer; otherwise use e.g. python3.13 on the next line
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
@@ -55,169 +70,164 @@ python run.py
 Windows (cmd or PowerShell):
 
 ```bat
+py -3 --version
 py -3 -m venv .venv
 .venv\Scripts\activate
 pip install -r requirements.txt
 python run.py
 ```
 
-`run.py` options: `--port 8001`, `--host 0.0.0.0`, `--no-browser`. It also reads the `PORT`
-environment variable (used by Render).
+## What to try first
 
-## API key
+- **Find** tab: click one of the 4 example requests, then press **Find** (or Ctrl+Enter):
+  1. "I shoot film and want hands-on help getting better, in person. I've never worked in a darkroom."
+  2. "I'm not technical but want to see how people at Yale actually use AI tools. Online is fine."
+  3. "I'm curious about drones. Is there a casual meetup where I can meet hobbyists outside SOM?"
+  4. "Any in-person maps or GIS event where I could meet people from other fields?"
 
-Create a file named `.env` that contains this line. The key name must be exactly `PORTKEY_API_KEY`.
+  The examples match the committed snapshot of 25 October 2026: for instance the drone example relies
+  on the YCGS Drone Hobbyist Gathering II (9 November 2026) and the maps example on GIS Day 2026
+  (16 November 2026). Past events drop off automatically, so if you run the app after those dates,
+  first press **Refresh sources** on the **Browse all** tab (needs internet, no model call); the
+  examples may then find different listings.
 
-```
-PORTKEY_API_KEY=your_portkey_api_key_here
-```
+  Optional form fields (SOM graduate student, in person / online, next 7 days / next 4 weeks) are
+  applied by code. Open **Run details** under the results to see every model call, tool call and
+  safety event, and the cost of the run.
+- **Browse all** tab: every stored listing, grouped and filterable, with **no AI and no model call**.
+  It works even without a key.
+- **Usage** tab: average tokens and cost per run, cache hit rate, projections and recent runs from this
+  machine's ledger (`runs/usage.jsonl`, empty on a fresh clone). Select a run to replay its saved trace
+  (no new model call). The project's committed cost figures are in `evidence/q08_tokenomics.md`.
 
-Put it in **either** place:
+## Data freshness
 
-- the repo folder (next to `run.py`), **or**
-- the folder above the repo (handy if several course projects share one key).
+Listings come from a **committed snapshot** in `data/snapshots/` (`caw-photo.json`,
+`ycgs-events.json`), collected on **25 October 2026 at 01:32–01:33 UTC** (the evening of 24 October
+in New Haven). The app always shows it as a snapshot with that date, never as live data. The 9 YCGS
+events in it are dated 27 October to 15 December 2026. Dated events drop off automatically once they
+have passed, so later the app has fewer listings.
 
-If both files exist, the repo `.env` wins. A real environment variable (for example on Render)
-wins over both. `.env.example` is a template you can copy; it also lists the optional tuning
-variables.
+To fetch current listings, press **Refresh sources** on the Browse all tab (or run
+`python scripts/collect.py refresh`). This needs internet, makes **no model call** and fetches a
+bounded number of pages with polite delays; the button can be pressed again after 300 seconds. A successful
+refresh is stored in `runs/collect/` (gitignored) and used from then on; a failed or empty refresh never
+replaces the last good data.
 
-On startup `run.py` prints which `.env` files it found and whether the key is set (yes or no,
-never the value). The key is never logged, returned by the API, or written to traces. `.env` is
-gitignored, so never commit it.
+This committed snapshot is the project's small test data set; there is no large dataset.
 
-The model is locked to `gpt-6-luna` via `https://api.portkey.ai/v1` in `app/config.py`, and no
-environment variable can change it.
-
-## Using the app
-
-- **Ask** (left): type a question or click an example, then press **Run** (or **Stop**). The counter
-  shows how many characters you have left.
-- **Result:** the answer with citations, a confidence badge and the reason the run stopped.
-- **How it worked** (right): a live timeline grouped by agent. Expand a tool call to see its
-  arguments and result. Safety events are shown in amber or red.
-- **Cost card:** tokens by type, number of model calls, cost in USD, cache hit rate and elapsed time.
-- **Usage tab:** average tokens and cost per run, p50 and p90 costs, cost projections and recent
-  runs. Click a run to replay its trace.
-
-## Switching datasets
-
-The agents read every `.md`, `.txt`, `.csv` and `.json` file under `DATA_DIR`, including
-subfolders. The default is `data/sample/`, a small test set that ships with the repo.
+## How it works
 
 ```
-DATA_DIR=data/my_bigger_set      # in .env; relative to the repo, or an absolute path
+request -> screen (code) -> guard (gpt-6-luna, 1 call) -> matcher agent (gpt-6-luna) -> verifier (code) -> cards
+                                                            | search_listings / get_listing (read-only)
+                                                            v
+                                              stored listings (runs/collect/ or data/snapshots/)
 ```
 
-Restart the app after changing it.
+1. **screen** (code): length limit and prompt-injection rules on your request.
+2. **guard** (1 model call): `gpt-6-luna` classifies the request as an attack or not.
+3. **matcher** (model agent, at most 4 model calls): reads your request, calls `search_listings` and
+   `get_listing` over the stored records, and returns structured picks with exact quotes. It cannot
+   fetch the web, write files or register for anything.
+4. **verifier** (code, `app/domain/verify.py` + `app/domain/conditions.py`): drops picks the agent did
+   not read, that do not exist or have passed; checks quotes word for word; removes prices, times,
+   dates or links in the AI's wording that the page does not contain; restores every fact from the
+   stored record; judges
+   participation conditions only against what you said (for example "open to Yale students" is met
+   only if you said you are one, otherwise Check first); and removes AI summary sentences whose counts
+   disagree with the final cards.
+
+The model is locked to `gpt-6-luna` through Portkey (`https://api.portkey.ai/v1`) in `app/config.py`;
+no setting can change it. Every call bypasses Portkey's response cache, so each logged call is a real
+one; the provider's prompt cache still makes the repeated instructions cheaper. Every model attempt is
+written to `runs/usage.jsonl` with its tokens and USD cost. In the 9 recorded typical runs a search
+made 3 to 4 model calls and cost $0.000860 on average (`evidence/q08_tokenomics.md`).
+
+Safety: untrusted page text is wrapped as data and scanned for injected instructions; each agent has a
+tool allowlist; outputs are screened for a canary marker, secrets and suspicious links; the key is
+never printed, logged, returned by the API or written to traces.
+
+### Limits and settings
+
+All optional. Put them in `.env` or set them as environment variables; an invalid value keeps the default.
+
+| Variable | Default | Meaning |
+|---|---|---|
+| `RUN_BUDGET_USD` | `0.05` | Max spend for one run |
+| `RUN_TOKEN_CAP` | `250000` | Max input + output tokens for one run |
+| `DAILY_BUDGET_USD` | `2.00` | Max spend per UTC day, all runs (read from the ledger); `0` switches AI off, Browse still works |
+| `MAX_MODEL_CALLS_PER_RUN` | `12` | Every model attempt counts: guard, agent turns, retries |
+| `LLM_MAX_RETRIES` | `1` | Retries of a failed model call (each attempt is ledgered) |
+| `RUN_TIMEOUT_S` | `180` | Wall-clock limit for one whole run |
+| `LLM_TIMEOUT_S` | `90` | Timeout per model call |
+| `MAX_TOOL_CALLS_PER_RUN` | `30` | Max tool calls in one run |
+| `MAX_OUTPUT_TOKENS` | `4000` | Max output tokens per model call |
+| `MAX_INPUT_CHARS` | `8000` | Max length of a request |
+| `RATE_LIMIT_RUNS` / `RATE_LIMIT_WINDOW_S` | `15` / `600` | Max runs per client IP per window |
+| `SAFETY_LLM_GUARD` | `1` | Set to `0` to skip the guard call |
+| `RUNS_PER_USER_PER_MONTH` | `30` | Assumption for the Usage tab's projections |
+| `RUNS_DIR` | `runs` | Where the ledger, traces and refreshed listings go |
+| `REFRESH_COOLDOWN_S` | `300` | Wait between two Refresh sources |
+| `PORT` | `8000` | Port when `--port` is not given |
+| `LLM_SIMULATE` | unset | Demo: `timeout` or `error` makes every model call fail, with no network call and no cost (`LLM_SIMULATE_DELAY_S`, default `8`) |
+| `COLLECT_SIMULATE_OUTAGE` | unset | Demo: `1` makes Refresh sources fail as if the sites were down |
+
+## Scripts
+
+Run from the repo folder with the venv active (`source .venv/bin/activate` or `.venv\Scripts\activate`).
+
+| Command | What it does | Model calls |
+|---|---|---|
+| `python scripts/collect.py sources\|status\|show\|refresh\|snapshot\|reparse [--source ID]` | Collector CLI: list sources, show stored records, live refresh (needs internet), copy the last success to `data/snapshots/`, re-parse saved pages | none |
+| `python scripts/compare_cases.py` | Keyword list vs this app's condition-aware handling on fixed cases; writes `evidence/q05_cases.{md,json}` | none |
+| `python scripts/tokenomics_q8.py` | Cost summary from the committed ledger copies in `evidence/`; writes `evidence/q08_tokenomics.{md,json}`. No options | none |
+| `python scripts/redteam_q7.py --dry-run` | Lists the 3 red-team cases; no key needed | none |
+| `python scripts/redteam_q7.py` | Runs the 3 cases for real (the script estimates about $0.004); separate ledger `runs/redteam_q7/usage.jsonl`; writes `evidence/q07_redteam.json` | live |
+| `python scripts/smoke_test.py` | One short live call to check the key and gateway; not written to the usage ledger | live |
+| `python scripts/inline_images.py report.html [out.html]` | Embeds local images so `report.html` / `slides.html` are self-contained | none |
 
 ## Tests
-
-With the venv active (see [Manual steps](#manual-steps)):
 
 ```bash
 pip install -r requirements-dev.txt
 python -m pytest
 ```
 
-The suite runs fully offline. A `FakeLLM` stands in for the model, so it never needs or reads your
-real key. It covers config and `.env` lookup, pricing, the ledger and budgets, tools (including
-path-traversal and safe-math checks), the agent loop (delegation, caps, least privilege), every
-safety layer, and the HTTP API.
+The suite runs fully offline: a fake model stands in for `gpt-6-luna`, so it never needs or reads
+your real key. Last run (26 October 2026): **572 passed** on Python 3.14 and on Python 3.11.
 
-## Scripts
+## Evidence map
 
-Run these from the repo folder with the venv active.
-
-| Command | What it does | Cost |
-|---|---|---|
-| `python scripts/smoke_test.py` | One live model call. Prints the reply, token usage and cost. | < $0.001 |
-| `python scripts/redteam.py` | Sends 12 attacks and 1 benign control question through the real pipeline. Records which defense layer caught each one in `evidence/redteam_results.json`. `--dry-run` lists the attacks without calling the model. `--only id1,id2` runs a subset. `--no-llm-guard` shows the heuristics alone. | a few cents |
-| `python scripts/tokenomics.py` | Reads `runs/usage.jsonl` and writes `evidence/tokenomics.json` and `evidence/tokenomics.md`: per-run averages, cache hit rate and savings, a per-agent breakdown, and projections for 1, 100 and 10,000 users. `--runs-per-user N` changes the usage assumption. | free |
-| `python scripts/inline_images.py report.html [out.html]` | Embeds local images as base64 so `report.html` and `slides.html` are self-contained. | free |
-
-Red-team model calls go to `runs/redteam_usage.jsonl`, not the main ledger, so tokenomics reflect
-normal use only.
-
-## Cost and safety caps
-
-All caps are optional settings. Put them in `.env` or set them as environment variables. If a
-value is invalid, the default is used.
-
-| Variable | Default | Meaning |
-|---|---|---|
-| `RUN_BUDGET_USD` | `0.05` | Max spend for one run |
-| `RUN_TOKEN_CAP` | `250000` | Max input + output tokens for one run |
-| `DAILY_BUDGET_USD` | `2.00` | Max spend across all runs per UTC day (read from the ledger) |
-| `MAX_STEPS_PER_AGENT` | `8` | Max model calls per agent invocation |
-| `MAX_TOOL_CALLS_PER_RUN` | `30` | Max tool calls in one run |
-| `MAX_AGENT_DEPTH` | `2` | Max delegation depth (the entry agent is depth 0) |
-| `MAX_OUTPUT_TOKENS` | `4000` | Max output tokens per model call |
-| `MAX_INPUT_CHARS` | `8000` | Max length of a user question |
-| `RATE_LIMIT_RUNS` / `RATE_LIMIT_WINDOW_S` | `15` / `600` | Max runs per client IP per window |
-| `SAFETY_LLM_GUARD` | `1` | Extra `gpt-6-luna` check on user input. Set to `0` to turn it off. |
-| `RUNS_PER_USER_PER_MONTH` | `30` | Usage assumption for cost projections |
-| `LLM_TIMEOUT_S` | `90` | Timeout per model call |
-| `RUNS_DIR` | `runs` | Where the ledger and traces are written |
-
-The safety layers (details in `DESIGN.md` §4.8):
-
-1. **Input screening:** a length cap, injection heuristics and an optional LLM guard. High-risk
-   input is blocked before any agent sees it. If the model provider's own content filter rejects a
-   request (Azure OpenAI does this for many jailbreak prompts), the run is reported as blocked,
-   not as an error.
-2. **Spotlighting:** untrusted content is wrapped in nonce-tagged blocks. Every agent is told to
-   treat it as data, never as instructions.
-3. **Tool-output scanning:** document text is checked for injected instructions. The sample
-   `supplier_note.md` is booby-trapped on purpose to show this.
-4. **Least privilege:** each agent has a tool allowlist, and any other tool call is refused.
-5. **Output screening:** a leaked canary marker blocks the output, secrets are redacted, and
-   exfiltration URLs have their query strings stripped.
-6. **Caps:** step, tool-call, depth, token, USD, daily and rate limits. Each one emits a safety event
-   when it trips.
-
-## Evidence for the report
-
-| Report section | Where the evidence comes from |
+| What | Where |
 |---|---|
-| Agent design | `runs/traces/<run_id>.json`, plus a screenshot of the UI timeline |
-| Tokenomics | `python scripts/tokenomics.py` → `evidence/tokenomics.{json,md}`, plus a screenshot of the Usage tab |
-| Safety | `python -m pytest tests/test_safety.py -v` output, `python scripts/redteam.py` → `evidence/redteam_results.json`, plus a UI screenshot of a safety event |
+| Work log per course question | `evidence/q01.md` to `evidence/q08.md` |
+| Architecture and design choices | `evidence/architecture.md`, `DESIGN.md` |
+| Real model runs (trace + ledger rows) | `evidence/q04_run/`, `q05_runs/`, `q06_run/`, `q07_redteam/`, `q08a/`, `q08_clone/` |
+| Keyword vs condition-aware comparison | `evidence/q05_cases.md`, `evidence/alternatives.md` |
+| Red team (3 live cases) | `evidence/q07.md`, `evidence/q07_redteam.json` |
+| Cost | `evidence/q08_tokenomics.md`: (i) typical-run sample, (ii) all project live spend, (iii) old placeholder rows, excluded |
+| Fresh-clone check | `evidence/q08.md` |
+| Real use by a person | `evidence/real_use_log.md` |
+| Rubric status | `evidence/rubric_checklist.md` |
+| Screenshots | `evidence/screenshots/` |
 
-`runs/` is gitignored and `evidence/` is committed.
+`runs/` is gitignored; `evidence/` is committed.
 
 ## Project layout
 
 ```
 run.py, start.sh, start.bat   entry points
 app/                          config, pricing, llm, ledger, budget, events, tools, safety, agent,
-                              orchestrator, server
-app/domain/                   PLACEHOLDER domain: tools, output models, prompts/*.md
-data/sample/                  small test dataset
-web/                          index.html, styles.css, app.js (no build step)
-scripts/                      smoke_test, redteam, tokenomics, inline_images
+                              orchestrator, server, discover (Browse), collect/ (collector)
+app/domain/                   listing tools, output models, verifier, conditions, prompts/matcher.md
+data/snapshots/               committed snapshot of the 2 sources (the small test set)
+web/                          index.html, styles.css, app.js, discover.js (no build step)
+scripts/                      see Scripts
 tests/                        offline pytest suite
 runs/                         runtime output (gitignored)
-evidence/                     curated exports for the report
+evidence/                     evidence for the report
 ```
-
-`DESIGN.md` has the full module contracts.
-
-## Swapping in the real topic
-
-Replace `app/domain/` (tools, output models and prompts), the files in `data/sample/`, and the
-`APP_META` title, tagline and examples in `app/orchestrator.py`. The agent wiring stays declarative
-in `build_team()`. Everything else (ledger, budgets, safety, UI, scripts) stays as it is.
-
-## Deployment (optional): Render
-
-Create a single Render **Web Service**:
-
-- Build command: `pip install -r requirements.txt`
-- Start command: `python run.py --host 0.0.0.0 --no-browser` (it reads `PORT`)
-- Environment variable: `PORTKEY_API_KEY`
-
-The free tier sleeps when idle, so **the first page load can take about a minute.** Please wait.
-A fresh local clone is still the main way to run the app.
 
 ## Troubleshooting
 
@@ -225,11 +235,15 @@ A fresh local clone is still the main way to run the app.
 |---|---|
 | `address already in use` / port 8000 busy | `./start.sh --port 8001` (Mac / Linux) or `.\start.bat --port 8001` (Windows), then open <http://127.0.0.1:8001> |
 | `start.bat` "is not recognized" in PowerShell | PowerShell does not run scripts from the current folder by name. Type `.\start.bat`. |
-| "PORTKEY_API_KEY is not set" / UI says key missing | The file must be named exactly `.env`, not `.env.txt` (Windows hides extensions). It must sit in the repo folder or the folder above, and the line must start with `PORTKEY_API_KEY=`. Restart the app after editing. |
+| "PORTKEY_API_KEY is not set" / the page says the key is missing | The file must be named exactly `.env`, not `.env.txt` (Windows hides extensions). It must sit in the repo folder or the folder one level up, and the line must start with `PORTKEY_API_KEY=`. Restart the app after editing. Browse all works meanwhile. |
+| "still has the placeholder value" | Replace `your_portkey_api_key_here` with the real key. |
 | 401 / "rejected the API key" | The key value is wrong or expired. Paste it again with no quotes or spaces. |
-| Python version error | Check `python3 --version` (Mac) or `py -3 --version` (Windows). You need 3.10+. Install it from <https://www.python.org/downloads/>. |
+| Python version error | Check `python3 --version` (Mac) or `py -3 --version` (Windows). You need 3.11+. Install it from <https://www.python.org/downloads/>, open a new terminal, and start again. |
+| `pip install` says `No matching distribution found for openai<4,>=3.26` | The `.venv` was made with Python 3.9. Delete the `.venv` folder and start again with Python 3.11+ (`start.sh` / `start.bat` do this for you). |
 | `py` not found on Windows | Install Python from python.org and tick "Add python.exe to PATH". `start.bat` falls back to `python`. |
 | PowerShell blocks `.venv\Scripts\activate` | Use `start.bat` or cmd, or run `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` once. |
-| "Too many runs" (HTTP 429) | The per-IP rate limit was hit. Wait, or raise `RATE_LIMIT_RUNS`. |
-| Run stops with "budget" | A run or daily cap was reached. See [Cost and safety caps](#cost-and-safety-caps). |
-| Need a clean slate | Delete `.venv/` (reinstall) or `runs/` (clears history and the cost ledger). |
+| Fewer listings than expected, or none this week | Past events are hidden. Press **Refresh sources** on Browse all (needs internet). |
+| Refresh sources fails or says to wait | No internet or a site is down: the app keeps showing the last stored data with its date. After a refresh, the next one is allowed after 300 s. |
+| "Too many runs" (HTTP 429) on Find | The per-IP rate limit was hit. Wait, or raise `RATE_LIMIT_RUNS`. |
+| Run stops with a budget or time-limit message | A run, daily or time cap was reached. See [Limits and settings](#limits-and-settings). |
+| Need a clean slate | Delete `.venv/` (reinstall) or `runs/` (clears history, the local cost ledger and refreshed listings; the snapshot is used again). |

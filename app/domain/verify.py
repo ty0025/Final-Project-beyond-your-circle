@@ -16,6 +16,7 @@ no longer available.
 
 from __future__ import annotations
 
+import re
 from typing import Any
 
 from app.collect.records import Record
@@ -41,6 +42,88 @@ _FACT_FIELDS = {  # Record.evidence field -> fact label
     "eligibility_texts": "conditions", "registration_text": "registration", "registration_url": "registration",
     "capacity_text": "capacity",
 }
+
+
+_NUMBERS = {"one": 1, "a single": 1, "two": 2, "both": 2, "three": 3, "four": 4, "five": 5, "six": 6,
+            "seven": 7, "eight": 8, "nine": 9, "ten": 10}
+# "<number> [up to 5 describing words, commas allowed] <result noun>", e.g. "three close matches",
+# "two in-person, beginner-friendly matches", "1 exploratory option". "match" as a verb ("the two events
+# match your interest", "this one matches what you asked") is not a count: it is followed by its object
+# (lookahead below) or disagrees in number with the count (checked in reconcile_summary).
+_COUNT_CLAIM = re.compile(
+    r"\b(\d+|one|two|three|four|five|six|seven|eight|nine|ten|both|a single)\s+"
+    r"((?:(?!(?:the|a|an|and|or|but|of|to|that|which|who|is|are|was|were|be|on|in|for|with|from|them|these|those)\s)"
+    r"[\w’'-]+,?\s+){0,5}?)"
+    r"(match(?:es)?(?!\s+(?:your|what|my|the|it|them|well|closely|exactly|perfectly|best)\b)|"
+    r"picks?|options?|listings?|results?|recommendations?)\b", re.I)
+# Generic nouns ("two listings are labeled online") only count as a claim within 3 words after a finding verb.
+_FOUND_BEFORE = re.compile(r"\b(found|find|there (are|is)|here (are|is)|returned|recommend\w*|picked|identified)\b"
+                           r"(\W+\w+){0,3}\W*$", re.I)
+# A number after these words is the pool that was searched, not a result: "among the 11 stored listings".
+_POOL_BEFORE = re.compile(r"\b(among|of|from|out of|after reading)\s+((all )?the\s+|all\s+)?$", re.I)
+# Split after . ! ? but not after "e.g.", "i.e.", "Dr.", "Mr.", "Mrs.", "Ms.", "Prof.".
+# "two listings to check first", "two possible matches that need checking": a Check-first count.
+_TO_CHECK_AFTER = re.compile(r"\s+(?:that\s+|which\s+)?(?:(?:you\s+)?(?:should|need to|must)\s+|to\s+)"
+                             r"(?:check|confirm)\b|\s+(?:that\s+|which\s+)?needs?\s+(?:checking|confirming|a check)\b", re.I)
+_SENTENCE_END = re.compile(r"(?<=[.!?])(?<!\be\.g\.)(?<!\bi\.e\.)(?<!\bDr\.)(?<!\bMr\.)(?<!\bMrs\.)(?<!\bMs\.)(?<!\bProf\.)\s+",
+                           re.I)
+
+
+def code_counts(kept: list[dict], excluded: list[dict], dropped: list[dict]) -> dict:
+    """Counts of the FINAL cards (after the checks): the only numbers the result page should state."""
+    n = {s: sum(1 for p in kept if p["status"] == s) for s in ("match", "conditional", "exploratory")}
+    return {**n, "excluded": len(excluded), "dropped": len(dropped)}
+
+
+def headline(counts: dict) -> str:
+    if not counts["match"] + counts["conditional"] + counts["exploratory"]:
+        return "No verified match in the stored listings."
+    m = counts["match"]
+    return (f"After the code checks: {m} {'match' if m == 1 else 'matches'}, {counts['conditional']} to check first, "
+            f"{counts['exploratory']} exploratory.")
+
+
+def reconcile_summary(summary: str, counts: dict) -> tuple[str, list[str]]:
+    """Drop AI summary sentences whose stated count disagrees with the final cards.
+
+    The model writes its summary BEFORE the code checks, so "I found three close matches" can sit above
+    1 Match + 2 Check first. "match(es)" is compared with the Match count, "exploratory ..." with the
+    Exploratory count, "conditional ..." with Check first, "close <listing/pick>" with Match + Check
+    first, and other result nouns with all cards shown. "No ..." statements are kept (cards can only be
+    removed by the checks, never added). Returns (kept text, removed sentences).
+    """
+    total = counts["match"] + counts["conditional"] + counts["exploratory"]
+    text = (summary or "").strip()
+    kept, removed = [], []
+    for sentence in _SENTENCE_END.split(text):
+        wrong = False
+        for m in _COUNT_CLAIM.finditer(sentence):
+            raw, quals, noun = m.group(1).lower(), m.group(2).lower(), m.group(3).lower()
+            said = int(raw) if raw.isdigit() else _NUMBERS[raw]
+            before = sentence[:m.start()]
+            if noun.startswith("match") and (said == 1) != (noun == "match"):
+                continue  # a verb: "this one matches ...", "both match ...", "the two workshops match because ..."
+            if _POOL_BEFORE.search(before):
+                continue
+            if not noun.startswith("match") and "exploratory" not in quals and not _FOUND_BEFORE.search(before):
+                continue
+            if "exploratory" not in quals and _TO_CHECK_AFTER.match(sentence[m.end():]):
+                expected = counts["conditional"]
+            elif "exploratory" in quals:
+                expected = counts["exploratory"]
+            elif "conditional" in quals:
+                expected = counts["conditional"]
+            elif noun.startswith("match"):
+                expected = counts["match"]
+            elif "close" in quals:
+                expected = counts["match"] + counts["conditional"]
+            else:
+                expected = total
+            wrong = wrong or said != expected
+        (removed if wrong else kept).append(sentence)
+    if not removed:
+        return text, []
+    return " ".join(s for s in kept if s), removed
 
 
 def quotable_text(record: Record) -> str:
@@ -240,9 +323,13 @@ def verify_output(output: Any, session: ListingSession) -> dict:
             "when": _when_label(card), "verdict": {"excluded": "not_a_fit", "conditional": "check_first"}.get(v, "no_open_condition"),
             "reasons": [c.text for c in conditions if c.status == ("not_met" if v == "excluded" else "to_confirm")],
         })
+    counts = code_counts(kept, excluded, dropped)
+    summary, summary_removed = reconcile_summary(str(output.get("summary") or ""), counts)
     return {
         "understood": output.get("understood"),
-        "summary": output.get("summary", ""),
+        "summary": summary,
+        "headline": headline(counts),
+        "counts": counts,
         "follow_up_question": output.get("follow_up_question"),
         "picks": kept,
         "excluded": excluded,
@@ -257,8 +344,10 @@ def verify_output(output: Any, session: ListingSession) -> dict:
             "quotes_total": quotes_total,
             "quotes_verified": quotes_ok,
             "details_redacted": redacted,
+            "summary_sentences_removed": summary_removed,
             "listings_read": sorted(session.read_ids),
             "note": "Deterministic check by code (no model call): IDs, availability, verbatim quotes, "
-                    "unsupported details, and participation conditions against what you said.",
+                    "unsupported details, participation conditions against what you said, and counts "
+                    "stated in the AI summary against the final cards.",
         },
     }

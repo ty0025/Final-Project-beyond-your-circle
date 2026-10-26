@@ -122,6 +122,7 @@ class UsageLedger:
         self.path.parent.mkdir(parents=True, exist_ok=True)
         self._lock = threading.Lock()
         self._records: list[dict] = []
+        self.legacy_rows = 0  # pre-metering rows (no "mode" field) found on load: kept in the file, never used
         self._needs_newline = False
         self._load()
 
@@ -140,6 +141,12 @@ class UsageLedger:
             except ValueError:
                 continue  # corrupt line
             if isinstance(record, dict) and isinstance(record.get("run_id"), str):
+                if "mode" not in record:
+                    # Written before the Q4 metering gate (the old Harbor Bikes placeholder history): every row
+                    # since then has "mode" (live/mock). Not this app's usage, so it never reaches the stats,
+                    # the recent-runs list or today's spend.
+                    self.legacy_rows += 1
+                    continue
                 self._records.append(record)
 
     def append(self, call: ModelCall) -> None:
@@ -195,6 +202,7 @@ class UsageLedger:
             "calls_failed": sum(1 for r in records if r.get("status", "ok") != "ok"),
             "calls_usage_missing": sum(1 for r in records if r.get("usage_missing")),
             "calls_mock": sum(1 for r in records if r.get("mode") == "mock"),
+            "legacy_rows_excluded": self.legacy_rows,
             "avg_per_run": avg_per_run,
             "cost_per_run": {
                 "mean": mean_cost,

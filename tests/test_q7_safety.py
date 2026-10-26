@@ -253,3 +253,39 @@ def test_security_headers_forbid_inline_scripts_and_referrers(api):
         csp = h["content-security-policy"]
         assert "script-src 'self';" in csp and "connect-src 'self'" in csp and "'unsafe-inline'" not in csp.split("script-src")[1].split(";")[0]
         assert h["referrer-policy"] == "no-referrer" and h["x-content-type-options"] == "nosniff" and h["x-frame-options"] == "DENY"
+
+
+def test_redteam_report_counts_legacy_rows_instead_of_a_fixed_note(tmp_path, monkeypatch):
+    """scripts/redteam_q7.py totals, run offline: the cases and the model client are stubbed, so no model call."""
+    import importlib.util
+
+    import app.llm
+
+    spec = importlib.util.spec_from_file_location("redteam_q7", REPO / "scripts" / "redteam_q7.py")
+    script = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(script)
+
+    class NoClient:
+        def __init__(self, **_):
+            pass
+
+        async def aclose(self):
+            pass
+
+    async def stub_case(case, **_):
+        return {"id": case["id"], "stopped_reason": "completed", "findings": [], "calls": {"cost_usd": 0.0}}
+
+    monkeypatch.setattr(app.llm, "LLMClient", NoClient)
+    monkeypatch.setattr(script, "run_case", stub_case)
+    monkeypatch.setattr(script, "REPO", tmp_path)
+    monkeypatch.setattr(script, "RUNS", tmp_path / "runs" / "redteam_q7")
+    monkeypatch.setattr(script, "OUT", tmp_path / "q07_redteam.json")
+    normal = tmp_path / "runs" / "usage.jsonl"
+    normal.parent.mkdir(parents=True)
+    legacy = [{"run_id": f"r_old{i}", "cost_usd": 0.5} for i in range(2)]  # pre-metering rows: no "mode" field
+    normal.write_text("\n".join(json.dumps(r) for r in [*legacy, {"run_id": "r_live", "mode": "live", "cost_usd": 0.002}]) + "\n",
+                      encoding="utf-8")
+    assert asyncio.run(script.main(dry_run=False)) == 0
+    totals = json.loads((tmp_path / "q07_redteam.json").read_text(encoding="utf-8"))["totals"]["normal_ledger_runs_usage_jsonl"]
+    assert (totals["rows"], totals["cost_usd"], totals["legacy_rows_not_counted"]) == (1, 0.002, 2)
+    assert "95" not in totals["note"]

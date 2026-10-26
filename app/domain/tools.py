@@ -28,7 +28,7 @@ MAX_TERMS = 10
 MAX_RESULTS = 12
 _ID_RE = re.compile(r"^[a-z0-9-]{3,80}$")
 _SECTION_ORDER = {"this_week": 0, "coming": 1, "ongoing": 2, "date_unknown": 3}
-_SECTION_LABEL = {"this_week": "this week", "coming": "coming weeks", "ongoing": "ongoing program or community",
+_SECTION_LABEL = {"this_week": "this week", "coming": "coming weeks", "ongoing": "ongoing program or class",
                   "date_unknown": "date not stated"}
 
 
@@ -96,7 +96,7 @@ def search(session: ListingSession, interests: list[str], participation: str, wh
         if len(term) >= 2 and term not in terms:
             terms.append(term)
     session.search_terms.update(terms)
-    # A time window must not hide ongoing programs and communities: their sessions are checked against the
+    # A time window must not hide ongoing programs and classes: their sessions are checked against the
     # window later by code (conditions.evaluate). Single-date events outside the window stay out (G-12).
     view = build_discovery(session.results, now=session.now, mode=participation, when="all")
     keep = {"this_week": {"this_week", "ongoing"}, "coming": {"coming", "ongoing"}, "ongoing": {"ongoing"}}.get(when)
@@ -181,12 +181,12 @@ def register_domain_tools(registry: ToolRegistry, settings: Settings, session: L
     @tool(
         name="search_listings",
         description=(
-            "Search the stored public listings (Yale and New Haven events, programs and communities). "
+            "Search the stored public listings (Yale and New Haven events, classes and ongoing programs). "
             "Returns up to max_results items, best keyword matches first, then a few non-matching nearby items. "
             "interests: short lowercase keywords and close synonyms, e.g. ['photography', 'photo', 'darkroom', 'film']. "
             "participation: 'in_person', 'online' or 'any' (items whose page does not say stay included). "
-            "when: 'this_week' (next 7 days), 'coming' (later single-date events), 'ongoing' (programs and "
-            "communities) or 'all'; 'this_week' and 'coming' also return ongoing programs and communities, whose "
+            "when: 'this_week' (next 7 days), 'coming' (later single-date events), 'ongoing' (recurring "
+            "programs and classes) or 'all'; 'this_week' and 'coming' also return ongoing programs and classes, whose "
             "sessions the app checks against the window. Times are America/New_York."
         ),
         untrusted_output=True,

@@ -231,6 +231,23 @@ def test_runs_and_stats_on_empty_ledger(api):
     assert all(p["monthly_usd"] == 0 for p in stats["projections"])
 
 
+def test_usage_endpoints_ignore_pre_metering_history(api, make_settings):
+    # A real row shape from the old Harbor Bikes placeholder history (no mode/status/served_model fields).
+    legacy = {"ts": "2026-10-24T21:33:19Z", "run_id": "r_8c4c11f5a3f9", "agent": "coordinator", "step": 1,
+              "model": "gpt-6-luna", "response_id": "resp_legacy", "latency_ms": 1936, "input_tokens": 1484,
+              "cached_tokens": 0, "cache_write_tokens": 1481, "uncached_input_tokens": 3, "output_tokens": 125,
+              "reasoning_tokens": 0, "total_tokens": 1609, "cost_usd": 0.000247925}
+    runs_dir = make_settings().runs_dir
+    runs_dir.mkdir(parents=True, exist_ok=True)
+    (runs_dir / "usage.jsonl").write_text(json.dumps(legacy) + "\n", encoding="utf-8")
+
+    client, *_ = api()
+    assert client.get("/api/runs").json() == {"runs": []}
+    stats = client.get("/api/stats").json()
+    assert (stats["runs"], stats["calls"], stats["legacy_rows_excluded"]) == (0, 0, 1)
+    assert all(p["monthly_usd"] == 0 for p in stats["projections"])
+
+
 # --------------------------------------------------------------------------- regression: request body cap
 
 

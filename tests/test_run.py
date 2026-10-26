@@ -140,3 +140,26 @@ def test_main_starts_the_browser_waiter_instead_of_a_fixed_timer(uvicorn_calls, 
     run.main(["--host", "0.0.0.0", "--port", "8125"])
     assert started.wait(5)
     assert seen == [("http://127.0.0.1:8125", "127.0.0.1", 8125)]
+
+
+# --------------------------------------------------------------------------- minimum Python
+
+
+def test_too_old_python_is_refused_with_a_clear_message(monkeypatch, capsys):
+    monkeypatch.setattr(sys, "version_info", (3, 10, 22, "final", 0))
+    assert run.main(["--no-browser"]) == 1
+    err = capsys.readouterr().err
+    assert "Python 3.11 or newer is required" in err and "python.org/downloads" in err
+
+
+def test_minimum_python_is_stated_the_same_everywhere():
+    """README, start.sh, start.bat and run.py must name one minimum (3.10 vs 3.11 drift: asyncio.timeout)."""
+    major, minor = run.MIN_PYTHON
+    assert (major, minor) >= (3, 11), "app/orchestrator.py uses asyncio.timeout (Python 3.11+)"
+    for name in ("start.sh", "start.bat"):
+        text = (REPO_DIR / name).read_text(encoding="utf-8")
+        assert f"sys.version_info < ({major}, {minor})" in text, name
+        assert f"Python {major}.{minor} or newer is required" in text, name
+    readme = (REPO_DIR / "README.md").read_text(encoding="utf-8")
+    assert f"Python {major}.{minor} or newer" in readme
+    assert "3.10 or newer" not in readme and "You need 3.10+" not in readme

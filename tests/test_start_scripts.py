@@ -21,7 +21,7 @@ def _bash() -> str | None:
 
 BASH = _bash()
 
-# A system interpreter. FAKE_OK=1 makes it report Python 3.10+; "-m venv DIR" installs
+# A system interpreter. FAKE_OK=1 makes it report Python 3.11+; "-m venv DIR" installs
 # FAKE_VENV_TEMPLATE as DIR/bin/python and exits with FAKE_VENV_EXIT.
 FAKE_SYSTEM_PYTHON = """#!/usr/bin/env bash
 case "$1" in
@@ -148,11 +148,12 @@ def test_venv_without_pip_is_recreated(sandbox):
     assert "recreating" in proc.stdout and "RUN OK" in proc.stdout
 
 
-def test_no_python_310_gives_a_clear_message(sandbox):
+def test_no_python_311_gives_a_clear_message(sandbox):
     project, start, _ = sandbox
     proc = start(system_ok=False)
     assert proc.returncode == 1
-    assert "Python 3.10 or newer is required" in proc.stderr
+    assert "Python 3.11 or newer is required" in proc.stderr
+    assert "python.org/downloads" in proc.stderr
     assert not (project / ".venv").exists()
 
 

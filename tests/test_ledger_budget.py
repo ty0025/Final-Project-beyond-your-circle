@@ -126,6 +126,28 @@ def test_corrupt_lines_are_skipped(tmp_path: Path):
     assert len(UsageLedger(path).records()) == 3
 
 
+# Exact key set of the pre-metering (Harbor Bikes placeholder) rows still in the local runs/usage.jsonl.
+LEGACY_KEYS = {"ts", "run_id", "agent", "step", "model", "response_id", "latency_ms", "input_tokens", "cached_tokens",
+               "cache_write_tokens", "uncached_input_tokens", "output_tokens", "reasoning_tokens", "total_tokens", "cost_usd"}
+
+
+def test_pre_metering_rows_without_mode_are_excluded(tmp_path: Path):
+    path = tmp_path / "usage.jsonl"
+    legacy = {k: v for k, v in make_call("r_000000000000", cost=9.0, ts=utc_now_iso()).to_record().items() if k in LEGACY_KEYS}
+    current = make_call("r_aaaaaaaaaaaa").to_record()
+    original = json.dumps(legacy) + "\n" + json.dumps(current) + "\n"
+    path.write_text(original, encoding="utf-8")
+
+    ledger = UsageLedger(path)
+    assert [r["run_id"] for r in ledger.records()] == ["r_aaaaaaaaaaaa"]
+    assert [s["run_id"] for s in ledger.run_summaries()] == ["r_aaaaaaaaaaaa"]
+    assert ledger.today_cost_usd() == pytest.approx(current["cost_usd"])  # the legacy row's $9 is not today's spend
+    stats = ledger.stats(runs_per_user_per_month=30)
+    assert (stats["runs"], stats["calls"], stats["legacy_rows_excluded"]) == (1, 1, 1)
+    assert stats["cost_per_run"]["mean"] == pytest.approx(current["cost_usd"])
+    assert path.read_text(encoding="utf-8") == original  # the file is never rewritten
+
+
 def test_today_cost_counts_only_the_current_utc_day(tmp_path: Path):
     ledger = UsageLedger(tmp_path / "usage.jsonl")
     old = (datetime.now(timezone.utc) - timedelta(days=2)).strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -212,6 +234,7 @@ def test_stats_math_and_projections(tmp_path: Path):
 def test_stats_on_empty_ledger_are_zeros(tmp_path: Path):
     stats = UsageLedger(tmp_path / "usage.jsonl").stats(runs_per_user_per_month=30)
     assert stats["runs"] == 0
+    assert stats["legacy_rows_excluded"] == 0
     assert stats["calls"] == 0
     assert stats["cache_hit_rate"] == 0
     assert stats["per_user_month_usd"] == 0

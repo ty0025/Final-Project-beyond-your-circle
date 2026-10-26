@@ -1,21 +1,189 @@
 {
   "price_source": "Lecture 11 slides, https://zlisto.github.io/mgt_409_fa26/lectures/slides/lec11-slides.html, re-read 2026-10-26: input $0.10, cached $0.01, cache write $0.125, output $0.50 per 1M tokens; input_tokens = 'total tokens you sent in'; reasoning tokens 'count toward output'.",
-  "sample": "5 normal real runs (problems 4-6), 19 model calls; small sample, not a traffic study",
-  "checks_normal": {
-    "rows": 19,
-    "all_status_ok": true,
-    "no_missing_usage": true,
-    "served_models": [
-      "gpt-6-luna-global"
-    ],
-    "cost_recomputed_equals_ledger": true,
-    "cached_plus_write_within_input": true,
-    "reasoning_within_output": true,
-    "unique_response_ids": true,
-    "min_latency_ms": 1381
+  "cutoff_utc": "2026-10-25T21:23:30Z",
+  "source": "committed copies evidence/*/<run_id>.usage.jsonl (identical to the ledger rows); no model calls",
+  "cost_summary": {
+    "i_typical_run_sample": {
+      "definition": "every run of the normal app flow in runs/usage.jsonl: Q4 first real run + Q5 case runs + Q6 end-user flow run + Q8-A the user's three searches + G-12 fix re-check",
+      "runs": 9,
+      "calls": 33,
+      "input": 78247,
+      "cached": 50985,
+      "cache_write": 23797,
+      "output": 7814,
+      "reasoning": 4152,
+      "cost_usd": 0.007737975,
+      "per_run": {
+        "mean_usd": 0.000859775,
+        "median_usd": 0.0009260150000000001,
+        "min_usd": 0.00037984499999999997,
+        "max_usd": 0.001388925,
+        "mean_calls": 3.6666666666666665,
+        "mean_tokens": 9562.333333333334,
+        "min_tokens": 6313,
+        "max_tokens": 12201
+      },
+      "cache_hit_rate": 0.6515904763121909
+    },
+    "ii_development_and_safety_testing_total": {
+      "definition": "every live model call of this project: (i) + Q7 red team (separate ledger) + Q8 fresh clone (clone's own ledger)",
+      "runs": 13,
+      "calls": 46,
+      "input": 109734,
+      "cached": 68491,
+      "cache_write": 36233,
+      "output": 11335,
+      "reasoning": 6158,
+      "cost_usd": 0.011382535
+    },
+    "iii_historical_placeholder_records": {
+      "runs": 15,
+      "calls": 133,
+      "input": 256156,
+      "cached": 172179,
+      "cache_write": 77829,
+      "output": 35186,
+      "reasoning": 13916,
+      "cost_usd": 0.029658215,
+      "per_ledger_rows": {
+        "runs/usage.jsonl": 95,
+        "runs/redteam_usage.jsonl": 38,
+        "runs/archive/harbor_2026-10-24/usage.jsonl": 0,
+        "runs/archive/harbor_2026-10-24/redteam_usage.jsonl": 0
+      },
+      "note": "Harbor Bikes placeholder domain, written before the Q4 metering gate (no mode / served_model / status fields; 2 known gateway cache replays). Not this project: excluded from (i) and (ii)."
+    }
   },
-  "checks_redteam": {
-    "rows": 9,
+  "groups": [
+    {
+      "group": "Q4 first real run",
+      "ledger": "normal",
+      "evidence": "evidence/q04_run/",
+      "typical_sample": true,
+      "run_ids": [
+        "r_b79bfbda45ad"
+      ],
+      "runs": 1,
+      "calls": 4,
+      "input": 8457,
+      "cached": 4829,
+      "cache_write": 3237,
+      "output": 868,
+      "reasoning": 471,
+      "cost_usd": 0.000926015
+    },
+    {
+      "group": "Q5 case runs",
+      "ledger": "normal",
+      "evidence": "evidence/q05_runs/",
+      "typical_sample": true,
+      "run_ids": [
+        "r_8aad4fe5a302",
+        "r_c588d02ea0b5",
+        "r_835194ffb88a"
+      ],
+      "runs": 3,
+      "calls": 11,
+      "input": 27024,
+      "cached": 18921,
+      "cache_write": 6929,
+      "output": 2435,
+      "reasoning": 1049,
+      "cost_usd": 0.002390235
+    },
+    {
+      "group": "Q6 end-user flow run",
+      "ledger": "normal",
+      "evidence": "evidence/q06_run/",
+      "typical_sample": true,
+      "run_ids": [
+        "r_ce638df7cf6e"
+      ],
+      "runs": 1,
+      "calls": 4,
+      "input": 10748,
+      "cached": 5898,
+      "cache_write": 4464,
+      "output": 1306,
+      "reasoning": 620,
+      "cost_usd": 0.00130858
+    },
+    {
+      "group": "Q8-A the user's three searches",
+      "ledger": "normal",
+      "evidence": "evidence/q08a/",
+      "typical_sample": true,
+      "run_ids": [
+        "r_80b535e6cc97",
+        "r_b8cd2f215d47",
+        "r_117624a6bd8a"
+      ],
+      "runs": 3,
+      "calls": 10,
+      "input": 21542,
+      "cached": 15397,
+      "cache_write": 5010,
+      "output": 1661,
+      "reasoning": 920,
+      "cost_usd": 0.00172422
+    },
+    {
+      "group": "G-12 fix re-check",
+      "ledger": "normal",
+      "evidence": "evidence/q08a/",
+      "typical_sample": true,
+      "run_ids": [
+        "r_21eea8b51494"
+      ],
+      "runs": 1,
+      "calls": 4,
+      "input": 10476,
+      "cached": 5940,
+      "cache_write": 4157,
+      "output": 1544,
+      "reasoning": 1092,
+      "cost_usd": 0.001388925
+    },
+    {
+      "group": "Q7 red team (incl. benign control)",
+      "ledger": "redteam_q7",
+      "evidence": "evidence/q07_redteam/",
+      "typical_sample": false,
+      "run_ids": [
+        "r_0c89b3881d73",
+        "r_6dff5fbf9fb4",
+        "r_7c9a61b04778"
+      ],
+      "runs": 3,
+      "calls": 9,
+      "input": 20605,
+      "cached": 11567,
+      "cache_write": 7878,
+      "output": 1818,
+      "reasoning": 1020,
+      "cost_usd": 0.00212542
+    },
+    {
+      "group": "Q8-D fresh-clone check",
+      "ledger": "fresh clone",
+      "evidence": "evidence/q08_clone/",
+      "typical_sample": false,
+      "run_ids": [
+        "r_af384cbce5e9"
+      ],
+      "runs": 1,
+      "calls": 4,
+      "input": 10882,
+      "cached": 5939,
+      "cache_write": 4558,
+      "output": 1703,
+      "reasoning": 986,
+      "cost_usd": 0.00151914
+    }
+  ],
+  "checks_all_project_rows": {
+    "rows": 46,
+    "all_live": true,
     "all_status_ok": true,
     "no_missing_usage": true,
     "served_models": [
@@ -25,11 +193,27 @@
     "cached_plus_write_within_input": true,
     "reasoning_within_output": true,
     "unique_response_ids": true,
+    "all_at_or_before_cutoff": true,
     "min_latency_ms": 1257
   },
-  "runs": [
+  "local_ledger_check": {
+    "normal": {
+      "path": "runs/usage.jsonl",
+      "listed_rows_identical_to_copies": true,
+      "live_rows": 33,
+      "live_rows_not_counted": []
+    },
+    "redteam_q7": {
+      "path": "runs/redteam_q7/usage.jsonl",
+      "listed_rows_identical_to_copies": true,
+      "live_rows": 9,
+      "live_rows_not_counted": []
+    }
+  },
+  "typical_runs": [
     {
       "run_id": "r_b79bfbda45ad",
+      "group": "Q4 first real run",
       "started": "2026-10-25T02:15:25Z",
       "calls": 4,
       "input": 8457,
@@ -39,10 +223,11 @@
       "reasoning": 471,
       "cost_usd": 0.0009260150000000001,
       "guard_cost_usd": 5.52e-05,
-      "no_cache_cost_usd": 0.0012797
+      "repriced_without_cache_usd": 0.0012797
     },
     {
       "run_id": "r_8aad4fe5a302",
+      "group": "Q5 case runs",
       "started": "2026-10-25T02:31:16Z",
       "calls": 4,
       "input": 10314,
@@ -52,10 +237,11 @@
       "reasoning": 276,
       "cost_usd": 0.00093553,
       "guard_cost_usd": 5.93e-05,
-      "no_cache_cost_usd": 0.0013469
+      "repriced_without_cache_usd": 0.0013469
     },
     {
       "run_id": "r_c588d02ea0b5",
+      "group": "Q5 case runs",
       "started": "2026-10-25T02:31:55Z",
       "calls": 4,
       "input": 10821,
@@ -65,10 +251,11 @@
       "reasoning": 600,
       "cost_usd": 0.00107486,
       "guard_cost_usd": 5.89e-05,
-      "no_cache_cost_usd": 0.0017721000000000002
+      "repriced_without_cache_usd": 0.0017721000000000002
     },
     {
       "run_id": "r_835194ffb88a",
+      "group": "Q5 case runs",
       "started": "2026-10-25T02:32:35Z",
       "calls": 3,
       "input": 5889,
@@ -78,10 +265,11 @@
       "reasoning": 173,
       "cost_usd": 0.00037984499999999997,
       "guard_cost_usd": 5.68e-05,
-      "no_cache_cost_usd": 0.0008009
+      "repriced_without_cache_usd": 0.0008009
     },
     {
       "run_id": "r_ce638df7cf6e",
+      "group": "Q6 end-user flow run",
       "started": "2026-10-25T19:41:09Z",
       "calls": 4,
       "input": 10748,
@@ -91,54 +279,97 @@
       "reasoning": 620,
       "cost_usd": 0.00130858,
       "guard_cost_usd": 5.52e-05,
-      "no_cache_cost_usd": 0.0017278
+      "repriced_without_cache_usd": 0.0017278
+    },
+    {
+      "run_id": "r_80b535e6cc97",
+      "group": "Q8-A the user's three searches",
+      "started": "2026-10-25T21:13:53Z",
+      "calls": 3,
+      "input": 5966,
+      "cached": 2481,
+      "cache_write": 3107,
+      "output": 499,
+      "reasoning": 269,
+      "cost_usd": 0.0007004849999999999,
+      "guard_cost_usd": 5.47e-05,
+      "repriced_without_cache_usd": 0.0008461
+    },
+    {
+      "run_id": "r_b8cd2f215d47",
+      "group": "Q8-A the user's three searches",
+      "started": "2026-10-25T21:14:27Z",
+      "calls": 3,
+      "input": 5963,
+      "cached": 4898,
+      "cache_write": 689,
+      "output": 479,
+      "reasoning": 242,
+      "cost_usd": 0.000412205,
+      "guard_cost_usd": 5.55e-05,
+      "repriced_without_cache_usd": 0.0008358
+    },
+    {
+      "run_id": "r_117624a6bd8a",
+      "group": "Q8-A the user's three searches",
+      "started": "2026-10-25T21:15:19Z",
+      "calls": 4,
+      "input": 9613,
+      "cached": 8018,
+      "cache_write": 1214,
+      "output": 683,
+      "reasoning": 409,
+      "cost_usd": 0.00061153,
+      "guard_cost_usd": 5.57e-05,
+      "repriced_without_cache_usd": 0.0013028000000000002
+    },
+    {
+      "run_id": "r_21eea8b51494",
+      "group": "G-12 fix re-check",
+      "started": "2026-10-25T21:23:15Z",
+      "calls": 4,
+      "input": 10476,
+      "cached": 5940,
+      "cache_write": 4157,
+      "output": 1544,
+      "reasoning": 1092,
+      "cost_usd": 0.001388925,
+      "guard_cost_usd": 5.55e-05,
+      "repriced_without_cache_usd": 0.0018196
     }
   ],
-  "per_run": {
-    "mean_usd": 0.0009249659999999999,
-    "median_usd": 0.00093553,
-    "min_usd": 0.00037984499999999997,
-    "max_usd": 0.00130858,
-    "mean_calls": 3.8,
-    "mean_tokens": 10167.6,
-    "cache_hit_rate": 0.6413290358865648
-  },
-  "per_agent_mean_cost_per_call_usd": {
-    "guard": 5.708e-05,
-    "matcher": 0.00030995928571428573
-  },
-  "optimisations_computed_from_same_rows": {
-    "prompt_cache": {
-      "actual_usd": 0.00462483,
-      "if_no_prompt_cache_usd": 0.0069274,
-      "saving_pct": 0.332385887923319,
-      "quality": "same rows; caching does not change the tokens the model sees"
+  "comparisons_computed_from_the_same_rows": {
+    "prompt_cache_repricing": {
+      "recorded_usd": 0.007737975,
+      "repriced_all_input_uncached_usd": 0.011731700000000001,
+      "difference_pct": 0.34042167801767864,
+      "what_it_is": "The same real token counts priced twice: as recorded (cached input $0.01, cache write $0.125) and with every input token at the uncached $0.10. Not a separate run; quality without caching was not measured."
     },
     "drop_llm_guard": {
-      "actual_usd": 0.00462483,
-      "without_guard_usd": 0.00433943,
-      "saving_pct": 0.06171037638140213,
-      "quality": "matcher input is identical for unflagged requests, so picks would not change; but the guard alone blocked the q07 soft canary attack r_6dff5fbf9fb4 -> not adopted"
+      "recorded_usd": 0.007737975,
+      "without_guard_calls_usd": 0.007231175,
+      "difference_pct": 0.06549517154035778,
+      "decision": "Not adopted: in q07 the guard alone blocked the soft canary attack r_6dff5fbf9fb4; matcher answers without the guard were not re-run"
     }
   },
   "scaling_scenarios": [
     {
       "runs_per_user_per_month": 4,
-      "1_users_per_month_usd": 0.0036998639999999998,
-      "100_users_per_month_usd": 0.3699864,
-      "10000_users_per_month_usd": 36.998639999999995
+      "1_users_per_month_usd": 0.0034391,
+      "100_users_per_month_usd": 0.34391,
+      "10000_users_per_month_usd": 34.391
     },
     {
       "runs_per_user_per_month": 8,
-      "1_users_per_month_usd": 0.0073997279999999995,
-      "100_users_per_month_usd": 0.7399728,
-      "10000_users_per_month_usd": 73.99727999999999
+      "1_users_per_month_usd": 0.0068782,
+      "100_users_per_month_usd": 0.68782,
+      "10000_users_per_month_usd": 68.782
     },
     {
       "runs_per_user_per_month": 30,
-      "1_users_per_month_usd": 0.02774898,
-      "100_users_per_month_usd": 2.774898,
-      "10000_users_per_month_usd": 277.4898
+      "1_users_per_month_usd": 0.02579325,
+      "100_users_per_month_usd": 2.579325,
+      "10000_users_per_month_usd": 257.9325
     }
   ],
   "shared_costs": {
@@ -146,20 +377,5 @@
     "verification": "code only, $0",
     "retries_failed_attempts": "0 in these runs; failed attempts are ledgered with cost unknown (null)",
     "not_included": "hosting, bandwidth, Portkey plan fees, developer time, real browser/user time"
-  },
-  "totals": {
-    "normal_live": {
-      "rows": 19,
-      "cost_usd": 0.00462483
-    },
-    "redteam_q7": {
-      "rows": 9,
-      "cost_usd": 0.00212542
-    },
-    "project_real_calls_total_usd": 0.006750249999999999,
-    "harbor_history_excluded": {
-      "rows": 95,
-      "note": "placeholder domain before the metering fixes; not used"
-    }
   }
 }

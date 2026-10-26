@@ -164,7 +164,7 @@
           "Places are limited; availability is not shown here."
         ],
         "met": [
-          "The page says it is open to “Current Yale Graduate Students”.",
+          "The page says “Current Yale Graduate Students”; you told us “SOM student”.",
           "The page says no particular experience is needed.",
           "You want to play; the page fits that."
         ],
@@ -231,7 +231,7 @@
           "You want to watch; this listing is for playing."
         ],
         "to_confirm": [
-          "The page says it is open to “Current Yale Graduate Students”.",
+          "The page says “Current Yale Graduate Students”; you did not say who you are.",
           "The page requires a membership (“have a current PWG Membership”).",
           "Places are limited; availability is not shown here."
         ],

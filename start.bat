@@ -3,9 +3,9 @@ rem One-shot start for Windows: create .venv if missing, install requirements, r
 rem Usage: start.bat [--host HOST] [--port PORT] [--no-browser]
 setlocal
 cd /d "%~dp0"
-set "VERSION_OK=import sys; sys.exit(sys.version_info < (3, 10))"
+set "VERSION_OK=import sys; sys.exit(sys.version_info < (3, 11))"
 
-rem Reuse .venv only if it runs Python 3.10+ and has pip; otherwise a venv left by an old
+rem Reuse .venv only if it runs Python 3.11+ and has pip; otherwise a venv left by an old
 rem Python or a failed first attempt would make every later run fail the same way.
 if not exist ".venv" goto create
 if not exist ".venv\Scripts\python.exe" goto recreate
@@ -16,7 +16,7 @@ if errorlevel 1 goto recreate
 goto install
 
 :recreate
-echo [setup] The existing .venv is broken or uses Python older than 3.10; recreating it ...
+echo [setup] The existing .venv is broken or uses Python older than 3.11; recreating it ...
 rmdir /s /q .venv
 if exist ".venv" (
     echo [setup] Could not delete the .venv folder. Close programs using it, delete it by hand and try again.
@@ -42,12 +42,15 @@ if errorlevel 1 goto venv_failed
 goto install
 
 :no_python
-echo [setup] Python 3.10 or newer is required. Install it from https://www.python.org/downloads/ (tick "Add python.exe to PATH") and try again.
+echo [setup] Python 3.11 or newer is required. Found on this PC:
+py -3 --version 2>nul
+python --version 2>nul
+echo [setup] Install a current Python from https://www.python.org/downloads/ (tick "Add python.exe to PATH"), then run start.bat again.
 goto fail
 
 :venv_failed
 if exist ".venv" rmdir /s /q .venv
-echo [setup] Could not create .venv. Install Python 3.10 or newer from https://www.python.org/downloads/ and try again.
+echo [setup] Could not create .venv. Install Python 3.11 or newer from https://www.python.org/downloads/ and try again.
 goto fail
 
 :install

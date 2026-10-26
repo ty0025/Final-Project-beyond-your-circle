@@ -63,14 +63,14 @@ PIPELINE: list[dict[str, str]] = [
 APP_META: dict[str, Any] = {
     "title": "Beyond Your Circle",
     "tagline": (
-        "Public Yale and New Haven events, programs and communities matched to what you want, "
-        "with sources, dates and participation conditions."
+        "Public Yale and New Haven events and classes where you can meet people outside SOM, each with its "
+        "source page, dates and who can join, as the page states them."
     ),
     "examples": [
-        "I'm an SOM student who shoots film. I'd like to meet other photographers and go back regularly, in person.",
+        "I shoot film and want hands-on help getting better, in person. I've never worked in a darkroom.",
         "I'm not technical but want to see how people at Yale actually use AI tools. Online is fine.",
-        "Is there a casual sports league or game-watching group where beginners are welcome?",
-        "I'd like a photography club where people share and discuss their photos. Online is fine.",
+        "I'm curious about drones. Is there a casual meetup where I can meet hobbyists outside SOM?",
+        "Any in-person maps or GIS event where I could meet people from other fields?",
     ],
     "entry_agent": ENTRY_AGENT,
     "agents": [
@@ -86,7 +86,7 @@ ALLOW_DOMAINS: set[str] = {"yale.edu", "creativeartsworkshop.org"}
 
 BLOCKED_REPLY = (
     "I can't help with that request: it looks like an attempt to change my instructions or to get "
-    "protected information. Please describe the kind of event or community you are looking for instead."
+    "protected information. Please describe the kind of event or class you are looking for instead."
 )
 CONTENT_FILTER_REPLY = (
     "I can't finish this request: the model provider's safety filter rejected it as a possible attempt "
@@ -278,7 +278,10 @@ async def run_task(
                    excluded_picks=[{"record_id": e["record_id"], "reasons": e["reasons"]} for e in output["excluded"]])
     answer = None
     if isinstance(output, dict):
-        answer = output.get("summary") or output.get("answer")
+        # A summary emptied by the count check (or only whitespace) falls back to the code-built headline,
+        # never to raw JSON.
+        summary = output.get("summary")
+        answer = (summary.strip() if isinstance(summary, str) else "") or output.get("headline") or output.get("answer")
     output_text = answer if isinstance(answer, str) and answer.strip() else result.output_text
     if not output_text:
         output_text = _NO_ANSWER_REPLIES.get(result.stopped_reason, "")

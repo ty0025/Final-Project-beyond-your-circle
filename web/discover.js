@@ -30,12 +30,12 @@
         h('span', { 'aria-hidden': 'true', text: ' ↗' }), h('span', { className: 'sr-only', text: ' (opens in a new tab)' }))
       : (text ? h('span', {}, text) : null);
 
-  const state = { data: null, interest: '', busy: false, seq: 0 };
+  const state = { data: null, interest: '', busy: false, seq: 0, interestCounts: null };
 
   const SECTION_INFO = {
     this_week: { title: 'This week', empty: 'Nothing dated in the next 7 days matches your filters.' },
     coming: { title: 'Coming weeks', empty: 'Nothing later on matches your filters.' },
-    ongoing: { title: 'Ongoing programs & communities', empty: 'No ongoing program or community matches your filters.' },
+    ongoing: { title: 'Ongoing classes & programs', empty: 'No ongoing class or program matches your filters.' },
     date_unknown: { title: 'Date not stated', empty: '' },
   };
   const MODE_TEXT = {
@@ -96,12 +96,32 @@
     }
   }
 
+  const SECTION_KEYS = ['this_week', 'coming', 'ongoing', 'date_unknown'];
+
+  /** Upcoming stored listings per quick-pick interest: the same /api/discover endpoint with only that interest set. */
+  async function loadInterestCounts() {
+    const keys = ['', ...Object.keys((state.data && state.data.interests) || {})];
+    if (keys.length < 2) return;
+    try {
+      const counts = {};
+      await Promise.all(keys.map(async (key) => {
+        const res = await getJson(`/api/discover?${new URLSearchParams({ interest: key, mode: 'any', when: 'all' })}`);
+        if (!res.ok || !res.body || !res.body.sections) throw new Error(`HTTP ${res.status}`);
+        counts[key] = SECTION_KEYS.reduce((n, s) => n + (res.body.sections[s] || []).length, 0);
+      }));
+      state.interestCounts = counts;
+    } catch (_) {
+      state.interestCounts = null; // chips stay usable, just without counts
+    }
+    if (state.data) renderInterests();
+  }
+
   // ------------------------------------------------------------------ rendering
 
   function render() {
     const d = state.data;
     const w = d.windows;
-    $('dc-notice').textContent =
+    $('dc-notice').textContent = 'Public events and classes collected from the source pages listed below. ' +
       `${d.notice} Times are America/New_York · now ${w.now_text}.` + (d.fixed_now_for_test ? ' (TEST: fixed reference time)' : '');
     renderInterests();
     renderSources();
@@ -109,16 +129,28 @@
     renderHidden();
   }
 
+  /**
+   * Quick-pick chips are data-honest: each shows how many upcoming stored listings it would list (any
+   * format, any date, no keyword), and a chip with none is left out (unless it is the active filter, e.g.
+   * from the URL) and named in a short note instead. Without counts (request failed) every chip shows.
+   */
   function renderInterests() {
     const wrap = $('dc-interests');
+    const counts = state.interestCounts;
     const options = [['', 'All interests'], ...Object.entries(state.data.interests)];
+    const countOf = (key) => (counts && Number.isFinite(counts[key]) ? counts[key] : null);
+    const shown = options.filter(([key]) => key === '' || state.interest === key || countOf(key) !== 0);
+    const missing = options.filter(([key]) => key !== '' && state.interest !== key && countOf(key) === 0).map(([, label]) => label);
     const refocus = wrap.contains(document.activeElement); // keep keyboard focus on the chosen chip
-    wrap.replaceChildren(...options.map(([key, label]) =>
-      h('button', {
+    wrap.replaceChildren(...shown.map(([key, label]) => {
+      const n = countOf(key);
+      return h('button', {
         type: 'button', className: 'chip dc-chip',
         'aria-pressed': String(state.interest === key),
         onclick: () => { state.interest = key; load(); },
-      }, label)));
+      }, label, n == null ? null : [h('span', { className: 'dc-chip-count', text: String(n) }),
+        h('span', { className: 'sr-only', text: ` upcoming listing${n === 1 ? '' : 's'}` })]);
+    }), missing.length ? h('span', { className: 'small muted dc-chip-note' }, `Not in the collected data: ${missing.join(', ')}.`) : null);
     if (refocus) {
       const chosen = wrap.querySelector('[aria-pressed="true"]');
       if (chosen) chosen.focus();
@@ -170,8 +202,10 @@
    * One listing card; facts always come from the stored record.
    * opts.compact: for AI picks: no summary or keyword line (the AI reason and code checks go in opts.slot);
    *   opts.headingLevel: title element (h4 under the Find tab's h3 groups).
-   * opts.badges: nodes put first in the badge row; opts.slot: nodes after the date line;
-   * opts.after: nodes at the end of the card.
+   * opts.badges: nodes put first in the badge row; opts.top: nodes right after the date line;
+   * opts.slot: nodes after opts.top; opts.after: nodes at the end of the card.
+   * Compact cards put the buttons (the next step) right after opts.top, so what / status / when /
+   * what to confirm / where to click are read together; Browse cards keep them at the bottom.
    */
   function card(c, opts = {}) {
     const compact = Boolean(opts.compact);
@@ -202,6 +236,13 @@
     const warnings = c.warnings.length
       ? h('ul', { className: 'dc-list dc-warn small' }, c.warnings.map((t) => h('li', {}, t))) : null;
 
+    const actions = [
+      h('div', { className: 'dc-actions' },
+        extLink(c.url, 'View original page', 'btn btn-primary btn-sm'),
+        c.registration_url ? extLink(c.registration_url, 'Registration page', 'btn btn-secondary btn-sm') : null),
+      c.registration_url ? h('p', { className: 'small muted dc-reg-note' }, c.registration_note) : null,
+    ];
+
     return h('article', { className: `card dc-card${compact ? ' dc-compact' : ''}` },
       h('div', { className: 'badge-row' },
         ...(opts.badges || []),
@@ -212,6 +253,8 @@
         c.data_mode === 'snapshot' ? badge('Snapshot data', 'badge-warn') : null),
       h(opts.headingLevel || 'h3', { className: 'dc-title' }, extLink(c.url, c.title)),
       when,
+      ...(opts.top || []),
+      ...(compact ? actions : []),
       ...(opts.slot || []),
       !compact && c.summary ? h('p', { className: 'small dc-summary' }, c.summary) : null,
       facts,
@@ -220,10 +263,7 @@
       c.not_stated.length ? h('p', { className: 'small muted' }, `Not stated on the page: ${c.not_stated.join(', ')}.`) : null,
       !compact && c.matched_terms.length ? h('p', { className: 'small muted' }, `Keyword match: ${c.matched_terms.join(', ')}`) : null,
       c.format_unknown_for_filter ? h('p', { className: 'small dc-warn' }, 'Shown because the page does not say whether it is in person or online.') : null,
-      h('div', { className: 'dc-actions' },
-        extLink(c.url, 'View original page', 'btn btn-primary btn-sm'),
-        c.registration_url ? extLink(c.registration_url, 'Registration page', 'btn btn-secondary btn-sm') : null),
-      c.registration_url ? h('p', { className: 'small muted' }, c.registration_note) : null,
+      ...(compact ? [] : actions),
       h('p', { className: 'small muted dc-foot' },
         `Source: ${c.source_name} · page collected ${c.collected_at_text}`,
         c.also_at.length ? ` · also listed at ${c.also_at.length} other page(s)` : ''),
@@ -235,7 +275,7 @@
     return {
       this_week: `${w.this_week.label} (next 7 days)`,
       coming: w.coming.label,
-      ongoing: 'Courses, series and groups; each shows its next listed session',
+      ongoing: 'Classes and series; each shows its next listed session',
       date_unknown: 'These pages give no date — check the source before planning',
     }[key];
   }
@@ -314,6 +354,7 @@
       btn.textContent = 'Refresh sources';
       await load();
       setStatus(message, tone); // after the reload, so the result stays visible
+      loadInterestCounts(); // counts follow the refreshed data
     }
   }
 
@@ -334,7 +375,7 @@
     $('dc-mode').addEventListener('change', load);
     $('dc-when').addEventListener('change', load);
     $('dc-refresh').addEventListener('click', refresh);
-    load();
+    load().then(loadInterestCounts);
   }
 
   // The Find tab renders verified picks with the same card (facts from the stored record) and labels.
