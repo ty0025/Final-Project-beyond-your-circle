@@ -50,8 +50,8 @@ message if no suitable Python is found.
 3. **Open** <http://127.0.0.1:8000>. The browser opens by itself once the server is ready.
 
 The first start creates a `.venv` folder and installs `requirements.txt`; later starts skip the
-creation step. On the development machine (with a pip cache) a fresh clone was usable in about 49
-seconds (`evidence/q08.md`). The terminal should show `Model: gpt-6-luna via Portkey`, which `.env`
+creation step. Installing prints little for about a minute. In the final check, an anonymous clone from GitHub
+was usable in about 1 minute (Python 3.11.17 and 3.14, pip cache present; `evidence/q08.md` D.2). The terminal should show `Model: gpt-6-luna via Portkey`, which `.env`
 files were found, and `PORTKEY_API_KEY configured: yes` (never the key itself). Press Ctrl+C to stop.
 
 Both start scripts pass options on to `run.py`: `--port 8001`, `--host 0.0.0.0`, `--no-browser`
@@ -197,7 +197,8 @@ python -m pytest
 ```
 
 The suite runs fully offline: a fake model stands in for `gpt-6-luna`, so it never needs or reads
-your real key. Last run (26 October 2026): **594 passed** on Python 3.14 and on Python 3.11.
+your real key. Last run (26 October 2026): **594 passed** on Python 3.14 and on Python 3.11. On Windows without
+`bash`, the 5 `start.sh` tests are skipped (589 passed, 5 skipped).
 
 ## Evidence map
 

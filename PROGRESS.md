@@ -17,7 +17,7 @@ Last updated: 2026-10-26 evening (all work committed and pushed to https://githu
 | Q6 | End-user flow (Find page, conditions, grouped results, failure recovery, run-details collapse) | Verified (1 real run + simulated faults; unfamiliar users Awaiting human input) | evidence/q06.md |
 | Q7 | Safety and budget boundaries (collection SSRF, malicious announcements, display safety, termination and metering, red team) | Verified (3 real red-team runs, 1 web block, tests; provider filter did not occur) | evidence/q07.md, q07_redteam.json |
 | Q8 | Real metering (B), rates and scale cost (C), fresh clone (D); human task (A) prepared | Verified for B, C and D (local clone of `9a625b9`); A: real use Verified (creator n=1, 2026-10-25), task outcome Failed (recall defect G-12, since fixed), timing Not verified | evidence/q08.md, q08_tokenomics.*, q08_clone/ |
-| After Q8 (2026-10-26) | Cleanup; Codex review fixes (G-11, G-14, G-16, G-17, narrowed promise for G-05); follow-up review fixes (round 3, issues 1–14); G-15 design overhaul | Verified offline (555 tests on Python 3.14.7 and 3.11.17); Not verified with the live model (no real run since); design keep/roll back Awaiting human input (P-08); all uncommitted | §3, §6; AI_prompts.md |
+| After Q8 (2026-10-26) | Cleanup; Codex review fixes (G-11, G-14, G-16, G-17, narrowed promise for G-05); follow-up review fixes (round 3, issues 1–14); G-15 design overhaul | Verified (committed and pushed; 594 tests on Python 3.14.7 and 3.11.17; live runs after the fixes: the user's retest `r_e29a8b37a60c` and the GitHub-clone run `r_89ca8fd71c77`; design kept, P-08) |
 | Q9–Q10 | — | Not verified (not started) | — |
 
 ## 2. Current capability snapshot
@@ -74,7 +74,7 @@ Last updated: 2026-10-26 evening (all work committed and pushed to https://githu
 | ~~P-04~~ | Creator n=1 real-use record | Done 2026-10-25 (3 searches, feedback and screenshots; timing not measured): `real_use_log.md` §D.1 |
 | P-05 | Whether to add this repo to git `safe.directory` (or another way to fix `.git` ownership) | Awaiting human input (user: will update that configuration themselves later; Portkey key already available) |
 | ~~P-07~~ | robots.txt of events.yale.edu forbids all automated access | The user confirmed not to collect (2026-10-25) |
-| P-08 | Keep the G-15 design overhaul (then commit it) or roll back to `my-app/handoff_tools/web_before_design/` | Awaiting human input (before/after screenshots were sent 2026-10-26; no decision recorded yet) |
+| P-08 | Keep the G-15 design overhaul (then commit it) or roll back to `my-app/handoff_tools/web_before_design/` | ~~Awaiting human input~~ Kept: the user had it committed in `6d08bed` (2026-10-26) and used it in the retest ("the visuals are better than the previous version", `real_use_log.md` D.2) |
 | P-09 | Post-fix retest of the 8-A task with the form in `real_use_log.md` §D.2 (known before? want to learn more? next step? timing) | ~~Awaiting human input~~ Done 2026-10-26 6:48 AM EDT: `r_e29a8b37a60c`, 1 Check first (Build A Bot Workshop), not known before, wants to learn more; time not measured (`real_use_log.md` D.2) |
 
 ## 5. Cumulative model calls (app runtime)
@@ -122,7 +122,7 @@ Last updated: 2026-10-26 evening (all work committed and pushed to https://githu
 - Removed Harbor Bikes placeholder history that was never evidence for this project: `evidence/tokenomics.json`, `evidence/tokenomics.md`, `evidence/redteam_results.json`, `scripts/redteam.py`, `scripts/tokenomics.py`. Current replacements: `scripts/redteam_q7.py` → `evidence/q07_redteam.json`; `scripts/tokenomics_q8.py` → `evidence/q08_tokenomics.{json,md}`. Mentions of the removed files in Q1–Q7 notes are historical. 437 offline tests pass.
 - Also removed: a duplicate, untracked screenshot `evidence/screenshots$1.png` (wrong file name) and the failed clone folder `my-app/fresh-clone-q8` outside the repo; `my-app/fresh-clone-q8-2` is kept until the GitHub clone check.
 
-### Codex review fixes (2026-10-26, uncommitted)
+### Codex review fixes (2026-10-26, committed in 6d08bed)
 The user pasted Codex's read-only review and asked for its points to be fixed first (AI_prompts.md). 0 model calls. After all items: Python 3.14 **474 passed**; Python 3.11.17 **473 passed, 1 failed** (§2; both 555 passed after round 3 below).
 1. **Minimum Python 3.11 (G-16).** `run.py` (`MIN_PYTHON = (3, 11)`, refusal message with a download link), `start.sh`, `start.bat`, README version lines, `tests/test_run.py` (+2), `tests/test_start_scripts.py` (3.10 check → 3.11). Before: "3.10 or newer" while `app/orchestrator.py` uses `asyncio.timeout`. Scratch check before today's other changes: 3.11.17 437 passed; 3.10.22 23 failed; 3.9 cannot install `openai>=3.26,<4`.
 2. **Cost story (G-14).** `app/ledger.py` skips legacy rows without `mode` (the 95 Harbor rows in the local `runs/usage.jsonl`), so `/api/stats` and the Usage tab show only this project, and stats gain `legacy_rows_excluded`; `tests/test_ledger_budget.py`, `tests/test_server.py` (+1 each). Before: the Usage tab showed 18 runs / 128 calls / $503.51 for 10,000 users (`design_after_usage.png`). `scripts/tokenomics_q8.py` rewritten to three categories at cut-off 2026-10-25T21:23:30Z: (i) typical-run sample 9 normal-ledger runs / 33 calls / $0.007737975 (mean $0.000860 per run; 30 runs per user per month → $257.93 at 10,000 users); (ii) all project live spend 13 runs / 46 calls / $0.011382535 (normal + red-team + fresh-clone ledgers); (iii) historical placeholder rows excluded. Prompt-cache saving is now worded as "34.0% re-pricing of the same real tokens; quality without caching not measured" (before: 5-run sample, $0.000925 per run, "cache saves 33%"). Regenerated `evidence/q08_tokenomics.{md,json}`; patched `evidence/q08.md`, this file, `evidence/rubric_checklist.md`; new `tests/test_tokenomics_q8.py` (2 tests).
@@ -132,7 +132,7 @@ The user pasted Codex's read-only review and asked for its points to be fixed fi
 6. **Cleanup.** See "Cleanup (2026-10-26)" above; `evidence/real_use_log.md` gained the §D.2 post-fix retest form (not yet performed, P-09).
 - Status documents updated: this file, `AI_prompts.md`, `PROJECT_SPEC.md`, `evidence/q05.md`, `q06.md`, `q07.md`, `rubric_checklist.md`.
 
-### Follow-up review fixes, round 3 (2026-10-26, uncommitted)
+### Follow-up review fixes, round 3 (2026-10-26, committed in 6d08bed)
 An independent read-only review of the fixes above (13 issues) and a consistency check ran in a second workflow; a third workflow fixed them (AI_prompts.md; interrupted once by the usage limit). 0 model calls. Python 3.14.7 **555 passed**; Python 3.11.17 **555 passed**.
 1. **Participation rules, issues 1–7.** `app/domain/conditions.py`, `app/discover.py`; tests in `tests/test_audience_and_summary.py`. 0 of 1,131 evaluations on the stored listings and manual case records changed against the first fix; Browse unchanged; `evidence/q05_cases.*` byte-identical (q05 §9).
 2. **Summary check, issues 8–12.** `app/domain/verify.py`, `app/orchestrator.py` (whitespace-only summary → headline). Saved traces: still 4 of 11 trimmed (q06 §10).
@@ -164,7 +164,7 @@ A read-only final check of round 3 (AI_prompts.md) probed 54 eligibility sentenc
 4. **Summary check:** a sentence that states the Check-first count correctly ("I found one match and two listings to check first.") is kept; a wrong one is still removed (`app/domain/verify.py`).
 Tests: 17 new cases in `tests/test_audience_and_summary.py`. Python 3.14.7 **572 passed**; Python 3.11.17 **572 passed**. Stored data: verdicts, condition texts and quotes for all 11 listings over 16,443 evaluations are byte-identical to the committed `HEAD` code. Known remaining over-caution (all lean to "to confirm", none excludes): "Open to all, including members of the Yale community.", "open to members of the public"; and "Open to the public with a Yale ID." still reads as public.
 
-### Design overhaul G-15 "Circle Gazette" (2026-10-26, uncommitted)
+### Design overhaul G-15 "Circle Gazette" (2026-10-26, committed in 6d08bed)
 - Request and process: AI_prompts.md. Changed `web/index.html`, `web/styles.css`, `web/app.js` (README, DESIGN.md and other docs are handled in a separate conversation). Before/after screenshots: `evidence/screenshots/g13_*` / `design_after_*` (untracked). Keep or roll back: P-08.
 
 ### Q8 (2026-10-26)

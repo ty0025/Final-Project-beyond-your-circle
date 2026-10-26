@@ -33,7 +33,7 @@ Status: **Verified** for "a real person used the app" (creator n=1, 3 searches o
 
 Not yet designed or performed. If done later, state the definition of the same task, the timing method and the start and end points, and record the raw data here.
 
-## D. Question 8-A: predefined human task and record form (prepared 2026-10-26; not yet executed)
+## D. Question 8-A: predefined human task and record form (prepared 2026-10-26; performed, see D.1 and D.2)
 
 **Operator**: Tongyu David Chen (the user) (creator n=1, not an independent trial). No one else is recruited; no synthetic users are used.
 
